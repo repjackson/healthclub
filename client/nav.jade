@@ -11,11 +11,11 @@ template(name='nav')
                 // a.icon.item(href='/home' class="{{isActivePath '/home'}}")
                 //     +i name='circled-menu'
                 //     //- i.th.large.icon
-                if is_staff
-                    a.icon.item(href='/buildings' class="{{isActivePath '/buildings'}}")
-                        //- i.building.large.icon
-                        +i name='apartment'
-                        .mobile.hidden &nbsp; buildings
+                // if in_dev
+                //     a.icon.item(href='/buildings' class="{{isActivePath '/buildings'}}")
+                //         //- i.building.large.icon
+                //         +i name='apartment'
+                //         .mobile.hidden &nbsp; buildings
                 if is_staff
                     a.icon.item(href='/staff' class="{{isActivePath '/staff'}}")
                         //- i.shield.large.icon
@@ -67,19 +67,7 @@ template(name='nav')
 template(name='footer')
     .ui.fluid.basic.attached.segment.footer
         .ui.container.stackable.grid
-            .eight.wide.column
-                form.inline(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
-                    input(type='hidden', name='cmd', value='_s-xclick')
-                    input(type='hidden', name='hosted_button_id', value='BUX7ZDWUFLVDQ')
-                    //- // input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif', border='0', name='submit')
-                    //- <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-                    img(alt='', border='0', src='https://www.paypal.com/en_US/i/scr/pixel.gif', width='1', height='1')
-                    button.ui.button(type='submit')
-                        |donate
-                if is_dev    
-                    with current_user
-                        +role_switcher
-            .eight.wide.column
+            .sixteen.wide.column
                 //- unless currentUser
                 //-     a.ui.big.basic.button(href='/login')
                 //-         i.sign.in.icon
@@ -110,9 +98,9 @@ template(name='role_switcher')
         //-         +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
         //- else if currentUser
         //-     with currentUser
-        +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
-        //- +user_array_element_toggle key='roles' value='admin' user=currentUser
-        //- +user_array_element_toggle key='roles' value='user' user=currentUser
-        //- +user_array_element_toggle key='roles' value='staff' user=currentUser
-        //- +user_array_element_toggle key='roles' value='resident' user=currentUser
-        //- +user_array_element_toggle key='roles' value='owner' user=currentUser
+        // +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+        +user_array_element_toggle key='roles' value='admin' user=currentUser
+        +user_array_element_toggle key='roles' value='user' user=currentUser
+        +user_array_element_toggle key='roles' value='staff' user=currentUser
+        +user_array_element_toggle key='roles' value='resident' user=currentUser
+        +user_array_element_toggle key='roles' value='owner' user=currentUser

@@ -15,14 +15,6 @@ if Meteor.isClient
 
 
 
-    Template.user_about.helpers
-        staff_resident_widgets: ->
-            Docs.find
-                model:'staff_resident_widget'
-
-    Template.user_section.helpers
-        user_section_template: ->
-            "user_#{Router.current().params.group}"
 
     Template.user_layout.helpers
         user: ->
