@@ -1,7 +1,7 @@
 template(name='nav')
     unless is_frontdesk
         //- .ui.borderless.attached.big.inverted.menu.topnav
-        .ui.attached.borderless.inverted.big.menu.topnav.grgold
+        .ui.attached.borderless.big.menu.topnav
             //- a.toggle_sidebar.icon.item.sidebar_on
             //-     i.large.sidebar.icon
             if is_loading
@@ -45,9 +45,6 @@ template(name='nav')
                 if currentUser
                     unless logging_out
                         //- if is_dev
-                        a.item.set_model(href='/m/model' class="{{isActivePath '/m/model'}}")
-                            //- i.sitemap.large.icon
-                            +i name='active-directory'
                         unless is_frontdesk
                             a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_chat'}}")
                                 if currentUser.image_id
