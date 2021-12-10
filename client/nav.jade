@@ -8,9 +8,9 @@ template(name='nav')
                 .icon.item
                     i.big.loading.yin.yang.icon
             else
-                a.icon.item(href='/home' class="{{isActivePath '/home'}}")
-                    +i name='circled-menu'
-                    //- i.th.large.icon
+                // a.icon.item(href='/home' class="{{isActivePath '/home'}}")
+                //     +i name='circled-menu'
+                //     //- i.th.large.icon
                 if is_staff
                     a.icon.item(href='/buildings' class="{{isActivePath '/buildings'}}")
                         //- i.building.large.icon
@@ -40,7 +40,7 @@ template(name='nav')
                         //- i.users.large.icon
                         +i name='groups'
                         .mobile.hidden &nbsp; users
-
+z
             .right.menu
                 if currentUser
                     unless logging_out
