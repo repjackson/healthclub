@@ -79,17 +79,17 @@ if Meteor.isServer
             Meteor.users.update user._id,
                 $set:found_member_signing:check_value
 
-        email_verified: (user)->
-            if user.emails and user.emails[0].verified
-                console.log 'email verification', user.emails[0].verified
-                Meteor.users.update user._id,
-                    $set:
-                        email_verified:true
-                        email_red_flagged:false
-                    $unset:checkins_without_email_verification:1
-            else
-                Meteor.users.update user._id,
-                    $set:email_verified:false
+        # email_verified: (user)->
+        #     if user.emails and user.emails[0].verified
+        #         console.log 'email verification', user.emails[0].verified
+        #         Meteor.users.update user._id,
+        #             $set:
+        #                 email_verified:true
+        #                 email_red_flagged:false
+        #             $unset:checkins_without_email_verification:1
+        #     else
+        #         Meteor.users.update user._id,
+        #             $set:email_verified:false
         staff_government_id_check: (user)->
             console.log 'running staff gov id check', user.username
             if user.staff_verifier
