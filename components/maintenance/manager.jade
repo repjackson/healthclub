@@ -1,0 +1,38 @@
+template(name='manager')
+    .ui.padded.stackable.grid
+        .row
+            .four.wide.column
+                .ui.header 
+                    +i name='key'
+                    |key checkouts
+                .ui.large.list
+                    each key_checkouts
+                        .item
+                            .ui.basic.label 
+                                |#{owner_user_id.first_name}
+                                |#{owner_user_id.last_name}
+                            |by
+                            |#{_author_username} #{when}
+            .four.wide.column
+                .ui.header 
+                    +i name='walking'
+                    |staff shift walks
+                .ui.large.list
+                    each shift_walks
+                        .item #{_author_username} #{when}
+            .eight.wide.column
+                .ui.header 
+                    +i name='internal'
+                    |check in history
+                .ui.large.list
+                    each check_ins
+                        +checkin_list_item
+                        
+                        
+template(name='checkin_list_item')                        
+    .item
+        with resident
+            +user_info
+        | #{when}, {{long_date _timestamp}}
+        if garden_key 
+            .ui.basic.green.label garden key

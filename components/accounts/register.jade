@@ -1,0 +1,44 @@
+template(name='register')
+    .ui.padded.stackable.grid
+        .centered.row
+            .ten.wide.column
+                .ui.center.aligned.basic.segment
+                    .ui.header gold run registration
+                    //- i.massive.icons
+                    //-     i.home.grey.icon
+                    //-     i.corner.plus.icon
+                if message
+                    h4.ui.center.aligned.header #{message}
+                .ui.fluid.labeled.input(class=login_class)
+                    .ui.small.inline.header 
+                        i.user.grey.icon
+                        |username
+                    input.username(type='text')
+                .ui.fluid.labeled.input(class=login_class)
+                    .ui.small.inline.header 
+                        i.lock.grey.icon
+                        | password
+                    input.password(type='password')
+                .ui.fluid.labeled.input(class=login_class)
+                    .ui.small.inline.header 
+                        i.lock.grey.icon
+                        | password again
+                    input.password2(type='password')
+                if username
+                    if registering
+                        .ui.fluid.large.circular.button.enter(class=enter_class)
+                            i.user.plus.icon
+                            |register '#{username}'
+                    else
+                        .ui.small.header username "#{username}" found
+                        a.ui.basic.circular.button(href='/login') login
+                        
+                        
+                .ui.center.aligned.basic.segment    
+                    //- .ui.small.header By clicking Register, you agree to our 
+                    //-     a(href='https://henry-health.com/privacy-policy/' target="_window") Privacy Policy
+                    .ui.small.header or
+                        a.ui.circular.basic.sign.in.button(href='/login') 
+                            |login
+                            i.right.chevron.icon
+                    

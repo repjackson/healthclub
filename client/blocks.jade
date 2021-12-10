@@ -1,0 +1,397 @@
+template(name='comments')
+    .ui.fluid.accordion
+        .active.title
+            .ui.grey.header
+                i.chat.outline.icon
+                //- +i name='chat'
+                |comments
+        .active.content
+            if currentUser
+                .ui.fluid.icon.input
+                    i.plus.icon
+                    input.add_comment(model='text' placeholder='add...')
+            .ui.comments
+                each doc_comments
+                    .comment
+                        .content
+                            .ui.header #{body}
+                            .meta #{when}
+                            .actions
+                                +voting
+                                +remove_button
+
+
+template(name='goto_model')
+    if is_staff
+        a.ui.icon.basic.button.goto_model(href="/m/#{slug}" title="goto #{slug}")
+            i.external.icon
+            //- +ismall name='external-link'
+
+template(name='events_column')
+    .ui.accordion
+        h4.active.title
+            // +i name='edit-property' classes='ui inline image'
+            i.rss.icon
+            | Log
+            i.dropdown.icon
+        .active.content
+            .ui.feed
+                each log_events
+                    .event
+                        .label
+                            img.ui.image(src="{{c.url object.image width=400 height=400 gravity='face' crop='fill'}}")
+                        .content
+                            .summary
+                                |#{body}
+                                .date
+                                    |#{when}
+                                if is_dev
+                                    +remove_button
+
+
+
+
+template(name='follow')
+    .ui.segment
+        .ui.header
+            i.user.plus.icon
+            |Follow
+        +user_list_toggle key='follower_ids' icon='rss' add_label='Follow' remove_label='Unfollow' color='black'
+
+
+template(name='toggle_edit')
+    .ui.basic.button.toggle_edit
+        i.pencil.icon
+
+template(name='user_list_info')
+    a.ui.basic.button.item(href="/user/#{user._id}/view")
+        img.ui.avatar.image(src=user.profile.profilePic title=name)
+        |#{user.profile.name}
+        +user_status user
+
+
+template(name='view_full_button')
+    a.ui.icon.basic.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
+        i.double.icon
+        |View
+
+template(name='user_status')
+    if online 
+        // .ui.label(class='{{labelClass}}') 
+        .ui.empty.green.label(title='online')
+        // img.ui.avatar.image(src="https://img.icons8.com/connection-user_status-on/color/48" title='Online' width="48" height="48")
+        // |Online
+    else if idle
+        .ui.empty.yellow.label(title='idle')
+        // .ui.label(class='{{labelClass}}') Idle
+        // else 
+        //     |Offline
+
+template(name='user_card')
+    with user
+        .ui.grid.smoothed.segment
+            if is_staff
+                .four.wide.column
+                    if image_id
+                        img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            .twelve.wide.column
+                unless is_staff
+                    .header #{first_name} #{last_name} 
+                if is_staff
+                    a.header(href="/user/#{username}") #{first_name} #{last_name} 
+                    .meta @#{username}
+                    +text_view key='address' direct=true label='Address'
+                    +text_view key='building_code' direct=true label='Building Code'
+                    +number_view key='unit_number' direct=true label='Unit #'
+                    +number_view key='building_number' direct=true label='Building #'
+                    if is_admin
+                        div
+                        +user_email
+                //- +emails_edit    
+        //- +user_status user
+
+
+template(name='user_email')
+    .ui.small.inline.header #{email_address}
+    if email_verified
+        .ui.green.label 
+            i.checkmark.icon
+            |Verified
+    else
+        .ui.orange.label 
+            i.ban.icon
+            |Unverified
+        
+
+template(name='big_user_card')
+    with user
+        //- .ui.card
+        //- .ui.card(class=resident_status_class)
+        .ui.card
+            .image
+                img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+            .content
+                a.header(href="/user/#{username}")
+                     |#{first_name} #{last_name} 
+                    .meta @#{username}
+                    //- +array_view key='tags' label='Tags' direct=true
+            if is_staff
+                .content
+                    +text_view key='address' label='address' direct=true
+                    +number_view key='building_number' label='building #' direct=true
+                    +number_view key='unit_number' label='apartment #' direct=true
+                    +text_view key='building_code' label='building code' direct=true
+                    //- +array_view key='tags' label='Tags'
+                    if user_is_resident
+                        +date_view key='start_date' label='start date' direct=true
+                        +date_view key='expiration_date' label='expiration date' direct=true
+                    +checkin_button
+                    +garden_key_checkout
+                    +unit_key_checkout
+                    +email_validation_check
+                    +lease_expiration_check
+                    +rules_and_regs_check
+                    +array_view key='roles' direct=true
+                        
+                    //- +i name='swimming-pool' classes='ui avatar image'
+                    //- +i name='weightlift' classes='ui avatar image'
+                    //- +i name='jacuzzi' classes='ui avatar image'
+                    //- +i name='shower' classes='ui avatar image'
+                    //- +i name='racquetball' classes='ui avatar image'
+                    //- +i name='water-steam' classes='ui avatar image'
+
+
+template(name='unit_key_checkout')
+    .ui.compact.button.unit_key_checkout
+        +i name='key' classes='ui mini inline image'
+        strong Checkout Unit Key
+
+
+template(name='user_info')
+    a.ui.animated.basic.button(href="/user/#{user.username}/")
+        .visible.content
+            if user.kiosk_photo
+                img.ui.avatar.image(src="{{c.url user.kiosk_photo width=100 height=100 gravity='face' crop='fill'}}")
+            else if user.image_id
+                img.ui.avatar.image(src="{{c.url user.image_id width=100 height=100 gravity='face' crop='fill'}}")
+            |#{user.first_name} #{user.last_name}
+            //- |@#{user.username}
+            +user_status user
+        .hidden.content
+            |view
+            i.right.chevron.icon
+
+
+template(name='username_info')
+    a.ui.small.compact.basic.button(href="/user/#{user.username}/")
+        if user.image_id
+            img.ui.avatar.image(src="{{c.url user.image_id width=100 height=100}}")
+        |#{user.first_name} #{user.last_name}
+        |@#{user.username}
+        +user_status user
+
+
+template(name='role_editor')
+    each roles
+        .ui.basic.button #{this}
+
+template(name='author_info')
+    with author
+        a.ui.compact.basic.button(href="/user/#{username}")
+            if image_id
+                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+             by #{first_name} #{last_name}
+
+template(name='creation_info')
+    .ui.small.grey.inline.header #{when}
+
+
+template(name='user_list_toggle')
+    if currentUser
+        .ui.icon.compact.button.toggle(class=user_list_toggle_class title=label)
+            i.icon(class=icon)
+            //- +ismall name=icon classes='ui inline image'
+            //- |#{label}
+        //- each list_users
+        //-     +user_info
+
+
+template(name='voting')
+    if points
+        strong #{points}
+    .ui.icon.basic.basic.button.upvote(class=upvote_class title='upvote')
+        i.thumbs.up.icon
+    //- each upvoter_ids
+    //-     +user_info
+    .ui.icon.basic.basic.button.downvote(title='downvote' class=downvote_class)
+        i.thumbs.down.icon
+    //- each downvoter_ids
+    //-     +user_info
+
+
+
+template(name='voting_full')
+    .ui.header voting
+    if points
+        strong #{points}
+    .ui.basic.basic.button.upvote(class=upvote_class title='upvote')
+        i.thumbs.up.icon
+        |like
+    .ui.basic.basic.button.downvote(title='downvote' class=downvote_class)
+        i.thumbs.down.icon
+        |dislike
+    if upvoter_ids
+        .ui.small.header upvoters
+        each upvoter_ids
+            +user_info
+    if downvoter_ids
+        .ui.small.header downvoters
+        each downvoter_ids
+            +user_info
+
+
+
+template(name='view_button')
+    a.ui.icon.compact.basic.button.view(title='view' href="/m/#{model}/#{_id}/view")
+        i.right.chevron.large.icon
+        //- +i name='chevron right' classes='ui mini inline image'
+
+
+template(name='remove_button')
+    a.ui.icon.basic.button.remove_doc(title='delete')
+        i.remove.red.icon
+        //- |Delete
+
+template(name='add_button')
+    a.ui.large.button.add(title="add #{model}")
+        i.green.plus.icon
+        if label
+            |#{label}
+        //- |#{model}
+
+
+
+//- template(name='edit_button')
+//-     a.ui.basic.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
+//-         i.blue.pencil.icon
+//-         |Edit
+
+
+template(name='save_button')
+    a.ui.basic.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
+        i.checkmark.green.icon
+        |Save
+
+template(name='toggle_button')
+    .ui.icon.toggle.basic.button(title=label)
+        i.icon(class=icon)
+    each selected
+        |#{username}
+
+
+template(name='view_user_button')
+    .view_user.view(title="view #{username}")
+        i.play.icon
+        |View
+
+template(name='add_model_button')
+    .ui.icon.basic.button.add(title="add #{model}")
+        i.plus.icon
+        |#{model}
+
+
+
+
+
+
+            
+template(name='email_validation_check')
+    //- if email_verified
+    //-     .ui.large.green.basic.button
+    //-         i.checkmark.icon
+    //-         |email validated
+    unless email_verified
+        .ui.basic.fluid.button.send_verification
+            +i name='user-shield' classes='ui inline image'
+            |resend verification email
+        if times
+            .ui.label
+                |#{times}
+            //- else
+                //- |#{times}x sent
+        if is_staff
+            .ui.button.toggle_email_verified
+                |mark email verified
+        
+        
+template(name='lease_expiration_check')
+    div
+    if expiration_date
+        +i name='clock' classes='ui inline image'
+        |lease expiring 
+        |#{lease_expiring}
+        
+        
+template(name='rules_and_regs_check')
+    if is_staff
+        if rules_signed
+            a.ui.basic.button(href="/m/rules_regs_signing/#{rules_signed._id}/view" title='click to view/edit signing document')
+                i.signature.large.icon
+                |rules and regs signed 
+        else
+            .ui.red.basic.button
+                i.signature.large.icon
+                | rules+regs unsigned
+    //- else
+    //-     unless rules_signed
+    //-         .ui.large.red.basic.button.sign_rules
+    //-             i.signature.icon
+    //-             |click to sign rules and regulations
+        //- else if is_staff
+        //-     .ui.large.basic.button
+        //-         i.signature.icon
+        //-         |rules and regs signed 
+        
+        
+        
+template(name='member_guidelines_check')
+    if is_staff
+        if guidelines_signed
+            a.ui.basic.button(href="/m/sign_guidelines/#{guidelines_signed._id}/view" title='click to view/edit signing document')
+                i.signature.icon
+                |member guidelines signed 
+        else
+            .ui.red.basic.fluid.button
+                i.signature.icon
+                | member guidelines not signed
+    else
+        unless guidelines_signed
+            .ui.large.red.basic.fluid.button.sign_guidelines
+                i.signature.icon
+                | sign member guidelines
+    //-     else if is_staff
+    //-         .ui.large.basic.button
+    //-             i.signature.icon
+    //-             |rules and regs signed 
+                
+        
+template(name='resident_key_check')
+    //- unless key_on_file
+    //-     .ui.large.orange.basic.button
+    //-         i.ban.icon
+    //-         |key not on file 
+    //- else
+    .ui.large.basic.button
+        i.key.icon
+        |Key on File 
+        
+        
+template(name='guest_waiver_check')
+    unless waiver_signed
+        .ui.large.red.basic.button
+            i.signature.icon
+            |Guest Waiver Not Signed 
+        
+        
+            
+        

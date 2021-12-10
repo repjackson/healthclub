@@ -1,0 +1,93 @@
+template(name='model_doc_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .centered.row
+                .six.wide.column
+                    .ui.header(title="model: #{model}")
+                        |edit #{model}
+                    +creation_info
+                    a.ui.big.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/view")
+                        i.big.checkmark.icon
+                    #delete_doc.ui.icon.basic.button
+                        i.trash.icon
+                    if is_user
+                        +boolean_edit key='private' direct=true
+                .ten.wide.column
+                    //- |#{model}
+                    each edit_fields
+                        +Template.dynamic template=edit_template 
+                        // .ui.header #{key} [#{field}] #{label}
+            //- if watson 
+            //-     .row
+            //-         .sixteen.wide.column
+            //-             +watson_view
+
+template(name='model_doc_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column
+                    .ui.large.basic.button.back_to_model
+                        i.chevron.left.icon
+                        +i name=current_model.icon classes='ui mini inline image'
+                        |#{current_model.title}
+                    if can_edit
+                        div
+                        a.ui.big.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/edit" title='Edit')
+                            i.pencil.icon
+                    if is_admin
+                        .ui.header timestamp tags
+                        each _timestamp_tags
+                            .ui.basic.label #{this}
+                    +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                    div
+                    .ui.header
+                        |by
+                        +author_info
+                        +creation_info
+                    each current_model.actions
+                        +Template.dynamic template=this data=current_doc
+                    //- .ui.cloud.segment
+                    //-     if is_marketplace
+                    //-         +karma_transaction
+                    //-     if is_post
+                    //-         +voting
+                    //-         .ui.header karma earned
+                    //-         |#{points} points
+                    //-         .ui.header upvoters
+                    //-         each upvoters
+                    //-             .ui.large.label #{username}
+                    //-         .ui.header downvoters
+                    //-         each downvoters
+                    //-             .ui.large.label #{username}
+                .ten.wide.column
+                    .ui.header
+                        each fields
+                            if header
+                                +Template.dynamic template=view_template 
+                        // if icon
+                        //     i.icon(class=icon)
+                        // |#{title}
+                    each fields
+                        unless header
+                            .item
+                                +Template.dynamic template=view_template 
+                    //- div
+                    //- if watson
+                    //-     +watson_view
+
+
+template(name='karma_transaction')
+    .ui.header my karma #{currentUser.karma}
+    .ui.header offer karma
+    .ui.input
+        input.offer_karma_amount(type='number')
+    .ui.basic.button.offer_karma
+        i.right.chevron.icon
+    each offers
+        +offer
+        
+        
+template(name='offer')
+    .ui.small.inline.header amount #{amount}
+    +author_info

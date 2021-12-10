@@ -1,0 +1,69 @@
+template(name='residents') 
+    .ui.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.left.icon.huge.fluid.input
+                    i.search.icon
+                    input.username_search(type='text' placeholder='lookup resident...')
+                .ui.centered.four.stackable.cards
+                    each residents
+                        +resident
+                
+template(name='users') 
+    .ui.padded.grid
+        .row
+            .sixteen.wide.column
+                //- .ui.center.aligned.header 
+                //-     +i name='groups'
+                //-     //- i.users.icon
+                //-     |users
+                .ui.left.icon.huge.fluid.input
+                    i.search.icon
+                    input.username_search(type='text' placeholder='lookup user...')
+                .ui.centered.four.stackable.cards
+                    each users
+                        +user
+                
+template(name='resident')                
+    .ui.card
+        .image
+            //- a(href="/user/#{username}/")
+            //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
+            if kiosk_photo
+                img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
+            else if image_id
+                img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+        .content
+            a(href="/user/#{username}/")
+                h2.ui.center.aligned.header #{first_name} #{last_name} 
+                .ui.small.header @#{username}
+            +text_view key='first_name' label='First Name'
+            +text_view key='last_name' label='Last Name'
+            +text_view key='address' label='Address'
+            +number_view key='unit_number' label='Unit #'
+            +number_view key='building_number' label='Building #'
+            +text_view key='email' label='Email'
+            +phone_view key='phone' label='Phone'
+            +date_view key='start_date' label='Start Date'
+            +date_view key='expiration_date' label='Expiration Date'
+            +user_check_steps            
+
+            
+template(name='user')                
+    .ui.card
+        .image
+            //- a(href="/user/#{username}/")
+            //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
+            if kiosk_photo
+                img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
+            else if image_id
+                img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+        .content
+            a(href="/user/#{username}/")
+                h2.ui.center.aligned.header #{first_name} #{last_name} 
+                .ui.small.header @#{username}
+            each five_tags
+                .ui.compact.small.circular.basic.button.person_tag(class=tag_class) 
+                    strong #{this}
+            +text_view key='first_name' label='First Name'
+            +text_view key='last_name' label='Last Name'

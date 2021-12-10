@@ -1,0 +1,398 @@
+template(name='staff')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.grey.large.header 
+                    //- i.user.shield.icon
+                    +i name='user-shield'
+                    |staff
+                //- i.massive.loading.brown.poo.icon
+                a.ui.large.fluid.basic.button(href='/add_resident')
+                    //- i.user.add.large.icon
+                    +i name='add-user-male' classes='ui inline mini image'
+                    strong add resident
+                .ui.header
+                    |#{checkedin_members.count} checked in members
+                //- +inline_doc slug='staff_notices' classes='ui small grey header'
+                //- +add_button model='work_order' label='work order'
+                //- +add_button model='communication' label='communication'
+                .ui.large.fluid.button.log_staff_walked
+                    +i name='walking' classes='ui inline image'                
+                    |log hourly shift walk
+                //- +add_button model='frontdesk_hourly_checklist' label='hourly checklist'
+                //- +add_button model='front_desk_opening_closing_checklist' label='opening/closing checklist'
+                //- +unit_key_widget
+                .ui.header your shift walks
+                each shift_walks
+                    .ui.small.header #{when}
+                        i.remove.link.icon.remove_walk(title='remove walk entry')
+                if checklist_completed
+                    i.big.green.checkmark.icon
+                    |checklist completed
+                else 
+                    a.ui.fluid.big.button(href='/shift_checklist')
+                        i.tasks.icon
+                        |checklist not completed
+            .twelve.wide.column
+                .ui.styled.fluid.large.accordion
+                    .active.title
+                        +i name='groups' classes='ui inline image'
+                        |checked in members
+                        i.dropdown.icon
+                    .active.content
+                        .ui.stackable.four.cards
+                            each sessions
+                                +hc_session
+                    .title 
+                        +i name='android-tablet' classes='ui inline image'
+                        |kiosk management
+                        i.dropdown.icon
+                    .content
+                        +kiosk_settings
+                    .title 
+                        +i name='calendar' classes='ui inline image'
+                        |staff schedule
+                        i.dropdown.icon
+                    .content
+                        +schedule
+                    //- .title
+                    //-     i.chat.icon
+                    //-     |chat
+                    //-     i.dropdown.icon
+                    //- .content
+                    //-     +view_chats
+    
+    
+
+template(name='hc_session')
+    .ui.card
+        if session_resident.kiosk_photo
+            img.ui.image(src="{{c.url session_resident.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
+        else
+            //- |old photo
+            img.ui.image(src="{{c.url session_resident.image_id width=300 height=300 gravity='face' crop='fill'}}")
+        .content
+            a(href="/user/#{session_resident.username}")
+                .ui.inline.header
+                    |#{session_resident.first_name} #{session_resident.last_name}
+            .ui.small.grey.header #{when}
+            with session_resident
+                if address
+                    div
+                    +i name='marker' classes='ui avatar image'
+                    |#{address}
+                div
+                    +i name='building' classes='ui avatar image'
+                    |#{building_number}
+                div
+                    +i name='home' classes='ui avatar image'
+                    | #{unit_number}
+                //- +number_edit key='checkins_without_gov_id' label='alter checkins without gov id' direct=true
+                //- +number_edit key='checkins_without_email_verification' label='alter checkins without email verification' direct=true
+                //- +number_view key='unit_number' label='unit #' direct=true
+                //- +text_view key='building_code' label='building code' direct=true
+                +lease_expiration_check
+                //- +rules_and_regs_check
+                +user_check_steps 
+                if active_violations
+                    .ui.big.red.label active violations
+                if staff_notes
+                    .ui.small.grey.header
+                        i.clipboard.icon(title='staff notes')
+                        |#{staff_notes}       
+            if checkin_guest_docs.count
+                .ui.small.grey.header Guests
+                each checkin_guest_docs
+                    .ui.large.basic.label 
+                        |#{guest_name} #{first_name} #{last_name}
+            if user_is_resident
+                +date_view key='start_date' label='start date' direct=true
+                +date_view key='expiration_date' label='expiration date' direct=true
+            //- +checkin_button
+            if garden_key
+                .ui.compact.green.fluid.button.garden_key_checkout
+                    +i name='plant' classes='ui mini inline image'
+                    strong garden key
+                .ui.fluid.large.button.check_in_garden_key
+                    +i name='internal' classes='ui mini inline image'
+                    |check in garden key
+            else
+                .ui.compact.fluid.button.garden_key_checkout
+                    +i name='plant' classes='ui mini inline image'
+                    strong garden key
+                    
+                .ui.fluid.button.sign_out
+                    +i name='exit' classes='ui mini inline image'
+                    |hc check out
+            //- +boolean_edit key='active' direct=true
+            //- +boolean_edit key='submitted' direct=true
+            //- +boolean_edit key='approved' direct=true
+                
+                //- unless confirmed
+                //- .ui.fluid.green.button
+                //-     |confirm check in
+
+
+
+
+template(name='unit_key_widget')
+    .ui.segment 
+        .ui.header 
+            i.yellow.key.icon
+            |unit key lookup
+        .ui.icon.large.fluid.input
+            i.building.icon
+            input.building_number(type='number' placeholder='building number')
+        .ui.icon.large.fluid.input
+            i.home.icon
+            input.unit_number(type='number' placeholder='unit number')
+        .ui.fluid.button.lookup_key
+            |lookup key
+
+
+template(name='task_widget')
+    .ui.smoothed.segment
+        .ui.header 
+            //- +i name='task'
+            i.tasks.teal.icon
+            |todos
+        //- .ui.fluid.styled.accordion
+        +goto_model slug='task'
+        .ui.icon.basic.button.new_task
+            i.plus.icon
+            //- input.assign_task(type='text' placeholder='assign task...')
+        //- .ui.basic.button.view_complete(class=view_complete_class)
+        //-     |View Completed
+        // .ui.basic.button.view_incomplete(class=view_complete_class)
+        //     |View Incomplete
+        each tasks
+            .ui.smoothed.segment
+                .ui.header #{body}
+                +boolean_edit key='complete' label='Complete' direct=true true_icon='checkmark' false_icon='remove' icon_only=true
+                //- +voting
+                +author_info
+                +creation_info
+                if is_author
+                    +remove_button
+    
+    
+template(name='wywo')
+    .ui.smoothed.segment
+        .ui.header 
+            //- +i name='note'
+            i.orange.edit.icon
+            |While You Were Osut
+        
+template(name='schedule')
+    //- .ui.center.aligned.header 
+    //-     i.calendar.icon
+    //-     |schedule
+    table.ui.definition.celled.striped.unstackable.selectable.table
+        thead
+            tr
+                th
+                th sun
+                th mon
+                th tue
+                th wed
+                th thu
+                th fri
+                th sat
+        tbody
+            tr
+                td 7/8am-4pm
+                td 
+                    +facet_staff_select tags='shift,sunday,morning'
+                td 
+                    +facet_staff_select tags='shift,monday,morning'
+                td 
+                    +facet_staff_select tags='shift,tuesday,morning'
+                td 
+                    +facet_staff_select tags='shift,wednesday,morning'
+                td 
+                    +facet_staff_select tags='shift,thursday,morning'
+                td 
+                    +facet_staff_select tags='shift,friday,morning'
+                td 
+                    +facet_staff_select tags='shift,saturday,morning'
+            //- tr
+            //-     td afternoon 12pm-4pm
+            //-     td 
+            //-         +facet_staff_select tags='shift,sunday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='shift,monday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='shift,tuesday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='shift,wednesday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='shift,thursday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='shift,friday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='shift,saturday,afternoon'
+            tr
+                td 4pm-9/10pm
+                td 
+                    +facet_staff_select tags='shift,sunday,evening'
+                td 
+                    +facet_staff_select tags='shift,monday,evening'
+                td 
+                    +facet_staff_select tags='shift,tuesday,evening'
+                td 
+                    +facet_staff_select tags='shift,wednesday,evening'
+                td 
+                    +facet_staff_select tags='shift,thursday,evening'
+                td 
+                    +facet_staff_select tags='shift,friday,evening'
+                td 
+                    +facet_staff_select tags='shift,saturday,evening'
+    //- .ui.header upcoming week
+    //- +inline_doc slug='staff_schedule_notes' classes='ui small grey header'    
+    //- table.ui.definition.celled.striped.unstackable.selectable.table
+    //-     thead
+    //-         tr
+    //-             th
+    //-             th Sun
+    //-             th Mon
+    //-             th Tues
+    //-             th Wed
+    //-             th Thurs
+    //-             th Fri
+    //-             th Sat
+    //-     tbody
+    //-         tr
+    //-             td 7/8am-4pm
+    //-             td 
+    //-                 +facet_staff_select tags='upcoming,shift,sunday,morning'
+    //-             td 
+    //-                 +facet_staff_select tags='upcoming,shift,monday,morning'
+    //-             td 
+    //-                 +facet_staff_select tags='upcoming,shift,tuesday,morning'
+    //-             td 
+    //-                 +facet_staff_select tags='upcoming,shift,wednesday,morning'
+    //-             td 
+    //-                 +facet_staff_select tags='upcoming,shift,thursday,morning'
+    //-             td 
+    //-                 +facet_staff_select tags='upcoming,shift,friday,morning'
+    //-             td 
+    //-                 +facet_staff_select tags='upcoming,shift,saturday,morning'
+            //- tr
+            //-     td afternoon 12pm-4pm
+            //-     td 
+            //-         +facet_staff_select tags='upcoming,shift,sunday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='upcoming,shift,monday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='upcoming,shift,tuesday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='upcoming,shift,wednesday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='upcoming,shift,thursday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='upcoming,shift,friday,afternoon'
+            //-     td 
+            //-         +facet_staff_select tags='upcoming,shift,saturday,afternoon'
+            tr
+                td 4pm-9/10pm
+                td 
+                    +facet_staff_select tags='upcoming,shift,sunday,evening'
+                td 
+                    +facet_staff_select tags='upcoming,shift,monday,evening'
+                td 
+                    +facet_staff_select tags='upcoming,shift,tuesday,evening'
+                td 
+                    +facet_staff_select tags='upcoming,shift,wednesday,evening'
+                td 
+                    +facet_staff_select tags='upcoming,shift,thursday,evening'
+                td 
+                    +facet_staff_select tags='upcoming,shift,friday,evening'
+                td 
+                    +facet_staff_select tags='upcoming,shift,saturday,evening'
+
+
+template(name='shift_change_requests')
+    .ui.grey.inline.header
+        +i name='clock'
+        |Shift Change Requests
+    .ui.icon.basic.button.add_shift_change_request
+        i.large.icons
+            i.clock.icon
+            i.plus.corner.icon
+    table.ui.celled.fixed.unstackable.table
+        thead
+            tr
+                th Date
+                th Time
+                th Author
+                th Assigned staff
+                th 
+        tbody
+            each requests
+                +request_row
+                
+                
+template(name='request_row')
+    tr
+        td(data-label='Date')
+            if can_edit
+                +date_edit key='date' direct=true
+            else
+                +date_view key='date' direct=true
+        td(data-label='Time')
+            if can_edit
+                +time_edit key='time' direct=true
+            else
+                +time_view key='time' direct=true
+        td(data-label='Author')
+            +author_info
+        td(data-label='Assigned Staff')
+            //- if can_edit
+            //-     +single_user_edit key='assigned_staff' role_filter='staff' direct=true
+            //- else
+            +username_info assigned_staff
+        td(data-label='Actions')
+            .ui.icon.basic.button.take_shift(title='take shift')
+                i.checkmark.icon
+            .ui.icon.basic.button.declare_unavailable(title='declare unavailable')
+                i.ban.icon
+            each unavailable
+                .ui.label(title='unavailable') #{this}
+            if can_edit
+                +remove_button
+
+
+
+
+
+template(name='shift_checklist')
+    .ui.stackable.padded.grid
+        .row
+            .ui.four.wide.column
+                .ui.header 
+                    +i name='tasks'
+                    |staff checklist for #{today}
+            .ui.twelve.wide.column
+                if todays_checklist
+                    with todays_checklist
+                        each checklist_items
+                            .ui.segment.stackable.grid
+                                .eight.wide.column
+                                    .ui.header #{title}
+                                .eight.wide.column
+                                    unless completed
+                                        .ui.big.fluid.button.complete mark complete
+                                    else
+                                        .ui.big.fluid.green.fade.animated.button.incomplete
+                                            .visible.content
+                                                |complete
+                                            .hidden.content
+                                                |mark incomplete
+                                        .ui.tiny.header {{long_date completed_time}}
+                        if all_completed
+                            .ui.fluid.big.button.submit_checklist
+                                i.checkmark.icon
+                                |submit
+                else
+                    .ui.large.button.create_checklist
+                        |create checklist

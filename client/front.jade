@@ -1,0 +1,29 @@
+template(name='healthclub_status')
+    .ui.basic.segment
+        .ui.inline.header
+            |Upper Hot Tub
+        +water_status slug='upper_hot_tub'
+        div
+        .ui.inline.header
+            |Lower Hot Tub
+        +water_status slug='lower_hot_tub'
+        //- .ui.grey.inline.header
+        div
+        .ui.inline.header
+            |Pool
+        +water_status slug='pool'
+        //- .ui.grey.inline.header
+        //-     |80.1°
+
+
+template(name='water_status')
+    if is_staff
+        if on
+            i.green.checkmark.link.big.icon.toggle_status
+        else    
+            i.red.ban.link.big.icon.toggle_status
+    else
+        if on
+            i.green.checkmark.big.icon
+        else    
+            i.red.ban.big.icon

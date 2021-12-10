@@ -1,0 +1,10 @@
+{
+	"dependencies": {
+		"@babel/runtime": "^7.9.2",
+		"bcrypt": "^5.0.1"
+	},
+	"scripts": {
+		"start": "MAIL_URL='smtp://postmaster%40mg.goldrun.online:6f213f0ad9eae2a2f91f5f29a8e665bd-fd0269a6-78c00f51@smtp.mailgun.org:587/' MONGO_URL=mongodb://goldrunadmin!:goldrunadminpassword!@aws-us-east-1-portal.21.dblayer.com:10444/goldrundb?ssl=true meteor --settings settings.json",
+		"local": "MAIL_URL='smtp://postmaster%40mg.goldrun.online:6f213f0ad9eae2a2f91f5f29a8e665bd-fd0269a6-78c00f51@smtp.mailgun.org:587/' meteor --settings settings.json"
+	}
+}

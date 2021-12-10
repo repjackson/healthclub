@@ -1,0 +1,137 @@
+template(name='delta')
+    with current_model
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column
+                    .ui.inline.header
+                        //- i.icon(class=icon)
+                        +i name=icon
+                        | #{title}
+                    unless is_loading
+                        if currentUser
+                            .ui.icon.large.basic.button.add_model_doc(title="Add #{title}")
+                                i.plus.green.large.icon
+                            //- +i name='plus'
+                        //- if can_edit
+                            //- +edit_circular.button
+            
+                        if is_dev
+                            //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
+                            .ui.icon.large.basic.button.edit_model
+                                i.large.cog.icon
+                                //- +i name='settings'
+                                //- | Configure #{plural}
+                        // .ui.divider
+                        // // each sessions
+                        // //     .ui.icon.basic.button.select_session(class=session_selector_class title='select session')
+                        // //         i.play.icon
+                        if current_delta
+                            if is_dev
+                                .ui.icon.large.basic.button.print_delta(title='print session doc')
+                                    i.code.icon
+                            .ui.reset.icon.basic.large.button(title='reload session')
+                                i.refresh.icon
+                            .ui.delete_delta.icon.basic.button(title='delete session')
+                                i.trash.icon
+                        else
+                            .create_delta.ui.large.blue.button(title='new session')
+                                i.plus.icon
+                                |session
+                        if description
+                            .ui.segment
+                                |#{description}
+                        //- if is_dev
+                        //-     .ui.input
+                        //-         input.import_subreddit(type='text' placeholder='import_subreddit')
+                    // |did: #{session_delta_id}
+                    div
+                    each sorted_facets
+                        +facet
+                .ten.wide.column
+                    //- .ui.inline.header
+                    //-     |sort by
+                    //- .ui.button
+                    //- .ui.stackable.four.column.grid
+                    each current_delta.result_ids
+                        //- .column
+                        +delta_result
+                
+
+
+template(name='facet')
+    if filtering_res
+        //- .ui.hidden.divider
+        //- .ui.accordion
+        //-     .active.title
+        .ui.grey.inline.header 
+            if icon
+                //- i.small.icon(class=icon)
+                +i name=icon classes='ui mini inline image'   
+            if title
+                |#{title}
+            else 
+                |#{key}
+                //- i.dropdown.icon
+            //- .active.content
+        if is_admin
+            .ui.icon.small.transparent.input
+                i.search.icon
+                input.add_filter(type='text')
+        //- div
+        each filtering_res
+            if name
+                .selector.ui.compact.button.toggle_selection(class=toggle_value_class)
+                    strong #{name}
+                    if is_admin
+                        small #{cal_count} #{count}
+            else
+                .selector.ui.compact.button.toggle_selection(class=toggle_value_class)
+                    strong [null]
+                    //- small #{cal_count}
+        .ui.hidden.divider
+
+template(name='toggle_delta_config')
+    if boolean_true
+        .ui.grey.active.icon.button.disable_key(title=label)
+            i.icon(class=icon)
+            // | #{label}
+    else
+        .ui.icon.button.enable_key(title=label)
+            i.icon(class=icon)
+            // | #{label}
+
+
+
+template(name='delta_result')
+    with result 
+        if template_exists
+            +Template.dynamic template=model_template
+        else
+            .ui.result.cloud.fluid.segment(class=loading_class)
+                .content
+                    each fields
+                        +Template.dynamic template=view_template 
+                    .extra
+                        if is_model
+                            +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
+                            a.ui.basic.button.route_model(href="/m/#{slug}")
+                                i.sitemap.icon
+                                |view model
+                            if is_admin
+                                a.ui.basic.button.route_model(href="/model/edit/#{_id}")
+                                    i.edit.icon
+                                    |edit model
+                        else
+                            if can_edit
+                                a.ui.large.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                                    i.pencil.large.icon
+                                    //- |edit
+                            a.ui.icon.large.basic.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                                i.right.chevron.large.icon
+                        if _author_id
+                            +author_info
+                        +creation_info
+                    if is_admin
+                        +remove_button
+                
+                        

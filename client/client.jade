@@ -1,0 +1,59 @@
+head
+    title GRO
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+    meta(name="msapplication-TileColor" content="#000000")
+    meta(name="theme-color" content="#000000")
+    link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.css')
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400&display=swap" rel="stylesheet")
+    link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
+    link(rel="manifest" href="/site.webmanifest")
+    link(rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000")
+    //- link(rel="stylesheet" href="http://cdn.dhtmlx.com/edge/dhtmlx.css" type="text/css") 
+    script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
+    script(src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js")
+    script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.js')
+    script(src='https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js')
+
+template(name='layout')
+    +nav
+    //- if currentUser
+    .ui.stackable.grid(class=invert_class)
+        .centered.row
+            .sixteen.wide.column
+                //- if current_session_doc
+                //-     +checkin_card current_session_doc
+                //- else 
+                +yield
+        //- if is_eric
+        unless is_frontdesk
+            +footer 
+
+    //- .context
+    //-     +nav
+    //-     .ui.attached.basic.segment.pushable
+    //-         +sidebar
+    //-         .pusher
+    //-             #main
+    //-                 //- .ui.basic.fluid.segment
+    //-                 +yield
+        //- +footer
+
+
+template(name='mlayout')
+    +yield
+
+
+template(name='verification_confirmation')
+    .ui.text.container
+        h1.ui.header Thank you, you're email has been verified.  You may close the window. 
+
+
+
+template(name='not_found')
+    .ui.text.container
+        .ui.center.aligned.header Not Found
+        a.ui.button(href="/healthclub") Check In

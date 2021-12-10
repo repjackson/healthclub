@@ -1,0 +1,46 @@
+template(name='login')
+    .ui.padded.stackable.grid
+        .centered.row
+            .ten.wide.column
+                h1.ui.center.aligned.header gold run online login
+                    //- i.massive.icons
+                    //-     i.home.icon
+                    //-     i.corner.right.chevron.icon
+                if message
+                    h4.ui.center.aligned.header #{message}
+                .ui.fluid.large.input(class=login_class)
+                    .ui.inline.small.header 
+                        +i name='user'
+                        //- i.user.icon
+                        |username
+                    input.username(type='text')
+                .ui.fluid.large.input(class=login_class)
+                    .ui.inline.small.header 
+                        +i name='password'
+                        | password
+                    input.password(type='password')
+                //- if username
+                if logging_in
+                    .ui.fluid.big.basic.button.enter(title="login #{username}" class=enter_class)
+                        //- i.sign.in.alternate.icon
+                        +i name='enter-2' classes='ui mini inline image'
+                        |login
+                        | #{username}
+                        //- i.right.chevron.icon
+                else
+                    if username
+                        .ui.center.aligned.basic.segment
+                            .ui.header no '#{username}' user
+                            a.ui.basic.button(href='/register')
+                                //- i.user.plus.icon
+                                +i name='enter-2' classes='ui mini inline image'                    
+                                | register
+                .ui.center.aligned.basic.segment    
+                    a.ui.large.basic.button(href='/forgot_password')
+                        +i name='forgot-password' classes='ui mini inline image'                    
+                        //- i.refresh.icon
+                        |forgot password
+                    //- a.ui.large.basic.button(href='/register') 
+                    //-     //- +i name='add-user-male' classes='ui mini inline image'                    
+                    //-     i.user.plus.icon
+                    //-     |register

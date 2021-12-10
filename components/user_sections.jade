@@ -1,0 +1,231 @@
+template(name='user_about')
+    //- +text_view key='address' label='address' icon='marker' direct=true
+    //- +phone_view key='phone' label='phone' icon='phone' direct=true
+    +text_view key='tagline' label='tag line' icon='signature' direct=true
+    +array_view key='tags' label='tags' icon='tags' direct=true
+    +array_view key='location_tags' label='location tags' icon='location' direct=true
+    +text_view key='spirit_animal' label='spirit animal' icon='year-of-monkey' direct=true
+    +link_view key='link' label='link' icon='link' direct=true
+
+
+
+template(name='user_payment')
+    +text_view key='payment_preferences' label='payment preferences' icon='online-payment-with-a-credit-card' direct=true
+    +boolean_view key='accepts_venmo' label='accepts venmo' icon='online-payment-with-a-credit-card' direct=true
+    +boolean_view key='accepts_cash' label='accepts cash' icon='cash' direct=true
+    +boolean_view key='accepts_paypal' label='accepts paypal' icon='cash' direct=true
+    +image_view key='venmo_qr' label='venmo qr code' direct=true
+
+template(name='user_social')
+    +user_people
+    +user_wall
+
+template(name='user_requests')
+    .ui.header requests
+
+
+template(name='user_votes')
+    .ui.header 
+        +i name='elections'
+        |votes
+
+template(name='user_tasks')
+    //- .ui.fluid.styled.accordion
+    .ui.segment
+        .ui.inline.center.aligned.small.header 
+            //- +i name='tasks'
+            i.tasks.icon
+            |staff tasks
+        +goto_model slug='task'
+        .ui.icon.input
+            i.plus.icon
+            input.assign_task(type='text' placeholder='assign task...')
+        //- .ui.circular.button.view_complete(class=view_complete_class)
+        //-     |View Completed
+        // .ui.circular.button.view_incomplete(class=view_complete_class)
+        //     |View Incomplete
+        each assigned_tasks
+            .ui.smoothed.segment
+                .ui.header #{body}
+                +boolean_edit key='complete' label='Complete' direct=true true_icon='checkmark' false_icon='remove'
+                //- +voting
+                +author_info
+                +creation_info
+                if is_author
+                    +remove_button
+
+
+template(name='user_transactions')
+    .ui.segment
+        .ui.header sent karma
+        each sent_karma
+            .ui.segment
+                .ui.small.inline.header #{_author_username}
+                |#{description}
+                each tags
+                    .ui.label #{this}
+                .ui.small.inline.header #{karma_amount}
+    +transactions
+
+
+
+
+template(name='user_following')    
+    .ui.cloud.segment
+        .ui.header 
+            +i name='alarm'
+            |following
+        +user_array_list user=user_from_username_param array='following_ids'
+          
+
+template(name='follow_user')    
+    .ui.cloud.segment
+        .ui.inline.header
+            unless current_user
+                a.toggle_follow_user(href='#' title='Follow User')
+                    i.renew.icon
+            else
+                +i name='google-alerts'
+            |followed by
+        +user_array_list user=user_from_username_param array='followed_by_ids'
+                
+
+template(name='user_wall')
+    .ui.fluid.styled.accordion
+        .active.title
+            .ui.inline.center.aligned.small.header 
+                i.edit.icon
+                |wall
+        .active.content
+            if currentUser
+                .ui.fluid.icon.input
+                    i.plus.icon
+                    input.new_post(type='text' placeholder='add post...')
+            .ui.comments
+                each wall_posts
+                    .comment
+                        //- .avatar
+                        .active.content
+                            a.author(href='#') #{author.first_name} #{author.last_name}
+                            .metadata
+                                span.date #{when}
+                            .text.large120 #{body}
+                            .actions
+                                i.remove.link.icon.remove_comment(title='Vote Down')
+                                i.thumbs.up.link.icon.vote_up_comment(title='Vote Up')
+                                |#{points}
+                                i.message.link.icon.mark_comment_read(title='Mark Read')        
+
+
+
+
+
+template(name='user_gallery')
+    .ui.header 
+        +i name='gallery'
+        |gallery
+
+template(name='user_contact')
+    .ui.header 
+        +i name='contact'
+        |contact
+    if current_user
+        .ui.small.header whatever info you want people to contact you by
+        +textarea_edit key='contact_info' direct=true
+    else
+        +textarea_view key='contact_info' direct=true
+
+template(name='user_stats')
+    .ui.header 
+        +i name='line-chart'
+        |stats
+    with user_from_username_param
+        .ui.header #{karma} karma
+        .ui.header #{credits} credits
+        
+
+
+template(name='user_events')
+    .ui.header 
+        +i name='calendar'
+        |calendar
+
+
+template(name='user_karma')
+    .ui.header 
+        +i name='yin-yang'
+        |karma
+    .ui.small.header 
+        i.thumbs.up.icon
+        |upvoted documents
+    .ui.small.header 
+        i.thumbs.down.icon
+        |downvoted documents
+    +received_karma
+
+
+template(name='user_feed')
+    .ui.cloud.segment
+        .ui.inline.header 
+            +i name='feed'
+            |feed
+        //- if current_user
+        //-     .ui.fluid.input
+        //-         input(type='text' placeholder='Share something...')
+    +user_wall
+                
+                
+                
+template(name='user_bookmarks')
+    .ui.header 
+        +i name='star'
+        |bookmarks
+    .ui.four.stackable.cards
+        each bookmarks
+            .card
+                .content
+                    a.header(href="/m/#{model}/#{_id}/view") #{title} [#{model}]
+                    .description #{when}
+
+
+
+
+
+template(name='received_karma')
+    .ui.segment
+        .ui.header received karma
+        each received_karma
+            .ui.segment
+                .ui.small.inline.header #{_author_username}
+                |#{description}
+                each tags
+                    .ui.label #{this}
+                .ui.small.inline.header #{karma_amount}
+                
+            
+
+
+template(name='user_notifications')
+    .ui.header 
+        +i name='appointment-reminders'
+        |notifications
+
+
+
+
+template(name='user_tags')
+    .ui.header 
+        +i name='tags'
+        |tags
+    each tags
+        .ui.large.basic.label 
+            if is_user
+                i.remove.link.icon.remove_tag
+            |#{this}
+    if user_is_user
+        .ui.fluid.input
+            input.tag_user(type='text' placeholder='tag yourself...')
+    else
+        .ui.header tag #{user_from_username_param.first_name} #{user_from_username_param.last_name}
+        .ui.fluid.input
+            input(type='text' placeholder="tag #{user_from_username_param.name}")

@@ -1,0 +1,38 @@
+template(name='facet_staff_select')
+    if facet_doc
+        with facet_doc
+            if is_editing
+                .ui.basic.label select staff
+                .ui.labeled.fluid.input
+                    input#staff(type='text' value=staff)
+            else
+                div(class=doc_classes)
+                    |#{staff}
+            if is_admin
+                +session_edit_icon
+    else
+        if is_admin
+            .ui.header no doc found
+            .create_doc.ui.basic.button
+                i.plus.icon
+                |create doc with #{template_tags}
+
+template(name='inline_doc')
+    if inline_doc
+        with inline_doc
+            if is_editing
+                .ui.form
+                    .field
+                        label edit
+                        textarea#body(rows='3') #{body}
+            else
+                div(class=doc_classes)
+                    |{{nl2br body}}
+            if is_staff
+                +session_edit_icon
+    else
+        if is_staff
+            .ui.header no doc found
+            .create_doc.ui.basic.inline.button
+                i.plus.icon
+                |create #{slug} doc

@@ -1,0 +1,29 @@
+template(name='home')
+    //- h1.ui.center.aligned.grey.header 
+    //-     each currentUser.roles
+    //-         strong #{this} &nbsp;
+    //-     |portal
+    .ui.stackable.four.column.padded.grid
+        each role_models
+            .column
+                a(href="/m/#{slug}")
+                    .ui.segment.home_segment.set_model
+                        .ui.header 
+                            +i name=icon
+                            |#{title}
+                        if is_dev
+                            each view_roles
+                                .ui.basic.label #{this}
+
+
+//- 
+//- template(name='home')
+//-     .ui.grid
+//-         .eight.wide.column
+//-             .ui.header marketplace
+//-             each marketplace_items
+//-                 +marketplace_item
+//-         .eight.wide.column
+//-             .ui.header posts
+//-             each posts
+//-                 +post
