@@ -137,74 +137,10 @@ Router.route '/user/:username/residency', (->
     @layout 'user_layout'
     @render 'user_residency'
     ), name:'user_residency'
-Router.route '/user/:username/karma', (->
-    @layout 'user_layout'
-    @render 'user_karma'
-    ), name:'user_karma'
-Router.route '/user/:username/payment', (->
-    @layout 'user_layout'
-    @render 'user_payment'
-    ), name:'user_payment'
-Router.route '/user/:username/contact', (->
-    @layout 'user_layout'
-    @render 'user_contact'
-    ), name:'user_contact'
 Router.route '/user/:username/stats', (->
     @layout 'user_layout'
     @render 'user_stats'
     ), name:'user_stats'
-Router.route '/user/:username/votes', (->
-    @layout 'user_layout'
-    @render 'user_votes'
-    ), name:'user_votes'
-Router.route '/user/:username/dashboard', (->
-    @layout 'user_layout'
-    @render 'user_dashboard'
-    ), name:'user_dashboard'
-Router.route '/user/:username/requests', (->
-    @layout 'user_layout'
-    @render 'user_requests'
-    ), name:'user_requests'
-Router.route '/user/:username/tags', (->
-    @layout 'user_layout'
-    @render 'user_tags'
-    ), name:'user_tags'
-Router.route '/user/:username/tasks', (->
-    @layout 'user_layout'
-    @render 'user_tasks'
-    ), name:'user_tasks'
-Router.route '/user/:username/transactions', (->
-    @layout 'user_layout'
-    @render 'user_transactions'
-    ), name:'user_transactions'
-Router.route '/user/:username/gallery', (->
-    @layout 'user_layout'
-    @render 'user_gallery'
-    ), name:'user_gallery'
-Router.route '/user/:username/bookmarks', (->
-    @layout 'user_layout'
-    @render 'user_bookmarks'
-    ), name:'user_bookmarks'
-Router.route '/user/:username/documents', (->
-    @layout 'user_layout'
-    @render 'user_documents'
-    ), name:'user_documents'
-Router.route '/user/:username/social', (->
-    @layout 'user_layout'
-    @render 'user_social'
-    ), name:'user_social'
-Router.route '/user/:username/events', (->
-    @layout 'user_layout'
-    @render 'user_events'
-    ), name:'user_events'
-Router.route '/user/:username/products', (->
-    @layout 'user_layout'
-    @render 'user_products'
-    ), name:'user_products'
-Router.route '/user/:username/comparison', (->
-    @layout 'user_layout'
-    @render 'user_comparison'
-    ), name:'user_comparison'
 Router.route '/user/:username/notifications', (->
     @layout 'user_layout'
     @render 'user_notifications'
