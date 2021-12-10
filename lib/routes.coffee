@@ -10,15 +10,14 @@ force_loggedin =  ()->
     else
         @next()
 
-Router.onBeforeAction(force_loggedin, {
-  # only: ['admin']
-  # except: ['register', 'forgot_password','reset_password','front','delta','doc_view','verify-email']
-  except: ['register', 'forgot_password','reset_password','delta','doc_view','verify-email','download_rules_pdf']
-});
+# Router.onBeforeAction(force_loggedin, {
+#   # only: ['admin']
+#   # except: ['register', 'forgot_password','reset_password','front','delta','doc_view','verify-email']
+#   except: ['register', 'forgot_password','reset_password','delta','doc_view','verify-email','download_rules_pdf']
+# });
 
 Router.route "/add_guest/:new_guest_id", -> @render 'add_guest'
 
-Router.route '/chat', -> @render 'view_chats'
 Router.route '/inbox', -> @render 'inbox'
 # Router.route '/register', -> @render 'register'
 Router.route '/admin', -> @render 'admin'
@@ -99,13 +98,13 @@ Router.route '/download_rules_pdf/:username', (->
 
 
 Router.route '/login', -> @render 'login'
+Router.route '/register', -> @render 'register'
 
 # Router.route '/', -> @redirect '/m/model'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
-Router.route '/home', -> @render 'home'
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
+    @render 'staff'
     ), name:'front'
 
 
@@ -125,10 +124,6 @@ Router.route '/user/:username', (->
     @layout 'user_layout'
     @render 'resident_about'
     ), name:'resident_about'
-Router.route '/user/:username/about', (->
-    @layout 'user_layout'
-    @render 'user_about'
-    ), name:'user_about'
 Router.route '/user/:username/healthclub', (->
     @layout 'user_layout'
     @render 'user_healthclub'

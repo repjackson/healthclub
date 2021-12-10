@@ -1,12 +1,12 @@
 template(name='nav')
     unless is_frontdesk
         //- .ui.borderless.attached.big.inverted.menu.topnav
-        .ui.attached.big.menu.topnav
+        .ui.attached.big.five.item.borderless.menu.topnav
             //- a.toggle_sidebar.icon.item.sidebar_on
             //-     i.large.sidebar.icon
             if is_loading
                 .icon.item
-                    i.big.loading.yin.yang.icon
+                    i.big.loading.refresh.icon
             else
                 // a.icon.item(href='/home' class="{{isActivePath '/home'}}")
                 //     +i name='circled-menu'
@@ -35,33 +35,32 @@ template(name='nav')
                         //- i.clinic.medical.large.icon
                         +i name='ipad'
                         .mobile.hidden &nbsp; kiosk
-                if is_user
-                    a.icon.item(href='/users' class="{{isActivePath '/users'}}")
-                        //- i.users.large.icon
-                        +i name='groups'
-                        .mobile.hidden &nbsp; users
-            .right.menu
-                if currentUser
-                    unless logging_out
-                        //- if is_dev
-                        unless is_frontdesk
-                            a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_chat'}}")
-                                if currentUser.image_id
-                                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
-                                else
-                                    +i name='user'
-                                //- | #{currentUser.username}
-                    if logging_out
-                        .item
-                            i.large.loading.circle.notch.icon
-                    //- else
-                    //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='Log Out')
-                    //-         i.sign.out.large.icon
-                else
-                    a.item(href='/login' title='login') 
-                        //- i.sign.in.large.icon
-                        +i name='internal'
-                        |login
+                // if is_user
+                //     a.icon.item(href='/users' class="{{isActivePath '/users'}}")
+                //         //- i.users.large.icon
+                //         +i name='groups'
+                //         .mobile.hidden &nbsp; users
+            if currentUser
+                unless logging_out
+                    //- if is_dev
+                    unless is_frontdesk
+                        a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_chat'}}")
+                            if currentUser.image_id
+                                img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                            else
+                                +i name='user'
+                            | #{currentUser.username}
+                if logging_out
+                    .item
+                        i.large.loading.circle.notch.icon
+                //- else
+                //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='Log Out')
+                //-         i.sign.out.large.icon
+            else
+                a.item(href='/login' title='login') 
+                    //- i.sign.in.large.icon
+                    +i name='internal'
+                    |login
 
 
 

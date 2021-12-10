@@ -2,7 +2,10 @@ template(name='login')
     .ui.padded.stackable.grid
         .centered.row
             .ten.wide.column
-                h1.ui.center.aligned.header gold run online login
+                h1.ui.center.aligned.header 
+                    +i name='treadmill'
+                    |Gold Run Health Club Login
+                    
                     //- i.massive.icons
                     //-     i.home.icon
                     //-     i.corner.right.chevron.icon
@@ -40,7 +43,7 @@ template(name='login')
                         +i name='forgot-password' classes='ui mini inline image'                    
                         //- i.refresh.icon
                         |forgot password
-                    //- a.ui.large.basic.button(href='/register') 
-                    //-     //- +i name='add-user-male' classes='ui mini inline image'                    
-                    //-     i.user.plus.icon
-                    //-     |register
+                    a.ui.large.basic.button(href='/register') 
+                        //+i name='add-user-male' classes='ui mini inline image'                    
+                        i.user.plus.icon
+                        |register
