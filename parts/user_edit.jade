@@ -1,14 +1,14 @@
 template(name='user_edit')
-    with user_from_username_param          
+    with current_user          
         //- img.ui.fluid.image.banner_image(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
             .three.column.row
                 .column
                     .ui.center.aligned.large.inline.grey.header
-                        | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
+                        | #{current_user.first_name} #{current_user.last_name}
                     //- +i name='pencil'
-                    .ui.small.inline.header @#{user_from_username_param.username}
-                    a.ui.large.fluid.basic.button(href="/user/#{user_from_username_param.username}/") 
+                    .ui.small.inline.header @#{current_user.username}
+                    a.ui.large.fluid.basic.button(href="/user/#{current_user.username}/") 
                         i.checkmark.large.green.icon
                         strong save
                     .ui.hidden.divider
@@ -18,7 +18,7 @@ template(name='user_edit')
                         //- +phone_editor
                         +username_edit
                     if is_admin
-                        with user_from_username_param
+                        with current_user
                             .ui.orange.basic.button.remove_user 
                                 i.remove.icon
                                 |delete user
@@ -93,7 +93,7 @@ template(name='user_edit')
                         .ui.hidden.divider
                         +boolean_edit key='active_violations' label='active violations' direct=true
                         //- if is_staff
-                        //-     //- with user_from_username_param
+                        //-     //- with current_user
                         //-     +boolean_edit key='government_id_checked' label='government id checked' icon='id-verified' direct=true
                         //-     +single_user_edit key='id_checked_by_staff' label='government id checked by' role_filter='staff' icon='user shield' direct=true
                         //-     +date_edit key='id_checked_date' label='government id checked date' icon='today' direct=true
@@ -101,7 +101,7 @@ template(name='user_edit')
                         //-     +boolean_view key='government_id_checked' label='government id checked' icon='id-verified' direct=true
                         //-     +text_view key='id_checked_by_staff' label='government id checked by' role_filter='staff' icon='user shield' direct=true
                         //-     +date_view key='id_checked_date' label='government id checked date' icon='today' direct=true
-                            //- with user_from_username_param
+                            //- with current_user
                         //- +boolean_edit key='published' icon='eye' label='profile published'
                     
                     
@@ -110,7 +110,7 @@ template(name='user_settings')
         .ui.header 
             +i name='settings'
             |settings
-        with user_from_username_param
+        with current_user
             +boolean_edit key='show_bookmarked_model_bar' label='show bookmarked model bar' direct=true
 
 
@@ -132,7 +132,7 @@ template(name='user_single_doc_ref_editor')
 template(name='username_edit')
     .ui.small.header 
         i.i.cursor.icon
-        |change username [#{user_from_username_param.username}]
+        |change username [#{current_user.username}]
     .ui.icon.fluid.input
         input.new_username(type='text' placeholder='new username...')
         i.play.link.icon.change_username
@@ -146,8 +146,8 @@ template(name='phone_editor')
     .ui.icon.fluid.input(title='Add Phone')
         i.plus.icon
         input#phone.form-control(type='phone', name='phone', value='{{newNumber}}')
-    if user_from_username_param.profile.phone
-        if user_from_username_param.profile.phone_verified
+    if current_user.profile.phone
+        if current_user.profile.phone_verified
             .ui.green.label verified
         else
             p

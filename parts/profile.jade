@@ -1,6 +1,6 @@
 template(name='user_layout')
     +nav
-    with user_from_username_param
+    with current_user
         .ui.padded.stackable.grid
             .row
                 .four.wide.column
@@ -8,7 +8,7 @@ template(name='user_layout')
                         img.ui.centered.circular.shadowed.image(src="{{c.url kiosk_photo height=300 width=300 gravity='face' crop='fill'}}")
                     else if image_id
                         img.ui.centered.circular.shadowed.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                        //- a.item(href="/user/#{user_from_username_param.username}/")
+                        //- a.item(href="/user/#{current_user.username}/")
                     .ui.center.aligned.basic.segment
                         a(href="/user/#{user.username}")
                             h1.ui.large.center.aligned.header
@@ -18,7 +18,7 @@ template(name='user_layout')
                         | @#{user.username}        
                     if user_is_resident
                         if is_staff
-                            a.ui.fluid.basic.button.item(href="/user/#{user_from_username_param.username}/edit")
+                            a.ui.fluid.basic.button.item(href="/user/#{current_user.username}/edit")
                                 i.pencil.large.blue.icon
                                 | edit
                     if user_is_resident
@@ -27,7 +27,7 @@ template(name='user_layout')
                             +staff_verification
                 
                     else if is_current_user
-                        a.ui.icon.big.button.item(href="/user/#{user_from_username_param.username}/edit")
+                        a.ui.icon.big.button.item(href="/user/#{current_user.username}/edit")
                             i.cog.large.icon
                     //- else
                         //- .ui.button.direct_message
@@ -48,37 +48,8 @@ template(name='user_layout')
                             each roles
                                 .ui.basic.label #{this}
                 .twelve.wide.column.shadowed-box
-                    if user_is_user
-                        if is_user
-                            a.ui.icon.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title='about')
-                                +i name='info'
-                            //- a.ui.icon.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}" title='info')
-                            //-     +i name='dashboard'
-                            a.ui.icon.button(href="/user/#{username}/social" class="{{isActiveRoute 'user_social'}}" title='social')
-                                +i name='collaboration'
-                            a.ui.icon.button(href="/user/#{username}/gallery" class="{{isActiveRoute 'user_gallery'}}" title='gallery')
-                                +i name='gallery'
-                            a.ui.icon.button(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}" title='bookmarks')
-                                +i name='star'
-                            a.ui.icon.button(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}" title='contact')
-                                +i name='phone'
-                            a.ui.icon.button(href="/user/#{username}/events" class="{{isActiveRoute 'user_events'}}" title='events')
-                                +i name='calendar'
-                            a.ui.icon.button(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}" title='comparison')
-                                +i name='scales'
-                            a.ui.icon.button(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}" title='tags')
-                                +i name='tags'
-                            a.ui.icon.button(href="/user/#{username}/tasks" class="{{isActiveRoute 'user_tasks'}}" title='tags')
-                                +i name='tasks'
-                            a.ui.icon.button(href="/user/#{username}/karma" class="{{isActiveRoute 'user_karma'}}" title='karma')
-                                +i name='yin-yang'
-                            a.ui.icon.button(href="/user/#{username}/stats" class="{{isActiveRoute 'user_stats'}}" title='stats')
-                                +i name='line-chart'
-                            a.ui.icon.button(href="/user/#{username}/votes" class="{{isActiveRoute 'user_votes'}}" title='votes')
-                                +i name='elections'
-                            a.ui.icon.button(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}" title='money')
-                                 +i name='appointment-reminders'
                     +yield
+                    +resident_about
     unless is_frontdesk
         +footer 
 
@@ -127,8 +98,8 @@ template(name='staff_verification')
                   .ui.button.verify verify government ID as #{currentUser.username}
             .ui.button.rerun_check
                 |rerun check
-            .ui.header #{user_from_username_param.username} created by #{user_from_username_param.added_by_username}
-            .ui.header created on {{long_date user_from_username_param.createdAt}}
+            .ui.header #{current_user.username} created by #{current_user.added_by_username}
+            .ui.header created on {{long_date current_user.createdAt}}
 
 
 
@@ -172,7 +143,7 @@ template(name='resident_about')
     img.ui.fluid.rounded.image(src="{{c.url banner_image_id width=1000 height=200 crop='crop'}}")
     .ui.stackable.grid
         .three.column.row
-            if user_from_username_param.healthclub_code
+            if current_user.healthclub_code
                 .column
                     +user_healthclub                        
             if user_is_resident
@@ -301,7 +272,7 @@ template(name='user_guests')
         //- +add_button model='guest'
         //- .ui.circular.button.add_guest
         //-     |Add Guest
-        with user_from_username_param
+        with current_user
             .ui.header total guests #{total_guests}
             //- .ui.header guests this month #{current_month_guests}
         .ui.link.large.list
