@@ -38,8 +38,8 @@ template(name='resident')
             
 template(name='resident_edit')         
     with current_doc
-        .ui.padded.grid
-            .four.wide.column
+        .ui.padded.three.column.grid
+            .column
                 .image
                     //- a(href="/user/#{username}/")
                     //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
@@ -53,7 +53,7 @@ template(name='resident_edit')
                 +text_edit key='first_name' label='First Name' direct=true
                 +text_edit key='last_name' label='Last Name' direct=true
                 +text_edit key='address' label='Address' direct=true
-            .twelve.wide.column
+            .column
                 +number_edit key='unit_number' label='Unit #' direct=true
                 +number_edit key='building_number' label='Building #' direct=true
                 +text_edit key='email' label='Email' direct=true
@@ -67,7 +67,7 @@ template(name='resident_edit')
 template(name='resident_view')         
     with current_doc
         .ui.padded.grid
-            .four.wide.column
+            .column
                 .image
                     //- a(href="/user/#{username}/")
                     //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
@@ -81,11 +81,12 @@ template(name='resident_view')
                 +text_view key='first_name' label='First Name' direct=true
                 +text_view key='last_name' label='Last Name' direct=true
                 +text_view key='address' label='Address' direct=true
-            .twelve.wide.column
+            .column
                 +number_view key='unit_number' label='Unit #' direct=true
                 +number_view key='building_number' label='Building #' direct=true
                 +text_view key='email' label='Email' direct=true
                 +phone_view key='phone' label='Phone' direct=true
+            .column
                 +date_view key='start_date' label='Start Date' direct=true
                 +date_view key='expiration_date' label='Expiration Date' direct=true
                 +user_check_steps    

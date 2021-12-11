@@ -336,7 +336,7 @@ template(name='document_view')
         
 template(name='text_edit')
     .ui.fluid.icon.input
-        .ui.small.inline.header
+        .ui.small.header
             if icon
                 +i name=icon
                 //- i.grey.icon(class=icon)
@@ -347,6 +347,7 @@ template(name='text_edit')
             else if key
                 |#{key}
         //- +clear_value
+        div
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
 

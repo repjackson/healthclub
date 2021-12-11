@@ -7,9 +7,9 @@ if Meteor.isClient
     Template.shift_change_requests.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'shift_change_request'
     Template.staff.onCreated ->
-        @autorun => Meteor.subscribe 'todays_checklist'
-        @autorun => Meteor.subscribe 'sessions'
-        @autorun => Meteor.subscribe 'shift_walks'
+        # @autorun => Meteor.subscribe 'todays_checklist', ->
+        @autorun => Meteor.subscribe 'sessions', ->
+        # @autorun => Meteor.subscribe 'shift_walks', 
 
 
     Template.staff.helpers
@@ -35,6 +35,13 @@ if Meteor.isClient
 
 
     Template.staff.events
+        'click .add_resident': ->
+            new_id = 
+                Docs.insert 
+                    model:'resident'
+            Router.go "/resident/#{new_id}/edit"
+            
+            
         'click .log_staff_walked': ->
             if confirm 'log hourly walk?'
                 Docs.insert

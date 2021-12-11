@@ -23,41 +23,40 @@ template(name='user_edit')
                                 i.remove.icon
                                 |delete user
                 .column
-                    .ui.form
-                        if user_is_resident_or_owner
-                            if is_staff
-                                +text_edit key='first_name' label='first name' icon='header' direct=true
-                                +text_edit key='last_name' label='last name' icon='text' direct=true
-                                +text_edit key='address' label='address' icon='marker' direct=true
-                                +number_edit key='unit_number' label='unit #' icon='home' direct=true tip='apt #'
-                                +number_edit key='building_number' label='building #' icon='building' direct=true tip='eg 203'
-                                //- +text_edit key='building_code' label='building code' icon='building' direct=true
-                                +number_edit key='healthclub_code' label='keycard code' icon='barcode' direct=true
-                                +boolean_edit key='owner' label='owner' direct=true
-                                .ui.segment
-                                    .ui.header 
-                                        i.blue.envelope.icon
-                                        |Email(s)
-                                    +emails_edit
-                            else
-                                +text_view key='first_name' label='first name' direct=true
-                                +text_view key='last_name' label='last name' direct=true
-                                +text_view key='address' label='address' direct=true
-                                +number_view key='unit_number' label='unit #' direct=true
-                                +number_view key='building_number' label='building #' direct=true
-                                //- +text_view key='building_code' label='building code' direct=true
-                                +number_view key='healthclub_code' label='keycard code' icon='barcode' direct=true
-                                +date_view key='start_date' label='start date' direct=true
-                                +boolean_view key='owner' label='owner' direct=true
-                                //- if user_is_owner
-                                //-     +image_view key='ownership_paperwork' label='ownership paperwork' direct=true
-                                //-     +pdf_view key='lease_agreement' label='lease agreement' direct=true
-                                //- else if user_is_resident
-                                //-     +date_view key='expiration_date' label='expiration date' direct=true
-                                //-     +pdf_view key='lease_agreement' label='lease agreement' direct=true
-                                //-     +pdf_edit key='lease_addendum' label='lease addendum' direct=true
-                                //- +pdf_view key='member_guidelines_and_waiver' label='lease agreement' direct=true
-                        //- +text_edit key='email' label='email' direct=true
+                    if user_is_resident_or_owner
+                        if is_staff
+                            +text_edit key='first_name' label='first name' icon='header' direct=true
+                            +text_edit key='last_name' label='last name' icon='text' direct=true
+                            +text_edit key='address' label='address' icon='marker' direct=true
+                            +number_edit key='unit_number' label='unit #' icon='home' direct=true tip='apt #'
+                            +number_edit key='building_number' label='building #' icon='building' direct=true tip='eg 203'
+                            //- +text_edit key='building_code' label='building code' icon='building' direct=true
+                            +number_edit key='healthclub_code' label='keycard code' icon='barcode' direct=true
+                            +boolean_edit key='owner' label='owner' direct=true
+                            .ui.segment
+                                .ui.header 
+                                    i.blue.envelope.icon
+                                    |Email(s)
+                                +emails_edit
+                        // else
+                        //     +text_view key='first_name' label='first name' direct=true
+                        //     +text_view key='last_name' label='last name' direct=true
+                        //     +text_view key='address' label='address' direct=true
+                        //     +number_view key='unit_number' label='unit #' direct=true
+                        //     +number_view key='building_number' label='building #' direct=true
+                        //     //- +text_view key='building_code' label='building code' direct=true
+                        //     +number_view key='healthclub_code' label='keycard code' icon='barcode' direct=true
+                        //     +date_view key='start_date' label='start date' direct=true
+                        //     +boolean_view key='owner' label='owner' direct=true
+                        //     //- if user_is_owner
+                        //     //-     +image_view key='ownership_paperwork' label='ownership paperwork' direct=true
+                        //     //-     +pdf_view key='lease_agreement' label='lease agreement' direct=true
+                        //     //- else if user_is_resident
+                        //     //-     +date_view key='expiration_date' label='expiration date' direct=true
+                        //     //-     +pdf_view key='lease_agreement' label='lease agreement' direct=true
+                        //     //-     +pdf_edit key='lease_addendum' label='lease addendum' direct=true
+                        //     //- +pdf_view key='member_guidelines_and_waiver' label='lease agreement' direct=true
+                    //- +text_edit key='email' label='email' direct=true
                         +phone_edit key='phone' label='phone' icon='telephone' direct=true
                         //- +image_edit key='banner_image_id' label='banner image' direct=true
                         //- +text_edit key='tagline' label='tag line' direct=true

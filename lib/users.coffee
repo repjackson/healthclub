@@ -9,13 +9,13 @@ if Meteor.isClient
     Template.resident_view.onCreated ->
         @autorun => @subscribe 'doc', Router.current().params.doc_id, ->
     Template.residents.onCreated ->
-        @autorun => Meteor.subscribe 'resident_search', Session.get('username_query')
+        @autorun => Meteor.subscribe 'resident_search', Session.get('name_query')
     Template.residents.helpers
         resident_docs: ->
-            username_query = Session.get('username_query')
+            name_query = Session.get('name_query')
             Docs.find 
                 model:'resident'
-                name: {$regex:"#{name_query}", $options: 'i'}
+                # name: {$regex:"#{name_query}", $options: 'i'}
             # Meteor.users.find({
             #     username: {$regex:"#{username_query}", $options: 'i'}
             #     # healthclub_checkedin:$ne:true
@@ -86,6 +86,6 @@ if Meteor.isServer
     Meteor.publish 'resident_search', (name)->
         Docs.find({
             model:'resident'
-            username: {$regex:"#{name}", $options: 'i'}
+            # username: {$regex:"#{name}", $options: 'i'}
             # roles:$in:[role]
         },{ limit:50})
