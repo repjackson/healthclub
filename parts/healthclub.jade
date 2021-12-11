@@ -24,15 +24,17 @@ template(name='healthclub')
                             i.remove.link.icon.clear_results
                         //- else 
                         //-     i.user.grey.outline.icon
-                    .ui.center.aligned.basic.segment.test
-                        if checkedout_members.length
-                            each checkedout_members
-                                +checkin_button
-                        else
-                            if checking_in
-                                if is_query
-                                    .ui.center.aligned.header No members found
-                                    .ui.center.aligned.header See staff to add
+                    each checkedout_members
+                        +checkin_button
+                    // .ui.center.aligned.basic.segment.test
+                    //     if checkedout_members.length
+                    //         each checkedout_members
+                    //             +checkin_button
+                    //     else
+                    //         if checking_in
+                    //             if is_query
+                    //                 .ui.center.aligned.header No members found
+                    //                 .ui.center.aligned.header See staff to add
                 .ui.padded.grid
                     .two.column.row
                         .column
