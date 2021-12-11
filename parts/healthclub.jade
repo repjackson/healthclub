@@ -38,8 +38,23 @@ template(name='healthclub')
                 .ui.padded.grid
                     .two.column.row
                         .column
-                            +inline_doc slug='health_club_notices' classes='ui large header'
-                            +health_club_info
+                            // +inline_doc slug='health_club_notices' classes='ui large header'
+                            .ui.large.relaxed.list
+                                .item
+                                    .content
+                                        .header Wifi
+                                        .description Gold Run Health Club / goldrun1
+                                .item
+                                    .content
+                                        .header Upstairs Code: 4589
+                            .ui.big.relaxed.list
+                                .item
+                                    .content
+                                        .header Onsite Manager
+                                        .description 
+                                            div Rick Hamp 
+                                            div 303-545-1787
+                                            div goldruncondos@gmail.com
                         .column
                             .ui.header Hours
                             .ui.large.list
@@ -50,7 +65,7 @@ template(name='healthclub')
                                 .item Fri 7a-9p
                                 .item Sat 8a-9p
                                 .item Sun 8a-10p
-                            +healthclub_status
+                            // +healthclub_status
                             
 
 template(name='facet_doc_edit')
@@ -62,25 +77,6 @@ template(name='facet_doc_edit')
                 +textarea_view key='body'
                         
                         
-template(name='add_resident')
-    .ui.stackable.padded.grid
-        .centered.row
-            .eight.wide.column
-                h1.ui.center.aligned.header
-                    +i name='add-user-male'
-                    | resident
-                .ui.massive.inverted.form
-                    .field
-                        input#first_name(type='text' placeholder='first name' autocomplete='off')
-                    .field
-                        input#last_name(type='text' placeholder='last name' autocomplete='off')
-                    //- .field
-                    //-     |Username
-                    //-     input#username(type='text')
-                if permission
-                    .ui.fluid.green.big.button.create_resident
-                        |Create Resident
-        
         
 template(name='sign_waiver')
     with receipt_doc
@@ -125,26 +121,3 @@ template(name='checkin_button')
     //                 strong #{first_name} #{last_name}
     //             .hidden.content
     //                 |check in
-
-
-template(name='health_club_info')
-    .ui.stackable.grid.f5
-        .two.column.inverted.row
-            .column
-                .ui.large.relaxed.list
-                    .item
-                        .content
-                            .header Wifi
-                            .description Gold Run Health Club / goldrun1
-                    .item
-                        .content
-                            .header Upstairs Code: 4589
-            .column
-                .ui.big.relaxed.list
-                    .item
-                        .content
-                            .header Onsite Manager
-                            .description 
-                                div Rick Hamp 
-                                div 303-545-1787
-                                div goldruncondos@gmail.com
