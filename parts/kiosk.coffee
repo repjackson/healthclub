@@ -55,23 +55,24 @@ if Meteor.isClient
             kiosk_doc.kiosk_view
 
 
-    Template.healthclub_session.onCreated ->
+    Template.session.onCreated ->
         @autorun => Meteor.subscribe 'doc', Session.get('new_guest_id')
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'checkin_guests',Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'resident_from_healthclub_session', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'healthclub_session', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'resident_from_session', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'session', Router.current().params.doc_id
         # @autorun -> Meteor.subscribe 'model_docs', 'guest'
 
         # @autorun => Meteor.subscribe 'rules_signed_username', @data.username
-    Template.healthclub_session.onRendered ->
+    Template.session.onRendered ->
         # @timer = new ReactiveVar 5
         Session.set 'timer',5
         Session.set 'timer_engaged', false
         # Meteor.setTimeout ->
-        #     healthclub_session_document = Docs.findOne Router.current().params.doc_id
+        #     session_document = Docs.findOne Router.current().params.doc_id
         #     # console.log @
-        #     if healthclub_session_document and healthclub_session_document.user_id
-        #         resident = Meteor.users.findOne healthclub_session_document.user_id
+        #     if session_document and session_document.user_id
+        #         resident = Meteor.users.findOne session_document.user_id
         #         # if resident.user_id
         #         rules_found = Docs.findOne
         #             model:'rules_and_regs_signing'
@@ -90,13 +91,13 @@ if Meteor.isClient
         # , 4000
 
 
-    Template.healthclub_session.events
+    Template.session.events
         'click .cancel_checkin': ->
-            healthclub_session_document = Docs.findOne Router.current().params.doc_id
-            if healthclub_session_document
-                Docs.remove healthclub_session_document._id
-            if healthclub_session_document and healthclub_session_document.user_id
-                Meteor.users.update healthclub_session_document.user_id,
+            session_document = Docs.findOne Router.current().params.doc_id
+            if session_document
+                Docs.remove session_document._id
+            if session_document and session_document.user_id
+                Meteor.users.update session_document.user_id,
                     $inc:
                         checkins_without_email_verification:-1
                         checkins_without_gov_id:-1
@@ -105,9 +106,9 @@ if Meteor.isClient
             Router.go "/healthclub"
 
         # 'click .recheck_photo': ->
-        #     healthclub_session_document = Docs.findOne Router.current().params.doc_id
-        #     if healthclub_session_document and healthclub_session_document.user_id
-        #         user = Meteor.users.findOne healthclub_session_document.user_id
+        #     session_document = Docs.findOne Router.current().params.doc_id
+        #     if session_document and session_document.user_id
+        #         user = Meteor.users.findOne session_document.user_id
         #         Meteor.call 'image_check', user
         #         Meteor.call 'staff_government_id_check', user
         #
@@ -121,36 +122,36 @@ if Meteor.isClient
 
         'click .add_guest': ->
             # console.log @
-            healthclub_session_document = Docs.findOne Router.current().params.doc_id
+            session_document = Docs.findOne Router.current().params.doc_id
             new_guest_id =
                 Docs.insert
                     model:'guest'
-                    session_id: healthclub_session_document._id
-                    resident_id: healthclub_session_document.user_id
-                    resident: healthclub_session_document.resident_username
+                    session_id: session_document._id
+                    resident_id: session_document.user_id
+                    resident: session_document.resident_username
             # Session.set 'displaying_profile', null
             #
             Router.go "/add_guest/#{new_guest_id}"
 
         'click .sign_rules': ->
-            healthclub_session_document = Docs.findOne Router.current().params.doc_id
+            session_document = Docs.findOne Router.current().params.doc_id
             new_id = Docs.insert
                 model:'rules_and_regs_signing'
-                session_id: healthclub_session_document._id
-                resident_id: healthclub_session_document.user_id
-                resident: healthclub_session_document.resident_username
-            Router.go "/sign_rules/#{new_id}/#{healthclub_session_document.resident_username}"
+                session_id: session_document._id
+                resident_id: session_document.user_id
+                resident: session_document.resident_username
+            Router.go "/sign_rules/#{new_id}/#{session_document.resident_username}"
             # Session.set 'displaying_profile',null
 
 
         'click .sign_guidelines': ->
-            healthclub_session_document = Docs.findOne Router.current().params.doc_id
+            session_document = Docs.findOne Router.current().params.doc_id
             new_id = Docs.insert
                 model:'member_guidelines_signing'
-                session_id: healthclub_session_document._id
-                resident_id: healthclub_session_document.user_id
-                resident: healthclub_session_document.resident_username
-            Router.go "/sign_guidelines/#{new_id}/#{healthclub_session_document.resident_username}"
+                session_id: session_document._id
+                resident_id: session_document.user_id
+                resident: session_document.resident_username
+            Router.go "/sign_guidelines/#{new_id}/#{session_document.resident_username}"
             # Session.set 'displaying_profile',null
 
         'click .add_recent_guest': ->
@@ -178,7 +179,7 @@ if Meteor.isClient
         'click .cancel_auto_checkin': (e,t)->
             Session.set 'timer_engaged',false
 
-    Template.healthclub_session.helpers
+    Template.session.helpers
         timer_engaged: ->
             Session.get 'timer_engaged'
         timer: ->
@@ -187,10 +188,10 @@ if Meteor.isClient
             # Template.instance().timer.get()
 
         rules_signed: ->
-            healthclub_session_document = Docs.findOne Router.current().params.doc_id
+            session_document = Docs.findOne Router.current().params.doc_id
             # console.log @
-            if healthclub_session_document.user_id
-                resident = Meteor.users.findOne healthclub_session_document.user_id
+            if session_document.user_id
+                resident = Meteor.users.findOne session_document.user_id
                 # if resident.user_id
                 Docs.findOne
                     model:'rules_and_regs_signing'
@@ -199,19 +200,19 @@ if Meteor.isClient
 
         adding_guests: -> Session.get 'adding_guest'
         checking_in_doc: ->
-            healthclub_session_document = Docs.findOne Router.current().params.doc_id
-            # console.log healthclub_session_document
-            healthclub_session_document
+            session_document = Docs.findOne Router.current().params.doc_id
+            # console.log session_document
+            session_document
         checkin_guest_docs: () ->
-            healthclub_session_document = Docs.findOne Router.current().params.doc_id
+            session_document = Docs.findOne Router.current().params.doc_id
             # console.log @
             Docs.find
-                _id:$in:healthclub_session_document.guest_ids
+                _id:$in:session_document.guest_ids
 
         user: ->
-            healthclub_session_document = Docs.findOne Router.current().params.doc_id
-            if healthclub_session_document and healthclub_session_document.user_id
-                Meteor.users.findOne healthclub_session_document.user_id
+            session_document = Docs.findOne Router.current().params.doc_id
+            if session_document and session_document.user_id
+                Meteor.users.findOne session_document.user_id
 
 
     Template.resident_guest.onCreated ->
@@ -230,7 +231,7 @@ if Meteor.isServer
 
 
 
-    # publishComposite 'healthclub_session', (doc_id)->
+    # publishComposite 'session', (doc_id)->
     #     {
     #         find: ->
     #             Docs.find doc_id

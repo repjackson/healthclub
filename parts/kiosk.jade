@@ -51,7 +51,7 @@ template(name='kiosk_away')
 
 
 
-template(name='healthclub_session')
+template(name='session')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'grfront' width=1000 height=1000 crop='crop'}}")
     if loading_checkin
         .ui.center.aligned.basic.segment
@@ -65,20 +65,21 @@ template(name='healthclub_session')
                     //- a.ui.header(href="/user/#{user.username}")
                     .ui.large.icon.basic.button.cancel_checkin
                         i.big.left.chevron.icon
-                    if user.kiosk_photo
-                        with user
+                    if current_resident.kiosk_photo
+                        with current_resident
                             +image_view key='kiosk_photo' label='photo' direct=true classes='medium circular shadowed'
                     else
                         //- h1.ui.header Please click below to add photo
                         //- .ui.header (switch camera to front)
-                        with user
+                        with current_resident
                             +image_edit key='kiosk_photo' label=' ' direct=true
                     //- img.ui.medium.circular.image(src="{{c.url user.image_id width=500 height=500 gravity='face' crop='fill'}}")
                     //- .meta @#{user.username}
                     //- +camera
                 .column
-                    h1.ui.huge.header.f11
-                        |#{user.first_name} #{user.last_name} 
+                    with current_doc
+                        h1.ui.huge.header.f11
+                            |#{resident_first_name} #{resident_last_name} 
                     if adding_guests
                         .ui.header 
                             i.users.teal.icon

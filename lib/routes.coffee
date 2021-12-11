@@ -23,7 +23,6 @@ Router.route '/inbox', -> @render 'inbox'
 Router.route '/admin', -> @render 'admin'
 Router.route '/dashboard', -> @render 'dashboard'
 Router.route '/manager', -> @render 'manager'
-Router.route '/shift_checklist', -> @render 'shift_checklist'
 
 Router.route '/building/:building_code', -> @render 'building'
 
@@ -71,10 +70,6 @@ Router.route '/verification_confirmation', -> @render 'verification_confirmation
 Router.route '*', -> @render 'not_found'
 
 # Router.route '/user/:username/m/:type', -> @render 'profile_layout', 'user_section'
-Router.route '/add_resident', (->
-    @layout 'layout'
-    @render 'add_resident'
-    ), name:'add_resident'
 Router.route '/forgot_password', -> @render 'forgot_password'
 
 Router.route '/staff', -> @render 'staff'
@@ -114,10 +109,10 @@ Router.route '/healthclub', (->
     ), name:'healthclub'
 
 
-Router.route '/healthclub_session/:doc_id', (->
+Router.route '/session/:doc_id', (->
     @layout 'mlayout'
-    @render 'healthclub_session'
-    ), name:'healthclub_session'
+    @render 'session'
+    ), name:'session'
 
 
 Router.route '/user/:username', (->

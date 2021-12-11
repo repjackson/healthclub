@@ -2,7 +2,7 @@ if Meteor.isClient
     Template.manager.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'shift_walk'
         @autorun => Meteor.subscribe 'model_docs', 'unit_key_access', 20
-        @autorun => Meteor.subscribe 'last_days_healthclub_sessions'
+        @autorun => Meteor.subscribe 'last_days_sessions'
     Template.manager.helpers
         'shift_walks': ->
             Docs.find {
@@ -24,7 +24,7 @@ if Meteor.isClient
             Meteor.users.findOne username:@resident_username
 
 if Meteor.isServer
-    Meteor.publish 'last_days_healthclub_sessions', ->
+    Meteor.publish 'last_days_sessions', ->
         # this_moment = moment(Date.now())
         # console.log this_moment.subtract(20, 'hours')
         hours = 1000*60*60*24
