@@ -41,24 +41,16 @@ template(name='healthclub')
                             +inline_doc slug='health_club_notices' classes='ui large header'
                             +health_club_info
                         .column
-                            .ui.grid
-                                .row
-                                    .eight.wide.column
-                                        .ui.header Hours
-                                        .ui.large.list
-                                            .item Mon 7a-10p
-                                            .item Tues 7a-10p
-                                            .item Wed 7a-10p
-                                            .item Thur 7a-10p
-                                    .eight.wide.column
-                                        .ui.hidde.divider 
-                                        .three.wide.column
-                                        .ui.large.list
-                                            .item Fri 7a-9p
-                                            .item Sat 8a-9p
-                                            .item Sun 8a-10p
-                                .row
-                                    +healthclub_status
+                            .ui.header Hours
+                            .ui.large.list
+                                .item Mon 7a-10p
+                                .item Tues 7a-10p
+                                .item Wed 7a-10p
+                                .item Thur 7a-10p
+                                .item Fri 7a-9p
+                                .item Sat 8a-9p
+                                .item Sun 8a-10p
+                            +healthclub_status
                             
 
 template(name='facet_doc_edit')

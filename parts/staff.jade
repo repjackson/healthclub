@@ -35,26 +35,27 @@ template(name='staff')
                 //         |checklist not completed
             .twelve.wide.column
                 .ui.styled.fluid.large.accordion
-                    .active.title
+                    // .active.title
+                    .ui.header
                         +i name='groups' classes='ui inline image'
                         |checked in members
                         i.dropdown.icon
-                    .active.content
-                        .ui.stackable.doubling.centered.cards
-                            each sessions
-                                +hc_session
-                    .title 
-                        +i name='android-tablet' classes='ui inline image'
-                        |kiosk management
-                        i.dropdown.icon
-                    .content
-                        +kiosk_settings
-                    .title 
-                        +i name='calendar' classes='ui inline image'
-                        |staff schedule
-                        i.dropdown.icon
-                    .content
-                        +schedule
+                    // .active.content
+                    .ui.stackable.doubling.centered.cards
+                        each sessions
+                            +hc_session
+                    // .title 
+                    //     +i name='android-tablet' classes='ui inline image'
+                    //     |kiosk management
+                    //     i.dropdown.icon
+                    // .content
+                    +kiosk_settings
+                    // .title 
+                    //     +i name='calendar' classes='ui inline image'
+                    //     |staff schedule
+                    //     i.dropdown.icon
+                    // .content
+                    //     +schedule
                     //- .title
                     //-     i.chat.icon
                     //-     |chat
