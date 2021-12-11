@@ -117,21 +117,23 @@ Meteor.publish 'resident', (guest_id)->
 
 
 
-Meteor.publish 'health_club_members', (username_query)->
-    existing_sessions =
-        Docs.find(
-            model:'healthclub_session'
-            active:true
-        ).fetch()
-    active_session_ids = []
-    for active_session in existing_sessions
-        active_session_ids.push active_session.user_id
-    Meteor.users.find({
-        _id:$nin:active_session_ids
-        username: {$regex:"#{username_query}", $options: 'i'}
-        # healthclub_checkedin:$ne:true
-        roles:$in:['resident','owner']
-        },{ limit:10 })
+Meteor.publish 'health_club_members', (username_search)->
+    Docs.find
+        model:'resident'
+    # existing_sessions =
+    #     Docs.find(
+    #         model:'healthclub_session'
+    #         active:true
+    #     ).fetch()
+    # active_session_ids = []
+    # for active_session in existing_sessions
+    #     active_session_ids.push active_session.user_id
+    # Meteor.users.find({
+    #     _id:$nin:active_session_ids
+    #     username: {$regex:"#{username_search}", $options: 'i'}
+    #     # healthclub_checkedin:$ne:true
+    #     roles:$in:['resident','owner']
+    #     },{ limit:10 })
 
 
 

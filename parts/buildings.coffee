@@ -52,18 +52,18 @@ if Meteor.isClient
                     building_code:building_label
 
         'keyup .building_search': (e,t)->
-            username_query = $('.username_search').val()
+            username_search = $('.username_search').val()
             if e.which is 8
-                if username_query.length is 0
-                    Session.set 'username_query',null
+                if username_search.length is 0
+                    Session.set 'username_search',null
                     Session.set 'checking_in',false
                 else
-                    Session.set 'username_query',username_query
+                    Session.set 'username_search',username_search
             else
-                if username_query.length > 1
+                if username_search.length > 1
                     # audio = new Audio('wargames.wav');
                     # audio.play();
-                    Session.set 'username_query',username_query
+                    Session.set 'username_search',username_search
 
 
 

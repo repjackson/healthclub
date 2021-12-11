@@ -1,6 +1,6 @@
 if Meteor.isClient
     Template.healthclub.onCreated ->
-        @autorun => Meteor.subscribe 'health_club_members', Session.get('username_query')
+        @autorun => Meteor.subscribe 'health_club_members', Session.get('name_search')
         @autorun -> Meteor.subscribe 'me'
 
         # @autorun => Meteor.subscribe 'current_session'
@@ -26,7 +26,7 @@ if Meteor.isClient
         #     $('.item').popup()
         # , 3000
         Meteor.setInterval ->
-              $('.username_search').focus();
+              $('.name_search').focus();
         , 5000
         Meteor.setTimeout ->
             $('.accordion').accordion()
@@ -47,21 +47,23 @@ if Meteor.isClient
                 healthclub_checkedin:true
 
         checkedout_members: ->
-            username_query = Session.get('username_query')
-            Meteor.users.find({
-                username: {$regex:"#{username_query}", $options: 'i'}
-                # healthclub_checkedin:$ne:true
-                roles:$in:['resident','owner']
-                },{ limit:10 }).fetch()
+            Docs.find 
+                model:'resident'
+            # name_search = Session.get('name_search')
+            # Meteor.users.find({
+            #     username: {$regex:"#{name_search}", $options: 'i'}
+            #     # healthclub_checkedin:$ne:true
+            #     roles:$in:['resident','owner']
+            #     },{ limit:10 }).fetch()
 
 
         checking_in: -> Session.get('checking_in')
-        is_query: -> Session.get('username_query')
+        is_query: -> Session.get('name_search')
 
-        events: ->
-            Docs.find {
-               model:'log_event'
-            }, sort:_timestamp:-1
+        # events: ->
+        #     Docs.find {
+        #       model:'log_event'
+        #     }, sort:_timestamp:-1
 
 
     Template.checkin_button.events
@@ -87,7 +89,7 @@ if Meteor.isClient
             # Meteor.call 'staff_government_id_check', @
             # Meteor.call 'rules_and_regulations_signed', @
             # Meteor.call 'email_verified', @
-            # Session.set 'username_query',null
+            # Session.set 'name_search',null
             # Session.set 'session_document',session_document
             # Session.set 'checking_in',false
 
@@ -113,7 +115,7 @@ if Meteor.isClient
                     Meteor.users.update @_id,
                         $set: gov_red_flagged:false
 
-            $('.username_search').val('')
+            $('.name_search').val('')
             Router.go "/healthclub_session/#{session_document}"
             Session.set 'loading_checkin', false
             Session.set 'displaying_profile',@_id
@@ -132,55 +134,57 @@ if Meteor.isClient
                         hideMethod   : 'fade',
                         hideDuration : 250
                 })
-                Session.set 'username_query',null
-                $('.username_search').val('')
+                Session.set 'name_search',null
+                $('.name_search').val('')
                 # , 100
 
 
     Template.healthclub.events
-        'click .username_search': (e,t)->
+        'click .name_search': (e,t)->
             Session.set 'checking_in',true
 
         'input .barcode_entry': (e, t)->
 
-        'keyup .username_search': _.debounce((e,t)->
-            username_query = $('.username_search').val()
-            if e.which is 8
-                if username_query.length is 0
-                    Session.set 'username_query',null
-                    Session.set 'checking_in',false
-            else
-                if username_query.length > 1
-                    if isNaN(username_query)
-                        Session.set 'username_query',username_query
-                    else
-                        barcode_entry = parseInt username_query
-                        # alert barcode_entry
-                        Meteor.call 'lookup_user_by_code', barcode_entry, (err,res)->
-                            Session.set 'displaying_profile',res._id
-                            session_document = Docs.insert
-                                model:'healthclub_session'
-                                active:true
-                                submitted:false
-                                approved:false
-                                user_id:res._id
-                                guest_ids:[]
-                                resident_username:res.username
-                                current:true
-                            Meteor.call 'check_resident_status', res._id
-                            Session.set 'username_query',null
-                            # Session.set 'session_document',session_document
-                            # Session.set 'checking_in',false
-                            $('.username_search').val('')
-                            Router.go "/healthclub_session/#{session_document}"
-                            Session.set 'displaying_profile',res._id
-        , 250)
+        # 'keyup .name_search': _.debounce((e,t)->
+        'keyup .name_search': (e,t)->
+            name_search = $('.name_search').val()
+            console.log name_search
+            # if e.which is 8
+            #     if name_search.length is 0
+            #         Session.set 'name_search',null
+            #         Session.set 'checking_in',false
+            # else
+            if name_search.length > 1
+                if isNaN(name_search)
+                    Session.set 'name_search',name_search
+                    # else
+                    #     barcode_entry = parseInt name_search
+                    #     # alert barcode_entry
+                    #     Meteor.call 'lookup_user_by_code', barcode_entry, (err,res)->
+                    #         Session.set 'displaying_profile',res._id
+                    #         session_document = Docs.insert
+                    #             model:'healthclub_session'
+                    #             active:true
+                    #             submitted:false
+                    #             approved:false
+                    #             user_id:res._id
+                    #             guest_ids:[]
+                    #             resident_username:res.username
+                    #             current:true
+                    #         Meteor.call 'check_resident_status', res._id
+                    #         Session.set 'name_search',null
+                    #         # Session.set 'session_document',session_document
+                    #         # Session.set 'checking_in',false
+                    #         $('.name_search').val('')
+                    #         Router.go "/healthclub_session/#{session_document}"
+                    #         Session.set 'displaying_profile',res._id
+        # , 250)
 
 
         'click .clear_results': ->
-            Session.set 'username_query',null
+            Session.set 'name_search',null
             Session.set 'checking_in',false
-            $('.username_search').val('')
+            $('.name_search').val('')
 
 
 
@@ -221,8 +225,8 @@ if Meteor.isClient
             #         #     object_id:res
             #         #     body: "#{username} checked in."
             #         new_user = Meteor.users.findOne res
-            #         Session.set 'username_query',null
-            #         $('.username_search').val('')
+            #         Session.set 'name_search',null
+            #         $('.name_search').val('')
             #         Meteor.call 'email_verified',new_user
             #         Router.go "/user/#{username}/edit"
 

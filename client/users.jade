@@ -2,16 +2,16 @@ template(name='residents')
     .ui.padded.grid
         .row
             .sixteen.wide.column
-                i.plus.large.circular.icon.add_resident
-                .ui.left.icon.huge.fluid.input
+                i.plus.large.circular.link.icon.add_resident
+                .ui.left.icon.huge.input
                     i.search.icon
                     input.name_search(type='text' placeholder='lookup resident...')
                 .ui.centered.four.stackable.cards
                     each resident_docs
-                        +resident
+                        +resident_card
                 
                 
-template(name='resident')                
+template(name='resident_card')                
     .ui.card
         .image
             //- a(href="/user/#{username}/")
@@ -21,7 +21,7 @@ template(name='resident')
             else if image_id
                 img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
         .content
-            a(href="/user/#{username}/")
+            a(href="/resident/#{_id}/")
                 h2.ui.center.aligned.header #{first_name} #{last_name} 
                 .ui.small.header @#{username}
             +text_view key='first_name' label='First Name'
@@ -66,7 +66,7 @@ template(name='resident_edit')
                     |save
 template(name='resident_view')         
     with current_doc
-        .ui.padded.grid
+        .ui.padded.three.column.grid
             .column
                 .image
                     //- a(href="/user/#{username}/")

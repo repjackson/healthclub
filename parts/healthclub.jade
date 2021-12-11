@@ -19,7 +19,7 @@ template(name='healthclub')
             .sixteen.wide.column
                 .row
                     .ui.massive.fluid.icon.input
-                        input.username_search(type='text' placeholder='resident first or last name...' autofocus)
+                        input.name_search(type='text' placeholder='resident first or last name...' autofocus)
                         if is_query
                             i.remove.link.icon.clear_results
                         //- else 
@@ -106,29 +106,31 @@ template(name='sign_waiver')
 
 
 template(name='checkin_button')
-    unless is_staff
-        //- unless healthclub_checkedin
-        .ui.massive.basic.button.checkin.new_hc_session
-            h2 #{first_name} #{last_name}
-        //- if healthclub_checkedin
-        //- if is_staff
-        //- else
-        //-     .ui.big.basic.button.checkout
-        //-         i.sign.out.icon
-        //-             //- +i name='exit-sign' classes='ui avatar image'
-        //-             |check out
-    if is_staff
-        if healthclub_checkedin
-            .ui.basic.button.checkout
-                i.sign.out.icon
-                //- +i name='exit-sign' classes='ui avatar image'
-                |health club check out
-        else
-            .ui.massive.fade.animated.button.new_hc_session
-                .visible.content
-                    strong #{first_name} #{last_name}
-                .hidden.content
-                    |check in
+    .ui.massive.button.checkin.new_hc_session
+        h2 #{first_name} #{last_name}
+    // unless is_staff
+    //     //- unless healthclub_checkedin
+    //     .ui.massive.basic.button.checkin.new_hc_session
+    //         h2 #{first_name} #{last_name}
+    //     //- if healthclub_checkedin
+    //     //- if is_staff
+    //     //- else
+    //     //-     .ui.big.basic.button.checkout
+    //     //-         i.sign.out.icon
+    //     //-             //- +i name='exit-sign' classes='ui avatar image'
+    //     //-             |check out
+    // if is_staff
+    //     if healthclub_checkedin
+    //         .ui.basic.button.checkout
+    //             i.sign.out.icon
+    //             //- +i name='exit-sign' classes='ui avatar image'
+    //             |health club check out
+    //     else
+    //         .ui.massive.fade.animated.button.new_hc_session
+    //             .visible.content
+    //                 strong #{first_name} #{last_name}
+    //             .hidden.content
+    //                 |check in
 
 
 template(name='health_club_info')

@@ -9,15 +9,15 @@ if Meteor.isClient
     Template.resident_view.onCreated ->
         @autorun => @subscribe 'doc', Router.current().params.doc_id, ->
     Template.residents.onCreated ->
-        @autorun => Meteor.subscribe 'resident_search', Session.get('name_query')
+        @autorun => Meteor.subscribe 'resident_search', Session.get('name_search')
     Template.residents.helpers
         resident_docs: ->
-            name_query = Session.get('name_query')
+            name_search = Session.get('name_search')
             Docs.find 
                 model:'resident'
-                # name: {$regex:"#{name_query}", $options: 'i'}
+                # name: {$regex:"#{name_search}", $options: 'i'}
             # Meteor.users.find({
-            #     username: {$regex:"#{username_query}", $options: 'i'}
+            #     username: {$regex:"#{username_search}", $options: 'i'}
             #     # healthclub_checkedin:$ne:true
             #     # roles:$in:['resident','owner']
             #     },{ limit:20 }).fetch()
@@ -26,26 +26,27 @@ if Meteor.isClient
             id = Docs.insert model:'resident'
             Router.go "/resident/#{id}/edit"
         'keyup .name_search': (e,t)->
-            name_query = $('.name_search').val()
+            console.log e.which
+            name_search = $('.name_search').val()
             if e.which is 8
-                if name_query.length is 0
-                    Session.set 'name_query',null
+                if name_search.length is 0
+                    Session.set 'name_search',null
                     Session.set 'checking_in',false
                 else
-                    Session.set 'name_query',name_query
+                    Session.set 'name_search',name_search
             else
-                Session.set 'name_query',name_query
+                Session.set 'name_search',name_search
 
 
     Router.route '/users', -> @render 'users'
     Template.users.onCreated ->
         # @autorun -> Meteor.subscribe('users')
-        @autorun => Meteor.subscribe 'user_search', Session.get('username_query'), 'user'
+        @autorun => Meteor.subscribe 'user_search', Session.get('username_search'), 'user'
     Template.users.helpers
         users: ->
-            username_query = Session.get('username_query')
+            username_search = Session.get('username_search')
             Meteor.users.find({
-                username: {$regex:"#{username_query}", $options: 'i'}
+                username: {$regex:"#{username_search}", $options: 'i'}
                 # healthclub_checkedin:$ne:true
                 # roles:$in:['resident','owner']
                 },{ limit:20 }).fetch()
@@ -54,15 +55,15 @@ if Meteor.isClient
         #     id = Docs.insert model:'person'
         #     Router.go "/person/edit/#{id}"
         'keyup .username_search': (e,t)->
-            username_query = $('.username_search').val()
+            username_search = $('.username_search').val()
             if e.which is 8
-                if username_query.length is 0
-                    Session.set 'username_query',null
+                if username_search.length is 0
+                    Session.set 'username_search',null
                     Session.set 'checking_in',false
                 else
-                    Session.set 'username_query',username_query
+                    Session.set 'username_search',username_search
             else
-                Session.set 'username_query',username_query
+                Session.set 'username_search',username_search
 
 
 if Meteor.isServer

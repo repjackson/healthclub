@@ -132,9 +132,9 @@ Meteor.methods
 
 
 
-    lookup_user: (username_query, role_filter)->
+    lookup_user: (username_search, role_filter)->
         Meteor.users.find({
-            username: {$regex:"#{username_query}", $options: 'i'}
+            username: {$regex:"#{username_search}", $options: 'i'}
             roles:$in:[role_filter]
             }).fetch()
 
@@ -150,11 +150,11 @@ Meteor.methods
             guest_name: {$regex:"#{guest_name}", $options: 'i'}
             }).fetch()
 
-    # lookup_username: (username_query)->
+    # lookup_username: (username_search)->
     #     found_users =
     #         Docs.find({
     #             model:'person'
-    #             username: {$regex:"#{username_query}", $options: 'i'}
+    #             username: {$regex:"#{username_search}", $options: 'i'}
     #             }).fetch()
     #     found_users
 
