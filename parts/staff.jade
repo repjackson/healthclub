@@ -16,15 +16,34 @@ template(name='staff')
             .twelve.wide.column
                 // .ui.styled.fluid.large.accordion
                 // .active.title
+                +checkin_input
+
                 .ui.header
                     +i name='groups' classes='ui inline image'
-                    |checked in members
+                    |active sessions
                     // i.dropdown.icon
                 // .active.content
                 .ui.stackable.doubling.centered.cards
-                    each sessions
+                    each active_sessions
                         +hc_session
-    
+                .ui.header 
+                    i.clock.icon
+                    |old sessions
+                .ui.list 
+                    each old_session_docs 
+                        .item #{when} #{resident_name}
+
+template(name='checkin_input')
+    .ui.massive.fluid.left.icon.input
+        input.name_search(type='text' placeholder='resident first or last name...' autofocus)
+        if is_query
+            i.remove.link.icon.clear_results
+        else 
+            i.search.icon
+    each search_results
+        +checkin_button
+
+
 
 template(name='hc_session')
     .ui.card

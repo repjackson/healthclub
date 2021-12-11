@@ -104,7 +104,7 @@ Meteor.publish 'page_children', (slug)->
 
 Meteor.publish 'checkin_guests', (doc_id)->
     session_document = Docs.findOne doc_id
-        # model:'healthclub_session'
+        # model:'session'
         # current:true
     Docs.find
         _id:$in:session_document.guest_ids
@@ -122,7 +122,7 @@ Meteor.publish 'health_club_members', (username_search)->
         model:'resident'
     # existing_sessions =
     #     Docs.find(
-    #         model:'healthclub_session'
+    #         model:'session'
     #         active:true
     #     ).fetch()
     # active_session_ids = []

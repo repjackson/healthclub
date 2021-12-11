@@ -1,6 +1,7 @@
 if Meteor.isClient
-    Template.healthclub.onCreated ->
+    Template.checkin_input.onCreated ->
         @autorun => Meteor.subscribe 'health_club_members', Session.get('name_search')
+    Template.healthclub.onCreated ->
         @autorun -> Meteor.subscribe 'me'
 
         # @autorun => Meteor.subscribe 'current_session'
@@ -33,10 +34,15 @@ if Meteor.isClient
         , 3000
 
 
+    Template.checkin_input.helpers
+        search_results: ->
+            Docs.find 
+                model:'resident'
+            #     username: {$regex:"#{name_search}", $options: 'i'}
     Template.healthclub.helpers
         current_session_doc: ()->
             Docs.findOne
-                model:'healthclub_session'
+                model:'session'
                 current:true
 
         selected_person: ->
@@ -45,17 +51,6 @@ if Meteor.isClient
         checkedin_members: ->
             Meteor.users.find
                 healthclub_checkedin:true
-
-        checkedout_members: ->
-            Docs.find 
-                model:'resident'
-            # name_search = Session.get('name_search')
-            # Meteor.users.find({
-            #     username: {$regex:"#{name_search}", $options: 'i'}
-            #     # healthclub_checkedin:$ne:true
-            #     roles:$in:['resident','owner']
-            #     },{ limit:10 }).fetch()
-
 
         checking_in: -> Session.get('checking_in')
         is_query: -> Session.get('name_search')
@@ -75,15 +70,19 @@ if Meteor.isClient
             #     model:'log_event'
             #     object_id:@_id
             #     body: "#{@username} checked in."
-            session_document = Docs.insert
-                model:'healthclub_session'
+            current_session_id = Docs.insert
+                model:'session'
                 active:true
                 submitted:false
                 approved:false
-                user_id:@_id
+                # user_id:@_id
                 guest_ids:[]
-                resident_username:@username
-                current:true
+                # resident_username:@username
+                resident_first_name: @first_name
+                resident_last_name: @last_name
+                resident_id:@_id
+                # current:true
+            Session.set('current_session_id', current_session_id)
             # Meteor.call 'member_waiver_signed', @
             # Meteor.call 'image_check', @
             # Meteor.call 'staff_government_id_check', @
@@ -116,7 +115,7 @@ if Meteor.isClient
             #             $set: gov_red_flagged:false
 
             $('.name_search').val('')
-            Router.go "/healthclub_session/#{session_document}"
+            Router.go "/session/#{current_session_id}"
             Session.set 'loading_checkin', false
             Session.set 'displaying_profile',@_id
             # , 750
@@ -139,7 +138,7 @@ if Meteor.isClient
                 # , 100
 
 
-    Template.healthclub.events
+    Template.checkin_input.events
         'click .name_search': (e,t)->
             Session.set 'checking_in',true
 
@@ -163,7 +162,7 @@ if Meteor.isClient
                     #     Meteor.call 'lookup_user_by_code', barcode_entry, (err,res)->
                     #         Session.set 'displaying_profile',res._id
                     #         session_document = Docs.insert
-                    #             model:'healthclub_session'
+                    #             model:'session'
                     #             active:true
                     #             submitted:false
                     #             approved:false
@@ -257,7 +256,7 @@ if Meteor.isClient
     #         Session.set 'adding_guest', false
     #         # Session.set 'displaying_profile', null
     #         healthclub_session_document = Docs.findOne
-    #             model:'healthclub_session'
+    #             model:'session'
     #         if healthclub_session_document.guest_ids.length > 0
     #             # now = Date.now()
     #             current_month = moment().format("MMM")
@@ -273,7 +272,7 @@ if Meteor.isClient
     #
     #     'click .unit_key_checkout': (e,t)->
     #         healthclub_session_document = Docs.findOne
-    #             model:'healthclub_session'
+    #             model:'session'
     #         Docs.update healthclub_session_document._id,
     #             $set:
     #                 session_type:'unit_key_checkout'
@@ -281,14 +280,14 @@ if Meteor.isClient
     #
     #     'click .add_recent_guest': ->
     #         current_session = Docs.findOne
-    #             model:'healthclub_session'
+    #             model:'session'
     #             current:true
     #         Docs.update current_session._id,
     #             $addToSet:guest_ids:@_id
     #
     #     'click .remove_guest': ->
     #         current_session = Docs.findOne
-    #             model:'healthclub_session'
+    #             model:'session'
     #             current:true
     #         Docs.update current_session._id,
     #             $pull:guest_ids:@_id

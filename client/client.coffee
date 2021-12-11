@@ -45,13 +45,13 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 
 # Template.registerHelper 'checking_in_doc', () ->
 #     Docs.findOne
-#         model:'healthclub_session'
+#         model:'session'
 #         current:true
 #      # Session.get('session_document')
 
 # Template.registerHelper 'current_session_doc', () ->
 #         Docs.findOne
-#             model:'healthclub_session'
+#             model:'session'
 #             current:true
 
 
@@ -72,7 +72,7 @@ Meteor.methods
         resident = Meteor.users.findOne healthclub_session_document.user_id
 
         # healthclub_session_document = Docs.findOne
-        #     model:'healthclub_session'
+        #     model:'session'
         user = Meteor.users.findOne
             username:resident.username
         healthclub_session_document = Docs.findOne Router.current().params.doc_id

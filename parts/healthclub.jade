@@ -12,20 +12,13 @@ template(name='healthclub')
                 if is_staff
                     a.ui.compact.button(href='/staff')
                         i.left.chevron.icon
-                        +i name='user-shield' classes='ui inline image'
+                        +i name='user-shield' classes='ui avatar image'
                         |staff
                 img.ui.circular.centered.small.inline.image.shadowed(src="{{c.url 'gold_run_logo' }}")
         .row
             .sixteen.wide.column
                 .row
-                    .ui.massive.fluid.icon.input
-                        input.name_search(type='text' placeholder='resident first or last name...' autofocus)
-                        if is_query
-                            i.remove.link.icon.clear_results
-                        //- else 
-                        //-     i.user.grey.outline.icon
-                    each checkedout_members
-                        +checkin_button
+                    +checkin_input
                     // .ui.center.aligned.basic.segment.test
                     //     if checkedout_members.length
                     //         each checkedout_members

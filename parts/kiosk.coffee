@@ -155,14 +155,14 @@ if Meteor.isClient
 
         'click .add_recent_guest': ->
             current_session = Docs.findOne
-                model:'healthclub_session'
+                model:'session'
                 current:true
             Docs.update current_session._id,
                 $addToSet:guest_ids:@_id
 
         'click .remove_guest': ->
             current_session = Docs.findOne
-                model:'healthclub_session'
+                model:'session'
                 current:true
             # console.log current_session
             Docs.update current_session._id,
