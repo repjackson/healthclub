@@ -8,6 +8,14 @@ Meteor.methods
             return res
         else
             Throw.new Meteor.Error 'err creating user'
+    add_resident: (username, first_name, last_name)->
+        options = {}
+        options.username = username
+        Docs.insert 
+            model:'resident'
+            first_name:first_name
+            last_name:last_name
+            username:username
 
     parse_keys: ->
         cursor = Docs.find

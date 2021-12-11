@@ -82,12 +82,12 @@ if Meteor.isClient
                 guest_ids:[]
                 resident_username:@username
                 current:true
-            Meteor.call 'member_waiver_signed', @
-            Meteor.call 'image_check', @
-            Meteor.call 'staff_government_id_check', @
-            Meteor.call 'rules_and_regulations_signed', @
-            Meteor.call 'email_verified', @
-            Session.set 'username_query',null
+            # Meteor.call 'member_waiver_signed', @
+            # Meteor.call 'image_check', @
+            # Meteor.call 'staff_government_id_check', @
+            # Meteor.call 'rules_and_regulations_signed', @
+            # Meteor.call 'email_verified', @
+            # Session.set 'username_query',null
             # Session.set 'session_document',session_document
             # Session.set 'checking_in',false
 

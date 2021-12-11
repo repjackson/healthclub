@@ -2,27 +2,14 @@ template(name='residents')
     .ui.padded.grid
         .row
             .sixteen.wide.column
+                i.plus.large.circular.icon.add_resident
                 .ui.left.icon.huge.fluid.input
                     i.search.icon
-                    input.username_search(type='text' placeholder='lookup resident...')
+                    input.name_search(type='text' placeholder='lookup resident...')
                 .ui.centered.four.stackable.cards
-                    each residents
+                    each resident_docs
                         +resident
                 
-template(name='users') 
-    .ui.padded.grid
-        .row
-            .sixteen.wide.column
-                //- .ui.center.aligned.header 
-                //-     +i name='groups'
-                //-     //- i.users.icon
-                //-     |users
-                .ui.left.icon.huge.fluid.input
-                    i.search.icon
-                    input.username_search(type='text' placeholder='lookup user...')
-                .ui.centered.four.stackable.cards
-                    each users
-                        +user
                 
 template(name='resident')                
     .ui.card
@@ -49,6 +36,78 @@ template(name='resident')
             +user_check_steps            
 
             
+template(name='resident_edit')         
+    with current_doc
+        .ui.padded.grid
+            .four.wide.column
+                .image
+                    //- a(href="/user/#{username}/")
+                    //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
+                    if kiosk_photo
+                        img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
+                    else if image_id
+                        img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                a(href="/user/#{username}/")
+                    h2.ui.center.aligned.header #{first_name} #{last_name} 
+                    .ui.small.header @#{username}
+                +text_edit key='first_name' label='First Name' direct=true
+                +text_edit key='last_name' label='Last Name' direct=true
+                +text_edit key='address' label='Address' direct=true
+            .twelve.wide.column
+                +number_edit key='unit_number' label='Unit #' direct=true
+                +number_edit key='building_number' label='Building #' direct=true
+                +text_edit key='email' label='Email' direct=true
+                +phone_edit key='phone' label='Phone' direct=true
+                +date_edit key='start_date' label='Start Date' direct=true
+                +date_edit key='expiration_date' label='Expiration Date' direct=true
+                +user_check_steps    
+                a.ui.big.fluid.green.button(href="/resident/#{_id}")
+                    i.checkmark.icon
+                    |save
+template(name='resident_view')         
+    with current_doc
+        .ui.padded.grid
+            .four.wide.column
+                .image
+                    //- a(href="/user/#{username}/")
+                    //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
+                    if kiosk_photo
+                        img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
+                    else if image_id
+                        img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+                a(href="/user/#{username}/")
+                    h2.ui.center.aligned.header #{first_name} #{last_name} 
+                    .ui.small.header @#{username}
+                +text_view key='first_name' label='First Name' direct=true
+                +text_view key='last_name' label='Last Name' direct=true
+                +text_view key='address' label='Address' direct=true
+            .twelve.wide.column
+                +number_view key='unit_number' label='Unit #' direct=true
+                +number_view key='building_number' label='Building #' direct=true
+                +text_view key='email' label='Email' direct=true
+                +phone_view key='phone' label='Phone' direct=true
+                +date_view key='start_date' label='Start Date' direct=true
+                +date_view key='expiration_date' label='Expiration Date' direct=true
+                +user_check_steps    
+                a.ui.big.button(href="/resident/#{_id}")
+                    i.pencil.icon
+                    |edit
+
+            
+template(name='users') 
+    .ui.padded.grid
+        .row
+            .sixteen.wide.column
+                //- .ui.center.aligned.header 
+                //-     +i name='groups'
+                //-     //- i.users.icon
+                //-     |users
+                .ui.left.icon.huge.fluid.input
+                    i.search.icon
+                    input.username_search(type='text' placeholder='lookup user...')
+                .ui.centered.four.stackable.cards
+                    each users
+                        +user
 template(name='user')                
     .ui.card
         .image
