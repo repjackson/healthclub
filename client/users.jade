@@ -38,7 +38,7 @@ template(name='resident_card')
             
 template(name='resident_edit')         
     with current_doc
-        .ui.padded.three.column.grid
+        .ui.padded.one.column.centered.grid
             .column
                 .image
                     //- a(href="/user/#{username}/")
@@ -50,10 +50,10 @@ template(name='resident_edit')
                 a(href="/user/#{username}/")
                     h2.ui.center.aligned.header #{first_name} #{last_name} 
                     .ui.small.header @#{username}
+            .column
                 +text_edit key='first_name' label='First Name' direct=true
                 +text_edit key='last_name' label='Last Name' direct=true
-                +text_edit key='address' label='Address' direct=true
-            .column
+                // +text_edit key='address' label='Address' direct=true
                 +number_edit key='unit_number' label='Unit #' direct=true
                 +number_edit key='building_number' label='Building #' direct=true
                 +text_edit key='email' label='Email' direct=true
