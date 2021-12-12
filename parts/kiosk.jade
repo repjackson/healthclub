@@ -1,9 +1,9 @@
-template(name='kiosk_container')
-    with kiosk_doc
-        +Template.dynamic template=kiosk_view
+// template(name='kiosk_container')
+//     with kiosk_doc
+//         +Template.dynamic template=kiosk_view
 
 
-template(name='healthclub')
+template(name='checkin')
     img.ui.fluid.image.checkin_banner(src="{{c.url 'grfront' width=1000 height=1000 crop='crop'}}")
     .ui.grid.header-wrapper
         //- +Template.dynamic template=kiosk_view
@@ -118,56 +118,10 @@ template(name='checkin_button')
 
 
 
-template(name='kiosk_settings')
-    .ui.header 
-        +i name='self-service-kiosk' classes='ui mini image'
-        |kiosk view
-    .ui.padded.grid
-        .three.wide.column
-            if kiosk_doc
-                if is_dev
-                    .ui.icon.large.basic.button.print_kiosk_doc(title='print session doc')
-                        i.code.icon
-                .ui.reset.icon.basic.button(title='reload session')
-                    i.refresh.icon
-                .ui.delete_kiosk_doc.icon.basic.button(title='delete session')
-                    i.trash.icon
-            else
-                .ui.button.create_kiosk
-                    |create kiosk doc
-            +set_kiosk_template value='kiosk_away' label='set away template'
-            +set_kiosk_template value='healthclub' label='check in'
-        .thirteen.wide.column
-            //- +healthclub
-            with kiosk_doc
-                +Template.dynamic template=kiosk_view
-
 template(name='set_kiosk_template')            
     .ui.button.set_kiosk_template #{label}
 
 
-
-template(name='kiosk_away')
-    .ui.text.container.midgard
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        .ui.hidden.divider
-        //- +inline_doc slug='frontdesk_status' classes='ui large header'
-        +document_view key='frontdesk_status' 
-    //- .ui.header We're away from the desk for 5 minutes
 
 
 

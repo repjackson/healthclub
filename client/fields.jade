@@ -335,18 +335,19 @@ template(name='document_view')
     |!{referenced_document.content}
         
 template(name='text_edit')
+    .ui.small.inline.header
+        if icon
+            +i name=icon
+            //- i.grey.icon(class=icon)
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+    //- +clear_value
+    div
     .ui.fluid.icon.input
-        .ui.small.header
-            if icon
-                +i name=icon
-                //- i.grey.icon(class=icon)
-            if title
-                |#{title}
-            else if label
-                |#{label}
-            else if key
-                |#{key}
-        //- +clear_value
         div
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         

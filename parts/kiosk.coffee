@@ -1,65 +1,9 @@
 if Meteor.isClient
-    Template.kiosk_settings.onCreated ->
-        @autorun -> Meteor.subscribe 'kiosk_document'
-
-    Template.kiosk_container.onCreated ->
-        @autorun -> Meteor.subscribe 'kiosk_document'
-
-    Template.kiosk_settings.onRendered ->
-        # Meteor.setTimeout ->
-        #     $('.button').popup()
-        # , 3000
-
-    Template.set_kiosk_template.events
-        'click .set_kiosk_template': ->
-            kiosk_doc = Docs.findOne
-                model:'kiosk'
-            Docs.update kiosk_doc._id,
-                $set:kiosk_view:@value
-
-
-
-
-
-    Template.kiosk_settings.events
-        'click .create_kiosk': (e,t)->
-            Docs.insert
-                model:'kiosk'
-
-        'click .print_kiosk': (e,t)->
-            kiosk = Docs.findOne model:'kiosk'
-            console.log kiosk
-
-        'click .delete_kiosk': (e,t)->
-            kiosk = Docs.findOne model:'kiosk'
-            if kiosk
-                if confirm "delete  #{kiosk._id}?"
-                    Docs.remove kiosk._id
-
-    Template.kiosk_settings.helpers
-        kiosk_doc: ->
-            Docs.findOne
-                model:'kiosk'
-        kiosk_view: ->
-            kiosk_doc = Docs.findOne
-                model:'kiosk'
-            kiosk_doc.kiosk_view
-
-    Template.kiosk_container.helpers
-        kiosk_doc: ->
-            Docs.findOne
-                model:'kiosk'
-        kiosk_view: ->
-            kiosk_doc = Docs.findOne
-                model:'kiosk'
-            kiosk_doc.kiosk_view
-
-
     Template.session.onCreated ->
         @autorun => Meteor.subscribe 'doc', Session.get('new_guest_id'), ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'checkin_guests',Router.current().params.doc_id, ->
-        @autorun -> Meteor.subscribe 'resident_from_session', Router.current().params.doc_id
+        @autorun -> Meteor.subscribe 'resident_from_session', Router.current().params.doc_id, ->
         # @autorun -> Meteor.subscribe 'session', Router.current().params.doc_id, ->
         # @autorun -> Meteor.subscribe 'model_docs', 'guest'
 
@@ -252,7 +196,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.checkin_input.onCreated ->
         @autorun => Meteor.subscribe 'health_club_members', Session.get('name_search')
-    Template.healthclub.onCreated ->
+    Template.checkin.onCreated ->
         @autorun -> Meteor.subscribe 'me'
 
         # @autorun => Meteor.subscribe 'current_session'
@@ -260,7 +204,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'users'
 
 
-    Template.healthclub.onRendered ->
+    Template.checkin.onRendered ->
         # video = document.querySelector('#videoElement')
         # if navigator.mediaDevices.getUserMedia
         #   navigator.mediaDevices.getUserMedia(video: true).then((stream) ->
@@ -290,14 +234,14 @@ if Meteor.isClient
             Docs.find 
                 model:'resident'
             #     username: {$regex:"#{name_search}", $options: 'i'}
-    Template.healthclub.helpers
+    Template.checkin.helpers
         current_session_doc: ()->
             Docs.findOne
                 model:'session'
                 current:true
 
-        selected_person: ->
-            Meteor.users.findOne Session.get('selected_user_id')
+        # selected_person: ->
+        #     Meteor.users.findOne Session.get('selected_user_id')
 
         checkedin_members: ->
             Docs.find

@@ -103,10 +103,10 @@ Router.route '/', (->
     ), name:'front'
 
 
-Router.route '/healthclub', (->
+Router.route '/checkin', (->
     @layout 'mlayout'
-    @render 'kiosk_container'
-    ), name:'healthclub'
+    @render 'checkin'
+    ), name:'checkin'
 
 
 Router.route '/session/:doc_id', (->
