@@ -47,7 +47,7 @@ if Meteor.isClient
                         checkins_without_gov_id:-1
 
 
-            Router.go "/healthclub"
+            Router.go "/checkin"
 
         # 'click .recheck_photo': ->
         #     session_document = Docs.findOne Router.current().params.doc_id
@@ -258,7 +258,7 @@ if Meteor.isClient
 
 
     Template.checkin_button.events
-        'click .new_hc_session': (e,t)->
+        'click .new_session': (e,t)->
             # $(e.currentTarget).closest('.button').transition('fade up')
             Session.set 'loading_checkin', true
             # Meteor.setTimeout =>
@@ -276,6 +276,7 @@ if Meteor.isClient
                 # resident_username:@username
                 resident_first_name: @first_name
                 resident_last_name: @last_name
+                resident_image_id: @image_id
                 resident_id:@_id
                 # current:true
             Session.set('current_session_id', current_session_id)

@@ -20,12 +20,12 @@ template(name='staff')
 
                 .ui.header
                     +i name='groups' classes='ui inline image'
-                    |active sessions
+                    |#{active_sessions.count} active sessions
                     // i.dropdown.icon
                 // .active.content
                 .ui.stackable.doubling.centered.cards
                     each active_sessions
-                        +hc_session
+                        +session_card
                 .ui.header 
                     i.clock.icon
                     |old sessions
@@ -45,7 +45,7 @@ template(name='checkin_input')
 
 
 
-template(name='hc_session')
+template(name='session_card')
     .ui.card
         if session_resident.kiosk_photo
             img.ui.image(src="{{c.url session_resident.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
@@ -53,9 +53,9 @@ template(name='hc_session')
             //- |old photo
             img.ui.image(src="{{c.url session_resident.image_id width=300 height=300 gravity='face' crop='fill'}}")
         .content
-            a(href="/resident/#{session_resident.username}")
+            a(href="/resident/#{session_resident._id}")
                 .ui.inline.header
-                    |#{session_resident.first_name} #{session_resident.last_name}
+                    |#{resident_first_name} #{resident_last_name}
             .ui.small.grey.header #{when}
             with session_resident
                 if address
@@ -91,4 +91,5 @@ template(name='hc_session')
                 +date_view key='expiration_date' label='expiration date' direct=true
             .ui.fluid.button.sign_out
                 +i name='exit' classes='ui mini inline image'
-                |hc check out
+                |check out
+            +print_this

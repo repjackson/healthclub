@@ -89,11 +89,11 @@ template(name='sign_waiver')
 
 
 template(name='checkin_button')
-    .ui.massive.button.checkin.new_hc_session
+    .ui.massive.button.checkin.new_session
         h2 #{first_name} #{last_name}
     // unless is_staff
     //     //- unless healthclub_checkedin
-    //     .ui.massive.basic.button.checkin.new_hc_session
+    //     .ui.massive.basic.button.checkin.new_session
     //         h2 #{first_name} #{last_name}
     //     //- if healthclub_checkedin
     //     //- if is_staff
@@ -109,7 +109,7 @@ template(name='checkin_button')
     //             //- +i name='exit-sign' classes='ui avatar image'
     //             |health club check out
     //     else
-    //         .ui.massive.fade.animated.button.new_hc_session
+    //         .ui.massive.fade.animated.button.new_session
     //             .visible.content
     //                 strong #{first_name} #{last_name}
     //             .hidden.content

@@ -119,18 +119,6 @@ Router.route '/user/:username', (->
     @layout 'user_layout'
     @render 'resident_about'
     ), name:'resident_about'
-Router.route '/user/:username/healthclub', (->
-    @layout 'user_layout'
-    @render 'user_healthclub'
-    ), name:'user_healthclub'
-Router.route '/user/:username/residency', (->
-    @layout 'user_layout'
-    @render 'user_residency'
-    ), name:'user_residency'
-Router.route '/user/:username/stats', (->
-    @layout 'user_layout'
-    @render 'user_stats'
-    ), name:'user_stats'
 Router.route '/user/:username/notifications', (->
     @layout 'user_layout'
     @render 'user_notifications'

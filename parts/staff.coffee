@@ -30,11 +30,12 @@ if Meteor.isClient
             
 
 
-    Template.hc_session.onCreated ->
+    Template.session_card.onCreated ->
         # @autorun => Meteor.subscribe 'user_by_username', @data.resident_username
+        console.log @
         @autorun => Meteor.subscribe 'doc', Session.get('session_resident_id')
         @autorun => Meteor.subscribe 'session_guests', @data
-    Template.hc_session.helpers
+    Template.session_card.helpers
         icon_class: ->
             switch @session_type
                 when 'healthclub_checkin' then 'treadmill'
@@ -53,7 +54,7 @@ if Meteor.isClient
             Docs.find
                 _id:$in:@guest_ids
 
-    Template.hc_session.events
+    Template.session_card.events
         'click .sign_out': (e,t)->
             # resident = Meteor.users.findOne
             #     username:@resident_username

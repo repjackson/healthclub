@@ -67,27 +67,27 @@ Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 Meteor.methods
     submit_checkin: ->
         Session.set 'adding_guest', false
-        healthclub_session_document = Docs.findOne Router.current().params.doc_id
+        session_doc = Docs.findOne Router.current().params.doc_id
         # console.log @
-        resident = Meteor.users.findOne healthclub_session_document.user_id
+        resident = Meteor.users.findOne session_doc.user_id
 
-        # healthclub_session_document = Docs.findOne
+        # session_doc = Docs.findOne
         #     model:'session'
         user = Meteor.users.findOne
             username:resident.username
-        healthclub_session_document = Docs.findOne Router.current().params.doc_id
-        if healthclub_session_document.guest_ids.length > 0
+        session_doc = Docs.findOne Router.current().params.doc_id
+        if session_doc.guest_ids.length > 0
             # now = Date.now()
             current_month = moment().format("MMM")
             Meteor.users.update user._id,
                 $addToSet:
-                    total_guests:healthclub_session_document.guest_ids.length
-                    "#{current_month}_guests":healthclub_session_document.guest_ids.length
-        Docs.update healthclub_session_document._id,
+                    total_guests:session_doc.guest_ids.length
+                    "#{current_month}_guests":session_doc.guest_ids.length
+        Docs.update session_doc._id,
             $set:
                 # session_type:'healthclub_checkin'
                 submitted:true
-        Router.go "/healthclub"
+        Router.go "/checkin"
         $('body').toast({
             title: "#{resident.first_name} #{resident.last_name} checked in"
             class: 'success'

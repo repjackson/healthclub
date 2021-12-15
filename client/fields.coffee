@@ -1148,7 +1148,7 @@ Template.multi_doc_input.events
                     Meteor.call 'send_rules_regs_receipt_email', user._id
                     Meteor.call 'rules_and_regulations_signed', user
                     # Session.set 'displaying_profile', user._id
-                    Router.go "/healthclub_session/#{signing_doc.session_id}"
+                    Router.go "/session/#{signing_doc.session_id}"
 
                 if signing_doc.model is 'member_guidelines_signing'
                     signing_doc = Docs.findOne Router.current().params.doc_id
@@ -1158,7 +1158,7 @@ Template.multi_doc_input.events
                     # Meteor.call 'send_rules_regs_receipt_email', user._id
                     Meteor.call 'member_waiver_signed', user
                     # Session.set 'displaying_profile', user._id
-                    Router.go "/healthclub_session/#{signing_doc.session_id}"
+                    Router.go "/session/#{signing_doc.session_id}"
             else
                 guest_doc = Docs.findOne Router.current().params.new_guest_id
                 if guest_doc
@@ -1173,7 +1173,7 @@ Template.multi_doc_input.events
                         $addToSet:guest_ids: guest_doc._id
 
                     # Session.set 'displaying_profile', guest_doc.resident_id
-                    Router.go "/healthclub_session/#{guest_doc.session_id}"
+                    Router.go "/session/#{guest_doc.session_id}"
             # save image as JPEG
         'click .thing': ->
             Template.instance().signaturePad.toDataURL 'image/svg+xml'
