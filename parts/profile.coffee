@@ -33,8 +33,28 @@ if Meteor.isClient
 
 
     Template.profile.events
-        'click .set_delta_model': ->
-            Meteor.call 'set_delta_facets', @slug, null, true
+        'click .checkin': ->
+            Meteor.users.update Meteor.userId(),
+                $set:checked_in:true
+            Docs.insert 
+                model:'session'
+                active:true
+        
+        
+        'click .checkout': ->
+            Meteor.users.update Meteor.userId(),
+                $set:checked_in:false
+            active_session_doc = 
+                Docs.findOne 
+                    model:'session'
+                    active:true
+                    
+            if active_session_doc
+                Docs.update active_session_doc._id,
+                    $set:
+                        active:false
+                        checkout_timestamp:Date.now()
+                
 
         'click .logout_other_clients': ->
             Meteor.logoutOtherClients()

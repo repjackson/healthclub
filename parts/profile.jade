@@ -46,8 +46,35 @@ template(name='profile')
                         each roles
                             .ui.basic.label #{this}
             .twelve.wide.column.shadowed-box
+                unless current_user.checked_in
+                    .ui.button.checkin 
+                        |checkin
+                if current_user.checked_in
+                    .ui.button.checkout
+                        |checkout
                 with current_user
-                    +resident_info         
+                    .ui.segment
+                        //- +text_view key='first_name' label='First Name' direct=true
+                        //- +text_view key='last_name' label='Last Name' direct=true
+                        if is_admin
+                            +text_view key='address' label='Address' direct=true
+                        //- +text_view key='email' label='Email' direct=true
+                        +phone_view key='phone' label='Phone' direct=true
+                        if user_is_resident
+                            //- if is_staff
+                            +number_view key='unit_number' label='Unit #' direct=true
+                            +number_view key='building_number' label='Building #' direct=true
+                            +number_view key='healthclub_code' label='Healthclub_code' direct=true
+                            +text_view key='building_code' label='Building Code' direct=true
+                            +date_view key='start_date' label='Start Date' direct=true
+                            +date_view key='expiration_date' label='Expiration Date' direct=true
+                        +textarea_view key='notes' label='notes' icon='align-left' direct=true
+                        div
+                        each emails
+                            if verified
+                                .ui.green.label(title='Verified') #{address}
+                            else
+                                .ui.orange.label(title='Unverified') #{address}
                     +user_key
                     +user_unit
                     .ui.segment
@@ -56,15 +83,6 @@ template(name='profile')
                         if is_admin
                             +text_view key='address' label='address' direct=true
                         //- +text_view key='email' label='Email' direct=true
-                        +phone_view key='phone' label='phone' direct=true
-                        if user_is_resident
-                            //- if is_staff
-                            +number_view key='unit_number' label='unit #' direct=true
-                            +number_view key='building_number' label='building #' direct=true
-                            +number_view key='healthclub_code' label='healthclub_code' direct=true
-                            +text_view key='building_code' label='building code' direct=true
-                            +date_view key='start_date' label='start date' direct=true
-                            +date_view key='expiration_date' label='expiration date' direct=true
                         +textarea_view key='notes' label='notes' icon='align-left' direct=true
                         each emails
                             .ui.label #{address}
@@ -143,28 +161,6 @@ template(name='resident_about')
                         +user_permit
                 
 template(name='resident_info')
-    .ui.segment
-        //- +text_view key='first_name' label='First Name' direct=true
-        //- +text_view key='last_name' label='Last Name' direct=true
-        if is_admin
-            +text_view key='address' label='Address' direct=true
-        //- +text_view key='email' label='Email' direct=true
-        +phone_view key='phone' label='Phone' direct=true
-        if user_is_resident
-            //- if is_staff
-            +number_view key='unit_number' label='Unit #' direct=true
-            +number_view key='building_number' label='Building #' direct=true
-            +number_view key='healthclub_code' label='Healthclub_code' direct=true
-            +text_view key='building_code' label='Building Code' direct=true
-            +date_view key='start_date' label='Start Date' direct=true
-            +date_view key='expiration_date' label='Expiration Date' direct=true
-        +textarea_view key='notes' label='notes' icon='align-left' direct=true
-        div
-        each emails
-            if verified
-                .ui.green.label(title='Verified') #{address}
-            else
-                .ui.orange.label(title='Unverified') #{address}
 
     
             

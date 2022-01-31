@@ -181,29 +181,29 @@ template(name='session')
                         +user_check_steps
             .row
                 .sixteen.wide.column
-                    unless user.kiosk_photo
+                    unless current_user.kiosk_photo
                         .ui.disabled.massive.fluid.button
                             |new photo required to sign in
                         //- .ui.center.aligned.header
                         //-     |please click 'Choose File' above, switch the camera to the front, and take photo to proceed 
-                    unless user.member_waiver_signed
+                    unless current_user.member_waiver_signed
                         .ui.massive.fluid.red.basic.button.sign_guidelines
                             .ui.inline.header 
                                 i.edit.icon
                                 | sign member waiver            
-                    unless user.rules_and_regulations_signed
+                    unless current_user.rules_and_regulations_signed
                         .ui.massive.fluid.red.basic.button.sign_rules
                             .ui.inline.header 
                                 i.edit.icon
                                 | sign rules and regs
-                    if user.email_red_flagged
+                    if current_user.email_red_flagged
                         .ui.disabled.massive.fluid.button
                             |email verification required, please see staff
-                    if user.gov_red_flagged
+                    if current_user.gov_red_flagged
                         .ui.disabled.massive.fluid.button
                             |Government Id verification required
-                    unless user.gov_red_flagged
-                        if user.kiosk_photo
+                    unless current_user.gov_red_flagged
+                        if current_user.kiosk_photo
                             if user.member_waiver_signed
                                 if user.rules_and_regulations_signed
                                     unless user.email_red_flagged
