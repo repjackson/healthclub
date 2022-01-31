@@ -223,3 +223,30 @@ template(name='resident_guest')
         .ui.big.teal.basic.button.remove_guest 
             i.remove.icon
             |#{guest_name} #{first_name} #{last_name}
+
+
+
+
+template(name='user_check_steps')
+    .ui.vertical.fluid.menu
+        each user_check
+            .item.recheck
+                if user_check_completed
+                    i.large.green.checkmark.icon
+                else 
+                    i.large.circle.outline.icon 
+                i.icon(name=icon)
+                //- +i name=icon classes='ui avatar image'
+                |#{title}
+    if checkins_without_gov_id
+        if is_staff
+            .ui.tiny.header #{checkins_left_without_gov_id} check in's left without government ID
+        else
+            .ui.header #{checkins_left_without_gov_id} check in's left without government ID
+    if checkins_without_email_verification
+        if is_staff
+            .ui.tiny.header #{checkins_left_without_email_verification} check in's left without email verification
+        else
+            .ui.header #{checkins_left_without_email_verification} check in's left without email verification
+        +email_validation_check
+

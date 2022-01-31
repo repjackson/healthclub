@@ -1,13 +1,18 @@
 if Meteor.isClient
-    Template.user_layout.onCreated ->
-        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username
-        @autorun -> Meteor.subscribe 'user_models', Router.current().params.username
+    Router.route '/user/:username', (->
+        @layout 'layout'
+        @render 'profile'
+        ), name:'profile'
 
-    Template.user_layout.onCreated ->
+    
+    Template.profile.onCreated ->
+        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_referenced_docs', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'user_models', Router.current().params.username
         @autorun -> Meteor.subscribe 'model_docs', 'staff_resident_widget'
 
-    Template.user_layout.onRendered ->
+
+    Template.profile.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
@@ -16,8 +21,8 @@ if Meteor.isClient
 
 
 
-    Template.user_layout.helpers
-        user: ->
+    Template.profile.helpers
+        current_user: ->
             Meteor.users.findOne username:Router.current().params.username
 
         user_models: ->
@@ -27,7 +32,7 @@ if Meteor.isClient
                 _id:$in:user.model_ids
 
 
-    Template.user_layout.events
+    Template.profile.events
         'click .set_delta_model': ->
             Meteor.call 'set_delta_facets', @slug, null, true
 

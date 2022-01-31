@@ -1,81 +1,76 @@
-template(name='user_layout')
-    +nav
-    with current_user
-        .ui.padded.stackable.grid
-            .row
-                .four.wide.column
-                    if kiosk_photo
-                        img.ui.centered.circular.shadowed.image(src="{{c.url kiosk_photo height=300 width=300 gravity='face' crop='fill'}}")
-                    else if image_id
-                        img.ui.centered.circular.shadowed.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
-                        //- a.item(href="/user/#{current_user.username}/")
-                    .ui.center.aligned.basic.segment
-                        a(href="/user/#{user.username}")
-                            h1.ui.large.center.aligned.header
-                                | #{user.first_name}
-                                | #{user.last_name}
-                    .ui.center.aligned.header
-                        | @#{user.username}        
-                    if user_is_resident
-                        if is_staff
-                            a.ui.fluid.basic.button.item(href="/user/#{current_user.username}/edit")
-                                i.pencil.large.blue.icon
-                                | edit
-                    if user_is_resident
-                        +resident_info         
-                            +user_check_steps
-                            +staff_verification
-                
-                    else if is_current_user
-                        a.ui.icon.big.button.item(href="/user/#{current_user.username}/edit")
-                            i.cog.large.icon
-                    //- else
-                        //- .ui.button.direct_message
-                        //-     i.sent.icon
-                        //-     |direct message
-                    if is_current_user
-                        a.ui.fluid.large.button.logout
-                            i.sign.out.icon
-                            |log out
-                        a.ui.fluid.large.button.logout_other_clients(href="#")
-                            |logout other clients
-                    if is_admin
-                        .ui.segment
-                            .ui.header 
-                                //- +i name='user shield'
-                                i.shield.icon
-                                |roles
-                            each roles
-                                .ui.basic.label #{this}
-                .twelve.wide.column.shadowed-box
-                    +yield
-                    +resident_about
-    unless is_frontdesk
-        +footer 
+template(name='profile')
+    .ui.padded.stackable.grid
+        .row
+            .four.wide.column
+                if kiosk_photo
+                    img.ui.centered.circular.shadowed.image(src="{{c.url kiosk_photo height=300 width=300 gravity='face' crop='fill'}}")
+                else if image_id
+                    img.ui.centered.circular.shadowed.image(src="{{c.url image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    //- a.item(href="/user/#{current_user.username}/")
+                .ui.center.aligned.basic.segment
+                    a(href="/user/#{current_user.username}")
+                        h1.ui.large.center.aligned.header
+                            | #{current_user.first_name}
+                            | #{current_user.last_name}
+                .ui.center.aligned.header
+                    | @#{current_user.username}        
+                if user_is_resident
+                    if is_staff
+                        a.ui.fluid.basic.button.item(href="/user/#{current_user.username}/edit")
+                            i.pencil.large.blue.icon
+                            | edit
+                if user_is_resident
+                    +resident_info         
+                        +user_check_steps
+                        +staff_verification
+            
+                else if is_current_user
+                    a.ui.icon.big.button.item(href="/user/#{current_user.username}/edit")
+                        i.cog.large.icon
+                //- else
+                    //- .ui.button.direct_message
+                    //-     i.sent.icon
+                    //-     |direct message
+                if is_current_user
+                    a.ui.fluid.large.button.logout
+                        i.sign.out.icon
+                        |log out
+                    a.ui.fluid.large.button.logout_other_clients(href="#")
+                        |logout other clients
+                if is_admin
+                    .ui.segment
+                        .ui.header 
+                            //- +i name='user shield'
+                            i.shield.icon
+                            |roles
+                        each roles
+                            .ui.basic.label #{this}
+            .twelve.wide.column.shadowed-box
+                with current_user
+                    +resident_info         
+                    +user_key
+                    +user_unit
+                    .ui.segment
+                        //- +text_view key='first_name' label='First Name' direct=true
+                        //- +text_view key='last_name' label='Last Name' direct=true
+                        if is_admin
+                            +text_view key='address' label='address' direct=true
+                        //- +text_view key='email' label='Email' direct=true
+                        +phone_view key='phone' label='phone' direct=true
+                        if user_is_resident
+                            //- if is_staff
+                            +number_view key='unit_number' label='unit #' direct=true
+                            +number_view key='building_number' label='building #' direct=true
+                            +number_view key='healthclub_code' label='healthclub_code' direct=true
+                            +text_view key='building_code' label='building code' direct=true
+                            +date_view key='start_date' label='start date' direct=true
+                            +date_view key='expiration_date' label='expiration date' direct=true
+                        +textarea_view key='notes' label='notes' icon='align-left' direct=true
+                        each emails
+                            .ui.label #{address}
+    // unless is_frontdesk
+    //     +footer 
 
-
-template(name='user_check_steps')
-    .ui.vertical.fluid.menu
-        each user_check
-            .item.recheck
-                if user_check_completed
-                    i.large.green.checkmark.icon
-                else 
-                    i.large.circle.outline.icon 
-                i.icon(name=icon)
-                //- +i name=icon classes='ui avatar image'
-                |#{title}
-    if checkins_without_gov_id
-        if is_staff
-            .ui.tiny.header #{checkins_left_without_gov_id} check in's left without government ID
-        else
-            .ui.header #{checkins_left_without_gov_id} check in's left without government ID
-    if checkins_without_email_verification
-        if is_staff
-            .ui.tiny.header #{checkins_left_without_email_verification} check in's left without email verification
-        else
-            .ui.header #{checkins_left_without_email_verification} check in's left without email verification
-        +email_validation_check
 
 
 
@@ -104,27 +99,6 @@ template(name='staff_verification')
 
 
 template(name='user_residency')
-    +resident_info         
-    +user_key
-    +user_unit
-    .ui.segment
-        //- +text_view key='first_name' label='First Name' direct=true
-        //- +text_view key='last_name' label='Last Name' direct=true
-        if is_admin
-            +text_view key='address' label='address' direct=true
-        //- +text_view key='email' label='Email' direct=true
-        +phone_view key='phone' label='phone' direct=true
-        if user_is_resident
-            //- if is_staff
-            +number_view key='unit_number' label='unit #' direct=true
-            +number_view key='building_number' label='building #' direct=true
-            +number_view key='healthclub_code' label='healthclub_code' direct=true
-            +text_view key='building_code' label='building code' direct=true
-            +date_view key='start_date' label='start date' direct=true
-            +date_view key='expiration_date' label='expiration date' direct=true
-        +textarea_view key='notes' label='notes' icon='align-left' direct=true
-        each emails
-            .ui.label #{address}
     
     
 template(name='user_healthclub')

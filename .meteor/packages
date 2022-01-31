@@ -32,7 +32,6 @@ reywood:publish-composite
 accounts-base
 accounts-password
 pascoual:pdfkitx
-flowkey:hotkeys
 modules
 kevohagan:sweetalert
 check

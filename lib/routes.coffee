@@ -113,13 +113,3 @@ Router.route '/session/:doc_id', (->
     @layout 'mlayout'
     @render 'session'
     ), name:'session'
-
-
-Router.route '/user/:username', (->
-    @layout 'user_layout'
-    @render 'resident_about'
-    ), name:'resident_about'
-Router.route '/user/:username/notifications', (->
-    @layout 'user_layout'
-    @render 'user_notifications'
-    ), name:'user_notifications'
