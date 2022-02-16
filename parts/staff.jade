@@ -2,12 +2,12 @@ template(name='staff')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
-                .ui.grey.large.inline.header 
+                .ui.large.inline.header 
                     //- i.user.shield.icon
                     +i name='user-shield'
                     |staff
                 //- i.massive.loading.brown.poo.icon
-                a.ui.large.basic.button.add_resident
+                a.ui.large.button.add_resident
                     //- i.user.add.large.icon
                     +i name='add-user-male' classes='ui inline mini image'
                     strong add resident
@@ -56,7 +56,7 @@ template(name='session_card')
             a(href="/resident/#{session_resident._id}")
                 .ui.inline.header
                     |#{resident_first_name} #{resident_last_name}
-            .ui.small.grey.header #{when}
+            .ui.small.header #{when}
             with session_resident
                 if address
                     div
@@ -78,13 +78,13 @@ template(name='session_card')
                 if active_violations
                     .ui.big.red.label active violations
                 if staff_notes
-                    .ui.small.grey.header
+                    .ui.small.header
                         i.clipboard.icon(title='staff notes')
                         |#{staff_notes}       
             if checkin_guest_docs.count
-                .ui.small.grey.header Guests
+                .ui.small.header Guests
                 each checkin_guest_docs
-                    .ui.large.basic.label 
+                    .ui.large.label 
                         |#{guest_name} #{first_name} #{last_name}
             if user_is_resident
                 +date_view key='start_date' label='start date' direct=true

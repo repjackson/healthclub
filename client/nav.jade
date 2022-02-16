@@ -30,6 +30,10 @@ template(name='nav')
                     //- i.users.large.icon
                     +i name='bedroom'
                     .mobile.hidden &nbsp; units
+                a.icon.item(href='/checkins' class="{{isActivePath '/checkins'}}")
+                    //- i.users.large.icon
+                    +i name='checkmark'
+                    .mobile.hidden &nbsp; checkins
                 if is_manager
                     a.icon.item(href='/manager' class="{{isActivePath '/manager'}}")
                         //- i.shield.large.icon

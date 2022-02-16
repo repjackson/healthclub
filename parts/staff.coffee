@@ -38,7 +38,7 @@ if Meteor.isClient
     Template.session_card.helpers
         icon_class: ->
             switch @session_type
-                when 'healthclub_checkin' then 'treadmill'
+                when 'checkin' then 'treadmill'
                 when 'garden_key_checkout' then 'basketball'
                 when 'unit_key_checkout' then 'key'
 
@@ -79,13 +79,13 @@ if Meteor.isServer
     Meteor.publish 'sessions', ->
         Docs.find
             model:'session'
-            # model:$in:['healthclub_checkin','garden_key_checkout','unit_key_checkout']
+            # model:$in:['checkin','garden_key_checkout','unit_key_checkout']
             active:true
 
     Meteor.publish 'old_sessions', ->
         Docs.find
             model:'session'
-            # model:$in:['healthclub_checkin','garden_key_checkout','unit_key_checkout']
+            # model:$in:['checkin','garden_key_checkout','unit_key_checkout']
             active:$ne:true
 
 

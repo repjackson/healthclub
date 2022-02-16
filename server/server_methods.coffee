@@ -91,7 +91,7 @@ Meteor.methods
             # checkedin_doc =
             #     Docs.findOne
             #         user_id:member._id
-            #         model:'healthclub_checkin'
+            #         model:'checkin'
             #         active:true
             diff = now-session._timestamp
             minute_difference = diff/1000/60
@@ -115,7 +115,7 @@ Meteor.methods
         checkedin_doc =
             Docs.findOne
                 user_id:user_id
-                model:'healthclub_checkin'
+                model:'checkin'
                 active:true
         if checkedin_doc
             Docs.update checkedin_doc._id,

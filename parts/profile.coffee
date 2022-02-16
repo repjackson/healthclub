@@ -179,11 +179,11 @@ if Meteor.isClient
 
 
     Template.user_checkins.onCreated ->
-        @autorun => Meteor.subscribe 'healthclub_checkins', Router.current().params.username
+        @autorun => Meteor.subscribe 'checkins', Router.current().params.username
     Template.user_checkins.helpers
-        healthclub_checkins: ->
+        checkins: ->
             Docs.find
-                model:'healthclub_checkin'
+                model:'checkin'
                 resident_username:Router.current().params.username
 
 
@@ -220,9 +220,9 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'healthclub_checkins', (username)->
+    Meteor.publish 'checkins', (username)->
         Docs.find
-            model:'healthclub_checkin'
+            model:'checkin'
             resident_username:username
 
 

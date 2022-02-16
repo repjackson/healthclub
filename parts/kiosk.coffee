@@ -449,7 +449,7 @@ if Meteor.isClient
     #         , 250
     #         # document.reload()
     #
-    #     'click .healthclub_checkin': (e,t)->
+    #     'click .checkin': (e,t)->
     #         Session.set 'adding_guest', false
     #         # Session.set 'displaying_profile', null
     #         session_document = Docs.findOne
@@ -463,7 +463,7 @@ if Meteor.isClient
     #                     "#{current_month}_guests":checkin_doc.guest_ids.length
     #         Docs.update session_document._id,
     #             $set:
-    #                 session_type:'healthclub_checkin'
+    #                 session_type:'checkin'
     #                 submitted:true
     #
     #

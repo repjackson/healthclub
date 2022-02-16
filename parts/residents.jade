@@ -85,6 +85,10 @@ template(name='resident_view')
                         |checked in
                 if last_checkout_timestamp
                     .ui.header last checkout: {{from_now last_checkout_timestamp}}
+                if can_edit
+                    a.ui.big.button(href="/resident/#{_id}")
+                        i.pencil.icon
+                        |edit
             .column
                 +number_view key='unit_number' label='unit #' direct=true
                 +number_view key='building_number' label='building #' direct=true
@@ -94,9 +98,6 @@ template(name='resident_view')
                 +date_view key='start_date' label='start date' direct=true
                 +date_view key='expiration_date' label='expiration date' direct=true
                 +user_check_steps    
-                a.ui.big.button(href="/resident/#{_id}")
-                    i.pencil.icon
-                    |edit
                 unless checked_in
                     .ui.big.button.checkin
                         i.green.checkmark.icon

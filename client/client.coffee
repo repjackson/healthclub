@@ -85,7 +85,7 @@ Meteor.methods
                     "#{current_month}_guests":session_doc.guest_ids.length
         Docs.update session_doc._id,
             $set:
-                # session_type:'healthclub_checkin'
+                # session_type:'checkin'
                 submitted:true
         Router.go "/checkin"
         $('body').toast({
