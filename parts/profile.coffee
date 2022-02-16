@@ -37,7 +37,7 @@ if Meteor.isClient
             Meteor.users.update Meteor.userId(),
                 $set:checked_in:true
             Docs.insert 
-                model:'session'
+                model:'checkin'
                 active:true
         
         
@@ -46,7 +46,7 @@ if Meteor.isClient
                 $set:checked_in:false
             active_session_doc = 
                 Docs.findOne 
-                    model:'session'
+                    model:'checkin'
                     active:true
                     
             if active_session_doc

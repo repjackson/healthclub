@@ -20,7 +20,7 @@ template(name='checkin_card')
 
 template(name='checkin_view')
     .ui.stackable.padded.grid
-        .four.wide.column
+        .twelve.wide.column
             a.ui.big.button(href="/building/#{checkin.building_code}")
                 i.large.left.chevron.icon
                 |#{checkin.building_code}
@@ -40,14 +40,7 @@ template(name='checkin_view')
                 with checkin
                     +text_edit key='building_code' direct=true
                     +textarea_edit key='notes' direct=true
-            +user_key
-        .twelve.wide.column
-            +checkin_residents
-            +checkin_owners
-            if is_springdale
-                +checkin_permits
-
-            
+        .four.wide.column
 
 
 

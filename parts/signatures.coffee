@@ -46,7 +46,7 @@ if Meteor.isClient
             Meteor.call 'send_rules_regs_receipt_email', user._id
             Meteor.call 'run_user_checks', user
             # Session.set 'displaying_profile', user._id
-            Router.go "/session/#{signing_doc.session_id}"
+            Router.go "/checkin/#{signing_doc.session_id}"
 
     Template.guidelines_signing.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
@@ -95,7 +95,7 @@ if Meteor.isClient
             # Meteor.call 'send_rules_regs_receipt_email', user._id
             Meteor.call 'run_user_checks', user
             # Session.set 'displaying_profile', user._id
-            Router.go "/session/#{signing_doc.session_id}"
+            Router.go "/checkin/#{signing_doc.session_id}"
 
 
 
@@ -149,7 +149,7 @@ if Meteor.isClient
             guest_doc = Docs.findOne Router.current().params.new_guest_id
             Docs.remove guest_doc._id
             Session.set 'displaying_profile', guest_doc.resident_id
-            Router.go "/session/#{guest_doc.session_id}"
+            Router.go "/checkin/#{guest_doc.session_id}"
 
             $('body').toast({
                 title: "Adding guest canceled."
@@ -188,7 +188,7 @@ if Meteor.isClient
                 $addToSet:guest_ids: guest_doc._id
 
             # Session.set 'displaying_profile', guest_doc.resident_id
-            Router.go "/session/#{guest_doc.session_id}"
+            Router.go "/checkin/#{guest_doc.session_id}"
 
 
 

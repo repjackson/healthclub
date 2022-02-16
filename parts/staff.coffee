@@ -13,11 +13,11 @@ if Meteor.isClient
     Template.staff.helpers
         old_session_docs: ->
             Docs.find 
-                model:'session'
+                model:'checkin'
                 
         active_sessions: ->
             Docs.find
-                model:'session'
+                model:'checkin'
                 active:true
 
 
@@ -78,13 +78,13 @@ if Meteor.isServer
 
     Meteor.publish 'sessions', ->
         Docs.find
-            model:'session'
+            model:'checkin'
             # model:$in:['checkin','garden_key_checkout','unit_key_checkout']
             active:true
 
     Meteor.publish 'old_sessions', ->
         Docs.find
-            model:'session'
+            model:'checkin'
             # model:$in:['checkin','garden_key_checkout','unit_key_checkout']
             active:$ne:true
 

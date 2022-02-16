@@ -1,5 +1,5 @@
 if Meteor.isClient
-    Template.session.onCreated ->
+    Template.checkin.onCreated ->
         @autorun => Meteor.subscribe 'doc', Session.get('new_guest_id'), ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'checkin_guests',Router.current().params.doc_id, ->
@@ -8,7 +8,7 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'model_docs', 'guest'
 
         # @autorun => Meteor.subscribe 'rules_signed_username', @data.username
-    Template.session.onRendered ->
+    Template.checkin.onRendered ->
         # @timer = new ReactiveVar 5
         Session.set 'timer',5
         Session.set 'timer_engaged', false
@@ -35,7 +35,7 @@ if Meteor.isClient
         # , 4000
 
 
-    Template.session.events
+    Template.checkin.events
         'click .cancel_checkin': ->
             session_document = Docs.findOne Router.current().params.doc_id
             if session_document
@@ -100,14 +100,14 @@ if Meteor.isClient
 
         'click .add_recent_guest': ->
             current_session = Docs.findOne
-                model:'session'
+                model:'checkin'
                 current:true
             Docs.update current_session._id,
                 $addToSet:guest_ids:@_id
 
         'click .remove_guest': ->
             current_session = Docs.findOne
-                model:'session'
+                model:'checkin'
                 current:true
             # console.log current_session
             Docs.update current_session._id,
@@ -123,7 +123,7 @@ if Meteor.isClient
         'click .cancel_auto_checkin': (e,t)->
             Session.set 'timer_engaged',false
 
-    Template.session.helpers
+    Template.checkin.helpers
         timer_engaged: ->
             Session.get 'timer_engaged'
         timer: ->
@@ -195,7 +195,7 @@ if Meteor.isServer
 
 if Meteor.isClient
     Template.checkin_input.onCreated ->
-        @autorun => Meteor.subscribe 'health_club_members', Session.get('name_search')
+        @autorun => Meteor.subscribe 'health_club_members', Session.get('name_search'), ->
     Template.checkin.onCreated ->
         @autorun -> Meteor.subscribe 'me'
 
@@ -237,7 +237,7 @@ if Meteor.isClient
     Template.checkin.helpers
         current_session_doc: ()->
             Docs.findOne
-                model:'session'
+                model:'checkin'
                 current:true
 
         # selected_person: ->
@@ -267,7 +267,7 @@ if Meteor.isClient
             #     object_id:@_id
             #     body: "#{@username} checked in."
             current_session_id = Docs.insert
-                model:'session'
+                model:'checkin'
                 active:true
                 submitted:false
                 approved:false
@@ -312,7 +312,7 @@ if Meteor.isClient
             #             $set: gov_red_flagged:false
 
             $('.name_search').val('')
-            Router.go "/session/#{current_session_id}"
+            # Router.go "/checkin/#{current_session_id}"
             Session.set 'loading_checkin', false
             Session.set 'displaying_profile',@_id
             # , 750
@@ -359,7 +359,7 @@ if Meteor.isClient
                     #     Meteor.call 'lookup_user_by_code', barcode_entry, (err,res)->
                     #         Session.set 'displaying_profile',res._id
                     #         session_document = Docs.insert
-                    #             model:'session'
+                    #             model:'checkin'
                     #             active:true
                     #             submitted:false
                     #             approved:false
@@ -372,7 +372,7 @@ if Meteor.isClient
                     #         # Session.set 'session_document',session_document
                     #         # Session.set 'checking_in',false
                     #         $('.name_search').val('')
-                    #         Router.go "/session/#{session_document}"
+                    #         Router.go "/checkin/#{session_document}"
                     #         Session.set 'displaying_profile',res._id
         # , 250)
 
@@ -453,7 +453,7 @@ if Meteor.isClient
     #         Session.set 'adding_guest', false
     #         # Session.set 'displaying_profile', null
     #         session_document = Docs.findOne
-    #             model:'session'
+    #             model:'checkin'
     #         if session_document.guest_ids.length > 0
     #             # now = Date.now()
     #             current_month = moment().format("MMM")
@@ -469,7 +469,7 @@ if Meteor.isClient
     #
     #     'click .unit_key_checkout': (e,t)->
     #         session_document = Docs.findOne
-    #             model:'session'
+    #             model:'checkin'
     #         Docs.update session_document._id,
     #             $set:
     #                 session_type:'unit_key_checkout'
@@ -477,14 +477,14 @@ if Meteor.isClient
     #
     #     'click .add_recent_guest': ->
     #         current_session = Docs.findOne
-    #             model:'session'
+    #             model:'checkin'
     #             current:true
     #         Docs.update current_session._id,
     #             $addToSet:guest_ids:@_id
     #
     #     'click .remove_guest': ->
     #         current_session = Docs.findOne
-    #             model:'session'
+    #             model:'checkin'
     #             current:true
     #         Docs.update current_session._id,
     #             $pull:guest_ids:@_id

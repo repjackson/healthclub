@@ -120,6 +120,9 @@ Meteor.publish 'resident', (guest_id)->
 Meteor.publish 'health_club_members', (username_search)->
     Docs.find
         model:'resident'
+        first_name: {$regex:"#{username_search}", $options: 'i'}
+        checked_in:$ne:true
+        
     # existing_sessions =
     #     Docs.find(
     #         model:'session'
@@ -130,7 +133,6 @@ Meteor.publish 'health_club_members', (username_search)->
     #     active_session_ids.push active_session.user_id
     # Meteor.users.find({
     #     _id:$nin:active_session_ids
-    #     username: {$regex:"#{username_search}", $options: 'i'}
     #     # healthclub_checkedin:$ne:true
     #     roles:$in:['resident','owner']
     #     },{ limit:10 })

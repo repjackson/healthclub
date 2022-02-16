@@ -14,7 +14,7 @@ if Meteor.isClient
             }, sort:_timestamp:-1
         'check_ins': ->
             Docs.find {
-                model:'session'
+                model:'checkin'
             }, sort:_timestamp:-1
 
     Template.checkin_list_item.onCreated ->
@@ -32,6 +32,6 @@ if Meteor.isServer
         start_window = now-hours
         console.log start_window
         Docs.find
-            model:'session'
+            model:'checkin'
             # _author_id:Meteor.userId()
             _timestamp:$gt:start_window

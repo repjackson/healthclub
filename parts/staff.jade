@@ -11,8 +11,16 @@ template(name='staff')
                     //- i.user.add.large.icon
                     +i name='add-user-male' classes='ui inline mini image'
                     strong add resident
-                .ui.header
-                    |#{checkedin_members.count} checked in members
+                // .ui.header
+                //     |#{checkedin_members.count} checked in members
+                .ui.header 
+                    // i.clock.icon
+                    +i name='clock'
+                    |old sessions
+                .ui.list 
+                    each old_session_docs 
+                        .item #{when} #{resident_name}
+
             .twelve.wide.column
                 // .ui.styled.fluid.large.accordion
                 // .active.title
@@ -26,12 +34,6 @@ template(name='staff')
                 .ui.stackable.doubling.centered.cards
                     each active_sessions
                         +session_card
-                .ui.header 
-                    i.clock.icon
-                    |old sessions
-                .ui.list 
-                    each old_session_docs 
-                        .item #{when} #{resident_name}
 
 template(name='checkin_input')
     .ui.massive.fluid.left.icon.input
