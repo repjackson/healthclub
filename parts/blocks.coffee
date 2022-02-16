@@ -380,3 +380,11 @@ if Meteor.isClient
         'click .detect_fields': ->
             # console.log @
             Meteor.call 'detect_fields', @_id
+
+
+
+    Template.remove_button.events 
+        'click .remove': ->
+            if confirm 'delete?'
+                Docs.remove @_id
+                Router.go '/staff'

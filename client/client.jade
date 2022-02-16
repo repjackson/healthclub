@@ -52,6 +52,7 @@ template(name='verification_confirmation')
 
 
 template(name='not_found')
-    .ui.text.container
-        .ui.center.aligned.header Not Found
-        a.ui.button(href="/checkin") Check In
+    .ui.text.container.padded.grid
+        .ui.twelve.wide.column
+            .ui.center.aligned.header not found
+            a.ui.button(href="/checkin") Check In

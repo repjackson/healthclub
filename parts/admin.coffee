@@ -1,4 +1,7 @@
 if Meteor.isClient
+    # Router.route '/admin', -> @render 'admin'
+    Router.route '/', -> @render 'admin'
+    
     Template.user_table.onCreated ->
         @autorun ->  Meteor.subscribe 'users'
 

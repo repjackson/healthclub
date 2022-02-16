@@ -20,7 +20,7 @@ Router.route "/add_guest/:new_guest_id", -> @render 'add_guest'
 
 Router.route '/inbox', -> @render 'inbox'
 # Router.route '/register', -> @render 'register'
-Router.route '/admin', -> @render 'admin'
+# Router.route '/admin', -> @render 'admin'
 Router.route '/dashboard', -> @render 'dashboard'
 Router.route '/manager', -> @render 'manager'
 
@@ -97,10 +97,10 @@ Router.route '/register', -> @render 'register'
 
 # Router.route '/', -> @redirect '/m/model'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
-Router.route '/', (->
-    @layout 'layout'
-    @render 'staff'
-    ), name:'front'
+# Router.route '/', (->
+#     @layout 'layout'
+#     @render 'staff'
+#     ), name:'front'
 
 
 Router.route '/checkin', (->

@@ -15,22 +15,36 @@ template(name='checkins')
 template(name='checkin_card')
     a.ui.card(href="/checkin/#{_id}") 
         .content 
-            .ui.header #{checkin_number}, #{checkin_building}
+            .ui.header  
+                |#{when}
+            .ui.header  
+                |#{resident_first_name} #{resident_last_name}
+            .ui.header 
+                |#{checkin_number}, #{checkin_building}
 
 
 template(name='checkin_view')
     .ui.stackable.padded.grid
         .twelve.wide.column
-            a.ui.big.button(href="/building/#{checkin.building_code}")
+            a.ui.big.button(href="/checkins")
                 i.large.left.chevron.icon
-                |#{checkin.building_code}
+                |checkins
+            a.ui.big.button(href="/staff")
+                i.large.left.chevron.icon
+                i.big.shield.icon
+                |staff
+                // |#{checkin.building_code}
             .ui.header
                 i.home.icon 
                 //- +i name='apartment'
                 |checkin
                 |#{checkin.checkin_number}
             .ui.header 
-                |Building #{checkin.building_number}
+                |#{when}
+            .ui.header 
+                |active: #{active}
+            .ui.header 
+                |building #{checkin.building_number}
             if is_dev
                 with checkin
                     +number_edit key='building_number' direct=true
@@ -41,7 +55,8 @@ template(name='checkin_view')
                     +text_edit key='building_code' direct=true
                     +textarea_edit key='notes' direct=true
         .four.wide.column
-
+            if currentUser
+                +remove_button
 
 
 template(name='checkin_edit')         

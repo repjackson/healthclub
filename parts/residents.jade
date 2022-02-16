@@ -38,7 +38,7 @@ template(name='resident_card')
             
 template(name='resident_edit')         
     with current_doc
-        .ui.padded.two.column.centered.grid
+        .ui.padded.two.column.centered.stackable.grid
             .column
                 .image
                     //- a(href="/user/#{username}/")
@@ -64,9 +64,12 @@ template(name='resident_edit')
                 a.ui.big.fluid.green.button(href="/resident/#{_id}")
                     i.checkmark.icon
                     |save
+                    
+                    
+                    
 template(name='resident_view')         
     with current_doc
-        .ui.padded.three.column.grid
+        .ui.padded.three.column.stackable.grid
             .column
                 .image
                     //- a(href="/user/#{username}/")
@@ -86,7 +89,7 @@ template(name='resident_view')
                 if last_checkout_timestamp
                     .ui.header last checkout: {{from_now last_checkout_timestamp}}
                 if can_edit
-                    a.ui.big.button(href="/resident/#{_id}")
+                    a.ui.big.button(href="/resident/#{_id}/edit")
                         i.pencil.icon
                         |edit
             .column
