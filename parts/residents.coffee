@@ -8,6 +8,7 @@ if Meteor.isClient
         @autorun => @subscribe 'doc', Router.current().params.doc_id, ->
     Template.resident_view.onCreated ->
         @autorun => @subscribe 'doc', Router.current().params.doc_id, ->
+        @autorun => @subscribe 'model_docs', 'healthclub_checkin', ->
     Template.residents.onCreated ->
         @autorun => Meteor.subscribe 'resident_search', Session.get('name_search')
     Template.residents.helpers
@@ -36,6 +37,19 @@ if Meteor.isClient
                     Session.set 'name_search',name_search
             else
                 Session.set 'name_search',name_search
+
+    Template.resident_view.events
+        'click .checkin': ->
+            Docs.insert 
+                model:'healthclub_checkin'
+                resident_id:@_id
+                resident_name: "#{@first_name} #{@last_name}"
+            alert 'checked in'
+    Template.resident_view.helpers
+        resident_checkins: ->
+            Docs.find 
+                model:'healthclub_checkin'
+
 
 
     Router.route '/users', -> @render 'users'

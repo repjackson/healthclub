@@ -92,6 +92,13 @@ template(name='resident_view')
                 a.ui.big.button(href="/resident/#{_id}")
                     i.pencil.icon
                     |edit
+                .ui.big.button.checkin
+                    |checkin
+                .ui.big.button.checkout
+                    |checkout
+                .ui.header health club checkins 
+                each resident_checkins
+                    .ui.header #{when}
 
             
 template(name='users') 

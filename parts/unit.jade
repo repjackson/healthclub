@@ -1,11 +1,16 @@
 template(name='units')
     .ui.stackable.padded.grid
-        .ui.header units
-        .ui.button.add_unit
-            i.plus.icon
-        each unit_docs
-            a.ui.card(href="/unit/#{_id}") 
-                .ui.header #{unit_number}, #{unit_building}
+        .sixteen.wide.column
+            .ui.inline.header 
+                +i name='bedroom'
+                |units
+            .ui.icon.button.add_unit
+                i.plus.icon
+            .ui.cards
+                each unit_docs
+                    a.ui.card(href="/unit/#{_id}") 
+                        .content 
+                            .ui.header #{unit_number}, #{unit_building}
 
 
 template(name='unit_view')
