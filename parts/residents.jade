@@ -80,6 +80,11 @@ template(name='resident_view')
                 +text_view key='first_name' label='first name' direct=true
                 +text_view key='last_name' label='last name' direct=true
                 +text_view key='address' label='address' direct=true
+                if checked_in
+                    .ui.big.green.label 
+                        |checked in
+                if last_checkout_timestamp
+                    .ui.header last checkout: {{from_now last_checkout_timestamp}}
             .column
                 +number_view key='unit_number' label='unit #' direct=true
                 +number_view key='building_number' label='building #' direct=true
@@ -92,13 +97,23 @@ template(name='resident_view')
                 a.ui.big.button(href="/resident/#{_id}")
                     i.pencil.icon
                     |edit
-                .ui.big.button.checkin
-                    |checkin
-                .ui.big.button.checkout
-                    |checkout
+                unless checked_in
+                    .ui.big.button.checkin
+                        i.green.checkmark.icon
+                        |checkin
+                if checked_in
+                    .ui.big.button.checkout
+                        i.red.checkmark.icon
+                        |checkout
                 .ui.header health club checkins 
-                each resident_checkins
-                    .ui.header #{when}
+                .ui.list 
+                    each resident_checkins
+                        .item 
+                            .ui.header #{when}
+                            if active
+                                .ui.green.label #{active}
+                            if checkout_timestamp
+                                .ui.label checked out {{from_now checkout_timestamp}}
 
             
 template(name='users') 

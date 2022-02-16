@@ -44,7 +44,51 @@ if Meteor.isClient
                 model:'healthclub_checkin'
                 resident_id:@_id
                 resident_name: "#{@first_name} #{@last_name}"
-            alert 'checked in'
+                active:true
+                
+            Docs.update @_id,
+                $set:
+                    checked_in:true
+            
+            $('body').toast({
+                title: "#{@first_name} #{@last_name} checked in"
+                class: 'success'
+                transition:
+                    showMethod   : 'zoom',
+                    showDuration : 250,
+                    hideMethod   : 'fade',
+                    hideDuration : 250
+            })
+        
+        
+        
+        'click .checkout': ->
+            active_checkin = 
+                Docs.findOne
+                    model:'healthclub_checkin'
+                    # resident_id:@_id
+                    # resident_name: "#{@first_name} #{@last_name}"
+                    active:true
+            if active_checkin
+                Docs.update active_checkin._id,
+                    $set:
+                        active:false
+                        checkout_timestamp:Date.now()
+                $('body').toast({
+                    title: "#{@first_name} #{@last_name} checked out"
+                    class: 'error'
+                    transition:
+                        showMethod   : 'zoom',
+                        showDuration : 250,
+                        hideMethod   : 'fade',
+                        hideDuration : 250
+                })
+                Docs.update @_id,
+                    $set:
+                        checked_in:false 
+                        last_checkout_timestamp:Date.now()
+
+
     Template.resident_view.helpers
         resident_checkins: ->
             Docs.find 
