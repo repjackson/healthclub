@@ -1,4 +1,14 @@
-template(name='unit')
+template(name='units')
+    .ui.stackable.padded.grid
+        .ui.header units
+        .ui.button.add_unit
+            i.plus.icon
+        each unit_docs
+            a.ui.card(href="/unit/#{_id}") 
+                .ui.header #{unit_number}, #{unit_building}
+
+
+template(name='unit_view')
     .ui.stackable.padded.grid
         .four.wide.column
             a.ui.big.button(href="/building/#{unit.building_code}")
@@ -120,3 +130,19 @@ template(name='user_key')
                 .ui.list.smallscroll
                     each access_log
                         .item #{when} by #{_author_username}
+
+
+template(name='unit_edit')         
+    with current_doc
+        .ui.padded.two.column.centered.grid
+            .column
+                +image_edit key='image_id'
+                h2.ui.center.aligned.header #{unit_number} #{building_number} 
+                +number_edit key='unit_number' label='unit number' direct=true
+                +number_edit key='building_number' label='building number' direct=true
+                +text_edit key='address' label='address' direct=true
+                // +text_edit key='email' label='Email' direct=true
+            .column
+                a.ui.big.fluid.green.button(href="/resident/#{_id}")
+                    i.checkmark.icon
+                    |save

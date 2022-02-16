@@ -1,7 +1,7 @@
 Template.color_edit.events
     'blur .edit_color': (e,t)->
         val = t.$('.edit_color').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -17,7 +17,7 @@ Template.color_edit.events
 Template.clear_value.events
     'click .clear_value': ->
         if confirm "Clear #{@title} field?"
-            if @direct
+            if true
                 parent = Template.parentData()
             else
                 parent = Template.parentData(5)
@@ -34,7 +34,7 @@ Template.clear_value.events
 Template.link_edit.events
     'blur .edit_url': (e,t)->
         val = t.$('.edit_url').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -51,7 +51,7 @@ Template.link_edit.events
 Template.color_icon_edit.events
     'blur .color_icon': (e,t)->
         icon_class = t.$('.color_icon').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -68,7 +68,7 @@ Template.color_icon_edit.events
 Template.icon_edit.events
     'blur .icon_val': (e,t)->
         val = t.$('.icon_val').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -86,7 +86,7 @@ Template.icon_edit.events
 Template.html_edit.events
     'blur .froala-container': (e,t)->
         html = t.$('div.froala-reactive-meteorized-override').froalaEditor('html.get', true)
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -102,7 +102,7 @@ Template.html_edit.events
 
 Template.html_edit.helpers
     getFEContext: ->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -175,7 +175,7 @@ Template.html_edit.helpers
 Template.image_edit.events
     "change input[name='upload_image']": (e) ->
         files = e.currentTarget.files
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -199,7 +199,7 @@ Template.image_edit.events
 
     'blur .cloudinary_id': (e,t)->
         cloudinary_id = t.$('.cloudinary_id').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -208,7 +208,7 @@ Template.image_edit.events
 
 
     'click #remove_photo': ->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -231,7 +231,7 @@ Template.image_edit.events
 Template.pdf_edit.events
     "change input[name='upload_pdf']": (e) ->
         files = e.currentTarget.files
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -255,7 +255,7 @@ Template.pdf_edit.events
 
     'blur .cloudinary_id': (e,t)->
         cloudinary_id = t.$('.cloudinary_id').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -264,7 +264,7 @@ Template.pdf_edit.events
 
 
     'click #remove_photo': ->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -289,7 +289,7 @@ Template.array_edit.events
     'keyup .new_element': (e,t)->
         if e.which is 13
             element_val = t.$('.new_element').val().trim()
-            if @direct
+            if true
                 parent = Template.parentData()
             else
                 parent = Template.parentData(5)
@@ -337,7 +337,7 @@ Template.textarea_edit.events
 
     'blur .edit_textarea': (e,t)->
         textarea_val = t.$('.edit_textarea').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -356,7 +356,7 @@ Template.textarea_edit.events
 Template.text_edit.events
     'blur .edit_text': (e,t)->
         val = t.$('.edit_text').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -374,7 +374,7 @@ Template.text_edit.events
 Template.slug_edit.events
     'blur .edit_text': (e,t)->
         val = t.$('.edit_text').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -392,7 +392,7 @@ Template.slug_edit.events
     'click .slugify_title': (e,t)->
         page_doc = Docs.findOne Router.current().params.doc_id
         # val = t.$('.edit_text').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -404,7 +404,7 @@ Template.slug_edit.events
 Template.phone_edit.events
     'blur .edit_phone': (e,t)->
         val = t.$('.edit_phone').val()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -421,7 +421,7 @@ Template.phone_edit.events
 
 Template.boolean_edit.helpers
     boolean_toggle_class: ->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -430,7 +430,7 @@ Template.boolean_edit.helpers
 
 Template.boolean_edit.events
     'click .toggle_boolean': (e,t)->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -448,7 +448,7 @@ Template.boolean_edit.events
 
 Template.number_edit.events
     'blur .edit_number': (e,t)->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -495,7 +495,7 @@ Template.number_edit.events
 
 Template.date_edit.events
     'blur .edit_date': (e,t)->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -515,7 +515,7 @@ Template.date_edit.events
 
 Template.datetime_edit.events
     'blur .edit_datetime': (e,t)->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -535,7 +535,7 @@ Template.datetime_edit.events
 
 Template.time_edit.events
     'blur .edit_time': (e,t)->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -564,7 +564,7 @@ Template.youtube_view.onRendered ->
 
 Template.youtube_edit.events
     'blur .youtube_id': (e,t)->
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -718,7 +718,7 @@ Template.single_doc_edit.helpers
         else
             parent = Template.parentData(5)
         target = Template.parentData(2)
-        if @direct
+        if true
             if target["#{ref_field.key}"]
                 if @ref_field is target["#{ref_field.key}"] then 'active' else ''
             else ''
@@ -791,7 +791,7 @@ Template.multi_doc_edit.helpers
     choice_class: ->
         selection = @
         current = Template.currentData()
-        if @direct
+        if true
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
@@ -1067,7 +1067,7 @@ Template.multi_doc_input.events
                     t.doc_results.set res
     'click .select_doc': (e,t) ->
         # session_document = Docs.findOne Session.get('session_document')
-        # if @direct
+        # if true
         #     parent = Template.parentData(1)
         # else
         #     parent = Template.parentData(5)
@@ -1097,7 +1097,7 @@ Template.multi_doc_input.events
 
     Template.signature_view.events
         'click .print_rules': ->
-            if @direct
+            if true
                 parent = Template.parentData()
             else
                 parent = Template.parentData(5)
@@ -1121,7 +1121,7 @@ Template.multi_doc_input.events
         'click .save': ->
             jpeg = Template.instance().signaturePad.toDataURL 'image/jpeg'
             page_doc = Docs.findOne Router.current().params.id
-            if @direct
+            if true
                 parent = Template.parentData()
             else
                 parent = Template.parentData(5)

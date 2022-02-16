@@ -1,24 +1,48 @@
 Router.route '/units', -> @render 'units'
-Router.route '/unit/:unit_id', -> @render 'unit'
+Router.route '/unit/:doc_id', -> @render 'unit_view'
+Router.route '/unit/:doc_id/edit', -> @render 'unit_edit'
 
 
 if Meteor.isClient
-    Template.unit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.unit_id
+    Template.units.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'unit', ->
+    Template.unit_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
+    Template.unit_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
+            
+            
     Template.unit_residents.onCreated ->
-        @autorun => Meteor.subscribe 'unit_residents', Router.current().params.unit_id
+        @autorun => Meteor.subscribe 'unit_residents', Router.current().params.doc_id
     Template.unit_owners.onCreated ->
-        @autorun => Meteor.subscribe 'unit_owners', Router.current().params.unit_id
+        @autorun => Meteor.subscribe 'unit_owners', Router.current().params.doc_id
     Template.unit_permits.onCreated ->
-        @autorun => Meteor.subscribe 'unit_permits', Router.current().params.unit_id
+        @autorun => Meteor.subscribe 'unit_permits', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'unit_units', Router.current().params.unit_code
 
 
+    Template.units.events
+        'click .add_unit': ->
+            new_id = 
+                Docs.insert 
+                    model:'unit'
+            Router.go "/unit/#{new_id}/edit"
+            
+            
+    Template.units.helpers
+        unit_docs: ->
+            Docs.find 
+                model:'unit'
+                
+                
+                
+
+                
     Template.unit_owners.helpers
         owners: ->
             unit =
                 Docs.findOne
-                    _id: Router.current().params.unit_id
+                    _id: Router.current().params.doc_id
             if unit
                 Meteor.users.find
                     owner:true
@@ -30,7 +54,7 @@ if Meteor.isClient
         residents: ->
             unit =
                 Docs.findOne
-                    _id: Router.current().params.unit_id
+                    _id: Router.current().params.doc_id
             if unit
                 Meteor.users.find
                     roles:$in:['resident','owner']
@@ -43,14 +67,14 @@ if Meteor.isClient
         permits: ->
             unit =
                 Docs.findOne
-                    _id: Router.current().params.unit_id
+                    _id: Router.current().params.doc_id
             if unit
                 Docs.find
                     model: 'parking_permit'
                     address_number:unit.building_number
 
 
-    Template.unit.helpers
+    Template.unit_view.helpers
         unit: ->
             Docs.findOne
                 model:'unit'
@@ -62,7 +86,7 @@ if Meteor.isClient
             }, sort: unit_number:1
                 # unit_slug:Router.current().params.unit_code
 
-    Template.unit.events
+    Template.unit_view.events
         'keyup .unit_number': (e,t)->
             if e.which is 13
                 unit_number = parseInt $('.unit_number').val().trim()
@@ -72,14 +96,13 @@ if Meteor.isClient
                 Docs.insert
                     model:'unit'
                     unit_number:unit_number
-                    unit_number:unit_number
                     unit_number:unit.unit_number
                     unit_code:unit.slug
 
 
 
     Template.user_key.onCreated ->
-        @autorun => Meteor.subscribe 'user_key', Router.current().params.unit_id
+        @autorun => Meteor.subscribe 'user_key', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'unit_key_access'
     Template.user_key.helpers
         key: -> Docs.findOne model:'key'

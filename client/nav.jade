@@ -1,7 +1,7 @@
 template(name='nav')
     unless is_frontdesk
         //- .ui.borderless.attached.big.inverted.menu.topnav
-        .ui.attached.big.five.item.borderless.menu.topnav
+        .ui.attached.borderless.menu.topnav
             //- a.toggle_sidebar.icon.item.sidebar_on
             //-     i.large.sidebar.icon
             if is_loading
@@ -25,6 +25,10 @@ template(name='nav')
                         //- i.users.large.icon
                         +i name='groups'
                         .mobile.hidden &nbsp; residents
+                a.icon.item(href='/units' class="{{isActivePath '/units'}}")
+                    //- i.users.large.icon
+                    +i name='bedroom'
+                    .mobile.hidden &nbsp; units
                 if is_manager
                     a.icon.item(href='/manager' class="{{isActivePath '/manager'}}")
                         //- i.shield.large.icon
