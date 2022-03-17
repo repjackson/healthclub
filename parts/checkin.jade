@@ -24,39 +24,41 @@ template(name='checkin_card')
 
 
 template(name='checkin_view')
-    .ui.stackable.padded.grid
-        .twelve.wide.column
-            a.ui.big.button(href="/checkins")
-                i.large.left.chevron.icon
-                |checkins
-            a.ui.big.button(href="/staff")
-                i.large.left.chevron.icon
-                i.big.shield.icon
-                |staff
-                // |#{checkin.building_code}
-            .ui.header
-                i.home.icon 
-                //- +i name='apartment'
-                |checkin
-                |#{checkin.checkin_number}
-            .ui.header 
-                |#{when}
-            .ui.header 
-                |active: #{active}
-            .ui.header 
-                |building #{checkin.building_number}
-            if is_dev
-                with checkin
-                    +number_edit key='building_number' direct=true
-            .ui.header 
-                |building #{checkin.building_code}
-            if is_dev
-                with checkin
-                    +text_edit key='building_code' direct=true
-                    +textarea_edit key='notes' direct=true
-        .four.wide.column
-            if currentUser
-                +remove_button
+    with current_doc
+        .ui.stackable.padded.grid
+            .twelve.wide.column
+                a.ui.big.button(href="/checkins")
+                    i.large.left.chevron.icon
+                    |checkins
+                a.ui.big.button(href="/staff")
+                    i.large.left.chevron.icon
+                    i.big.shield.icon
+                    |staff
+                    // |#{checkin.building_code}
+                .ui.header
+                    i.home.icon 
+                    //- +i name='apartment'
+                    |checkin
+                    |#{checkin.checkin_number}
+                .ui.header 
+                    |#{when}
+                .ui.header 
+                    |active: #{active}
+                .ui.header 
+                    |building #{checkin.building_number}
+                if is_dev
+                    with checkin
+                        +number_edit key='building_number' direct=true
+                .ui.header 
+                    |building #{checkin.building_code}
+                if is_dev
+                    with checkin
+                        +text_edit key='building_code' direct=true
+                        +textarea_edit key='notes' direct=true
+                +print_this
+            .four.wide.column
+                if currentUser
+                    +remove_button
 
 
 template(name='checkin_edit')         

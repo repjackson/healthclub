@@ -5,7 +5,7 @@ Router.route '/building/:doc_id/edit', -> @render 'building_edit'
 
 if Meteor.isClient
     Template.buildings.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'building'
+        @autorun => Meteor.subscribe 'model_docs', 'building', ->
     Template.building_view.onCreated ->
         @autorun => Meteor.subscribe 'building', Router.current().params.building_code
         @autorun => Meteor.subscribe 'building_units', Router.current().params.building_code
@@ -24,12 +24,20 @@ if Meteor.isClient
             
             
     Template.buildings.helpers
-        buildings: ->
+        building_docs: ->
             Docs.find {
                 model:'building'
             }, sort:slug:1
 
-
+        building_unit_docs: ->
+            current_building = 
+                Docs.findOne
+                    building_number:Router.current().params.doc_id
+                    model:'building'
+            Docs.find 
+                model:'unit'
+                building_number:current_building.building_number
+                
 
     Template.building_view.helpers
         building: ->

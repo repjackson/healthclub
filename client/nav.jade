@@ -10,7 +10,6 @@ template(name='nav')
             else
                 a.header.item(href='/' class="{{isActivePath '/'}}")
                     +i name='one-ring'
-                    //- i.th.large.icon
                     |gold run
                 // if in_dev
                 //     a.icon.item(href='/buildings' class="{{isActivePath '/buildings'}}")
@@ -28,7 +27,7 @@ template(name='nav')
                         .mobile.hidden &nbsp; residents
                 a.icon.item.zoomer(href='/units' class="{{isActivePath '/units'}}")
                     //- i.users.large.icon
-                    +i name='bedroom'
+                    +i name='room'
                     .mobile.hidden &nbsp; units
                 a.icon.item.zoomer(href='/buildings' class="{{isActivePath '/buildings'}}")
                     //- i.users.large.icon
@@ -53,28 +52,44 @@ template(name='nav')
                 //         //- i.users.large.icon
                 //         +i name='groups'
                 //         .mobile.hidden &nbsp; users
-            if currentUser
-                unless logging_out
-                    //- if is_dev
-                    unless is_frontdesk
-                        a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='profile'}}")
-                            if currentUser.image_id
-                                img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
-                            else
-                                +i name='user'
-                            | #{currentUser.username}
-                if logging_out
-                    .item
-                        i.large.loading.circle.notch.icon
-                //- else
-                //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='Log Out')
-                //-         i.sign.out.large.icon
-            else
-                a.item(href='/login' title='login' class="{{isActiveRoute regex='login'}}") 
-                    //- i.sign.in.large.icon
-                    +i name='internal'
-                    |login
-
+            .right.menu
+                if currentUser
+                    unless logging_out
+                        //- if is_dev
+                        unless is_frontdesk
+                            a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='profile'}}")
+                                if currentUser.image_id
+                                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                else
+                                    +i name='user'
+                                | #{currentUser.username}
+                    if logging_out
+                        .item
+                            i.large.loading.circle.notch.icon
+                    //- else
+                    //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='Log Out')
+                    //-         i.sign.out.large.icon
+                else
+                    a.item(href='/login' title='login' class="{{isActiveRoute regex='login'}}") 
+                        //- i.sign.in.large.icon
+                        +i name='internal'
+                        |login
+        .ui.attached.inverted.menu 
+            a.item(href="/products") 
+                +i name='shop'
+                |products
+            a.item(href="/posts") 
+                +i name='blog'
+                |blog
+            a.item(href="/services") 
+                +i name='services'
+                |services
+            a.item(href="/rentals")
+                +i name='clock'
+                |rentals
+            a.item(href="/transfers") 
+                +i name='exchange'
+                |transfers
 
 
 template(name='footer')

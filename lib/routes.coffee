@@ -24,7 +24,7 @@ Router.route '/inbox', -> @render 'inbox'
 Router.route '/dashboard', -> @render 'dashboard'
 Router.route '/manager', -> @render 'manager'
 
-Router.route '/building/:building_code', -> @render 'building'
+# Router.route '/building/:building_code', -> @render 'building'
 
 Router.route('enroll', {
     path: '/enroll-account/:token'

@@ -1,59 +1,63 @@
-template(name='buildings')
+template(name='rentals')
     .ui.stackable.padded.grid
         .sixteen.wide.column
             .ui.inline.header 
                 +i name='bedroom'
-                |buildings
-            .ui.icon.button.add_building
+                |rentals
+            .ui.icon.button.add_rental
                 i.plus.icon
             .ui.cards
-                each building_docs
-                    a.ui.card(href="/building/#{_id}") 
-                        .content 
-                            .ui.header #{building_number}, #{building_building}
+                each rental_docs
+                    +rental_card
+            
+            
+            
 
 
-template(name='building_view')
+template(name='rental_view')
     with current_doc
         .ui.stackable.padded.grid
             .four.wide.column
-                a.ui.big.button(href="/buildings")
+                a.ui.large.button.fly_left(href="/rentals")
                     i.large.left.chevron.icon
-                    // |#{building_code}
-                    +i name='apartment'
-                    |buildings
+                    +i name='cubes'
+                    |rentals
+                a.ui.big.button(href="/building/#{building_code}")
+                    i.large.left.chevron.icon
+                    |#{building_code}
                 .ui.header
                     i.home.icon 
                     //- +i name='apartment'
-                    |building
-                    |#{building_number}
-                +image_view key='image_id' direct=true
+                    |rental
+                    |#{rental_number}
                 .ui.header 
                     |Building #{building_number}
                 .ui.header 
-                    |building code: #{building_code}
+                    |building #{building_code}
                 if can_edit
-                    +number_edit key='building_number' direct=true
-                    +text_edit key='building_code' direct=true
+                    +text_edit key='building_code' label='building_code' direct=true
+                    +number_edit key='building_number' label='building number' direct=true
                     +textarea_edit key='notes' direct=true
                 +user_key
             .twelve.wide.column
-                +building_residents
-                +building_owners
-                .ui.header 
-                    +i name='cubes'
-                    |building units
-                each building_unit_docs 
-                    .ui.header #{unit_number}
+                +rental_residents
+                +rental_owners
                 if is_springdale
-                    +building_permits
+                    +rental_permits
 
             
-template(name='building_permits')            
+template(name='rental_card')
+    a.ui.card(href="/rental/#{_id}") 
+        .content 
+            .ui.header
+                |#{title}
+
+            
+template(name='rental_permits')            
     .ui.segment
         .ui.header 
             +i name='badge'
-            |building Permits
+            |rental Permits
         .ui.cards
             each permits
                 .ui.card
@@ -64,14 +68,14 @@ template(name='building_permits')
                         +text_view key='permit' icon='badge' direct=true
                         +text_view key='license_plate' icon='driver-license-card' direct=true
 
-template(name='building_owners')            
+template(name='rental_owners')            
     .ui.segment
         .ui.header 
             //- +i name='rent'
             i.money.icon
-            |building Owners
+            |rental Owners
         .ui.four.cards
-            each building_owner_docs
+            each owners
                 .ui.card
                     .image
                         img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
@@ -82,14 +86,14 @@ template(name='building_owners')
                             //- +array_view key='tags' label='Tags' direct=true
 
 
-template(name='building_residents')            
+template(name='rental_residents')            
     .ui.segment
         .ui.header
             //- +i name='group'
             i.users.icon
-            |building Residents
+            |rental Residents
         .ui.four.cards
-            each building_resident_docs
+            each rental_resident_docs
                 .ui.card
                     .image
                         img.ui.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
@@ -102,19 +106,16 @@ template(name='building_residents')
                                 |#{expiration_date}
                             //- +array_view key='tags' label='Tags' direct=true
 
-
-
-template(name='building_edit')         
+template(name='rental_edit')         
     with current_doc
         .ui.padded.two.column.centered.grid
             .column
-                +image_edit key='image_id' direct=true
-                h2.ui.center.aligned.header #{building_number} #{building_number} 
-                +number_edit key='building_number' label='building number' direct=true
-                +text_edit key='building_code' label='building code' direct=true
+                +image_edit key='image_id'
+                h2.ui.center.aligned.header #{rental_number} #{building_number} 
+                +text_edit key='title' label='title' direct=true
                 +text_edit key='address' label='address' direct=true
                 // +text_edit key='email' label='Email' direct=true
             .column
-                a.ui.big.fluid.green.button(href="/building/#{_id}")
+                a.ui.big.fluid.green.button(href="/rental/#{_id}")
                     i.checkmark.icon
                     |save

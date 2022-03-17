@@ -1,7 +1,7 @@
 template(name='profile')
     .ui.padded.stackable.grid
-        .row
-            .four.wide.column
+        .three.column.row
+            .column
                 if kiosk_photo
                     img.ui.centered.circular.shadowed.image(src="{{c.url kiosk_photo height=300 width=300 gravity='face' crop='fill'}}")
                 else if image_id
@@ -45,7 +45,7 @@ template(name='profile')
                             |roles
                         each roles
                             .ui.basic.label #{this}
-            .twelve.wide.column.shadowed-box
+            .column
                 unless current_user.checked_in
                     .ui.button.checkin 
                         |checkin
@@ -59,33 +59,66 @@ template(name='profile')
                         if is_admin
                             +text_view key='address' label='Address' direct=true
                         //- +text_view key='email' label='Email' direct=true
-                        +phone_view key='phone' label='Phone' direct=true
-                        if user_is_resident
-                            //- if is_staff
-                            +number_view key='unit_number' label='Unit #' direct=true
-                            +number_view key='building_number' label='Building #' direct=true
-                            +number_view key='healthclub_code' label='Healthclub_code' direct=true
-                            +text_view key='building_code' label='Building Code' direct=true
-                            +date_view key='start_date' label='Start Date' direct=true
-                            +date_view key='expiration_date' label='Expiration Date' direct=true
-                        +textarea_view key='notes' label='notes' icon='align-left' direct=true
-                        div
-                        each emails
-                            if verified
-                                .ui.green.label(title='Verified') #{address}
-                            else
-                                .ui.orange.label(title='Unverified') #{address}
-                    +user_key
-                    +user_unit
-                    .ui.segment
-                        //- +text_view key='first_name' label='First Name' direct=true
-                        //- +text_view key='last_name' label='Last Name' direct=true
-                        if is_admin
-                            +text_view key='address' label='address' direct=true
-                        //- +text_view key='email' label='Email' direct=true
-                        +textarea_view key='notes' label='notes' icon='align-left' direct=true
-                        each emails
-                            .ui.label #{address}
+            .column
+                +phone_view key='phone' label='Phone' direct=true
+                if user_is_resident
+                    //- if is_staff
+                    +number_view key='unit_number' label='Unit #' direct=true
+                    +number_view key='building_number' label='Building #' direct=true
+                    +number_view key='healthclub_code' label='Healthclub_code' direct=true
+                    +text_view key='building_code' label='Building Code' direct=true
+                    +date_view key='start_date' label='Start Date' direct=true
+                    +date_view key='expiration_date' label='Expiration Date' direct=true
+                +textarea_view key='notes' label='notes' icon='align-left' direct=true
+                div
+                each emails
+                    if verified
+                        .ui.green.label(title='Verified') #{address}
+                    else
+                        .ui.orange.label(title='Unverified') #{address}
+            .column
+                +user_key
+                +user_unit
+                .ui.segment
+                    //- +text_view key='first_name' label='First Name' direct=true
+                    //- +text_view key='last_name' label='Last Name' direct=true
+                    if is_admin
+                        +text_view key='address' label='address' direct=true
+                    //- +text_view key='email' label='Email' direct=true
+                    +textarea_view key='notes' label='notes' icon='align-left' direct=true
+                    each emails
+                        .ui.label #{address}
+            .column
+                .ui.header
+                    +i name='shop'
+                    |products
+                .ui.header 
+                    +i name='order-history'
+                    |orders
+                each order_docs
+                    .ui.header #{product_title}
+            .column
+                .ui.header 
+                    +i name='services'
+                    |services
+                each offered_services
+                    .ui.header #{title}
+            .column
+                .ui.header 
+                    +i name='coins'
+                    |credit
+                .ui.small.header 
+                    |sent
+                .ui.small.header 
+                    |received
+            .column
+                .ui.header
+                    +i name='chat'
+                    |chat
+            .column
+                .ui.header
+                    +i name='friends'
+                    |friends
     // unless is_frontdesk
     //     +footer 
 
