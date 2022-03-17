@@ -7,13 +7,11 @@ if Meteor.isClient
     Template.units.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'unit', ->
     Template.unit_view.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.unit_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
             
             
-    Template.unit_residents.onCreated ->
-        @autorun => Meteor.subscribe 'unit_residents', Router.current().params.doc_id
     Template.unit_owners.onCreated ->
         @autorun => Meteor.subscribe 'unit_owners', Router.current().params.doc_id
     Template.unit_permits.onCreated ->
@@ -50,15 +48,17 @@ if Meteor.isClient
                     building_number:unit.building_number
                     unit_number:unit.unit_number
 
+    Template.unit_residents.onCreated ->
+        @autorun => Meteor.subscribe 'unit_residents', Router.current().params.doc_id
     Template.unit_residents.helpers
-        residents: ->
+        unit_resident_docs: ->
             unit =
                 Docs.findOne
                     _id: Router.current().params.doc_id
             if unit
                 Meteor.users.find
-                    roles:$in:['resident','owner']
-                    owner:$ne:true
+                    # roles:$in:['resident','owner']
+                    # owner:$ne:true
                     building_number:unit.building_number
                     unit_number:unit.unit_number
 
@@ -197,7 +197,7 @@ if Meteor.isServer
                 _id:unit_id
         if unit
             Meteor.users.find
-                roles:$in:['resident']
+                # roles:$in:['resident']
                 building_number:unit.building_number
                 unit_number:unit.unit_number
 

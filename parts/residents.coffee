@@ -5,10 +5,13 @@ if Meteor.isClient
 
 
     Template.resident_edit.onCreated ->
-        @autorun => @subscribe 'doc', Router.current().params.doc_id, ->
+        @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
     Template.resident_view.onCreated ->
-        @autorun => @subscribe 'doc', Router.current().params.doc_id, ->
-        @autorun => @subscribe 'model_docs', 'checkin', ->
+        @autorun => @subscribe 'doc_by_id', Router.current().params.doc_id, ->
+        # @autorun => @subscribe 'model_docs', 'checkin', ->
+        @autorun => @subscribe 'resident_checkins', Router.current().params.doc_id, ->
+            
+            
     Template.residents.onCreated ->
         @autorun => Meteor.subscribe 'resident_search', Session.get('name_search')
     Template.residents.helpers
@@ -94,6 +97,8 @@ if Meteor.isClient
             Docs.find 
                 model:'checkin'
 
+    Template.resident_view.events
+        # 'cilck
 
 
     Router.route '/users', -> @render 'users'
@@ -125,12 +130,11 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'users', (limit)->
-        if limit
-            Meteor.users.find({},limit:limit)
-        else
-            Meteor.users.find()
 
+    Meteor.publish 'resident_checkins', (resident_id)->
+        Docs.find 
+            model:'checkin'
+            resident_id:resident_id
 
     Meteor.publish 'user_search', (username, role)->
         if role

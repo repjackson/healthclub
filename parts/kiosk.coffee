@@ -1,7 +1,7 @@
 if Meteor.isClient
     Template.checkin.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Session.get('new_guest_id'), ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'doc_by_id', Session.get('new_guest_id'), ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
         @autorun => Meteor.subscribe 'checkin_guests',Router.current().params.doc_id, ->
         @autorun -> Meteor.subscribe 'resident_from_session', Router.current().params.doc_id, ->
         # @autorun -> Meteor.subscribe 'session', Router.current().params.doc_id, ->
@@ -161,7 +161,7 @@ if Meteor.isClient
 
     Template.resident_guest.onCreated ->
         # console.log @
-        @autorun => Meteor.subscribe 'doc', @data
+        @autorun => Meteor.subscribe 'doc_by_id', @data
     Template.resident_guest.helpers
         guest_doc: ->
             Docs.findOne Template.currentData()
@@ -386,7 +386,7 @@ if Meteor.isClient
 
 
     Template.sign_waiver.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.receipt_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.receipt_id
         @autorun => Meteor.subscribe 'document_from_slug', 'rules_regs'
     Template.sign_waiver.helpers
         receipt_doc: -> Docs.findOne Router.current().params.receipt_id
@@ -397,7 +397,7 @@ if Meteor.isClient
 
 
     # Template.checkin_card.onCreated ->
-    #     @autorun => Meteor.subscribe 'doc', Session.get('new_guest_id')
+    #     @autorun => Meteor.subscribe 'doc_by_id', Session.get('new_guest_id')
     #     @autorun => Meteor.subscribe 'checkin_guests'
     #     # @autorun => Meteor.subscribe 'rules_signed_username', @data.username
     #

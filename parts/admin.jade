@@ -7,7 +7,7 @@ template(name='admin')
 template(name='user_table')
     a#add_user.ui.basic.button(href='/user/add')
         i.plus.icon
-        |Add User
+        |add user
     table.ui.sortable.striped.table
         thead
             tr
@@ -16,7 +16,7 @@ template(name='user_table')
                 th Roles
                 th Actions
         tbody
-            each users
+            each user_docs
                 tr
                     td 
                         img.ui.small.image(src="{{c.url image_id width=1000 height=1000 gravity='face' crop='crop'}}")

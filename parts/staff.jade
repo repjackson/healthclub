@@ -55,7 +55,7 @@ template(name='session_card')
             //- |old photo
             img.ui.image(src="{{c.url session_resident.image_id width=300 height=300 gravity='face' crop='fill'}}")
         .content
-            a(href="/resident/#{session_resident._id}")
+            a.fly_right(href="/resident/#{resident_id}")
                 .ui.inline.header
                     |#{resident_first_name} #{resident_last_name}
             .ui.small.header #{when}

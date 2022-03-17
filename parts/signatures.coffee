@@ -1,6 +1,6 @@
 if Meteor.isClient
     Template.rules_signing.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'user_by_username', Router.current().params.doc_id
 
     Template.rules_signing.helpers
@@ -49,7 +49,7 @@ if Meteor.isClient
             Router.go "/checkin/#{signing_doc.session_id}"
 
     Template.guidelines_signing.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'user_by_username', Router.current().params.doc_id
 
     Template.guidelines_signing.helpers
@@ -136,7 +136,7 @@ if Meteor.isClient
 
 
     Template.add_guest.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.new_guest_id
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.new_guest_id
         @autorun => Meteor.subscribe 'session_from_guest_id', Router.current().params.new_guest_id
         @autorun => Meteor.subscribe 'resident', Router.current().params.new_guest_id
     Template.add_guest.helpers

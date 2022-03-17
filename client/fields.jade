@@ -806,30 +806,33 @@ template(name='signature_view')
 
 template(name='boolean_edit')
     div
-    .ui.small.inline.header
-        if icon
-            //- i.icon(class=icon)
-            +i name=icon classes='ui inline mini image'
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
-        else
-            |#{this}
-    //- .ui.icon.button.toggle_boolean
     .ui.circular.button.toggle_boolean(class=boolean_toggle_class)
-        if field_value
-            if true_icon
-                i.large.green.icon(class=true_icon)
+        .ui.small.inline.header
+            if field_value 
+                i.large.green.checkmark.icon
+            else 
+                i.large.circle.outline.icon
+            if icon
+                //- i.icon(class=icon)
+                +i name=icon classes='ui inline mini image'
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
             else
-                |yes
-        else
-            if false_icon
-                i.large.red.icon(class=false_icon)
-            else
-                |no
+                |#{this}
+        // if field_value
+        //     if true_icon
+        //         i.large.green.icon(class=true_icon)
+        //     else
+        //         |yes
+        // else
+        //     if false_icon
+        //         i.large.red.icon(class=false_icon)
+        //     else
+        //         |no
 
 
 template(name='boolean_view')

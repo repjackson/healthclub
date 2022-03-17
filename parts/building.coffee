@@ -1,15 +1,28 @@
 Router.route '/buildings', -> @render 'buildings'
+Router.route '/building/:doc_id', -> @render 'building_view'
+Router.route '/building/:doc_id/edit', -> @render 'building_edit'
 
 
 if Meteor.isClient
     Template.buildings.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'building'
-    Template.building.onCreated ->
+    Template.building_view.onCreated ->
         @autorun => Meteor.subscribe 'building', Router.current().params.building_code
         @autorun => Meteor.subscribe 'building_units', Router.current().params.building_code
+    Template.building_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'building_units', Router.current().params.building_code
 
     Template.buildings.onRendered ->
 
+    Template.buildings.events
+        'click .add_building': ->
+            new_id = 
+                Docs.insert 
+                    model:'building'
+            Router.go "/building/#{new_id}/edit"
+            
+            
     Template.buildings.helpers
         buildings: ->
             Docs.find {
@@ -18,7 +31,7 @@ if Meteor.isClient
 
 
 
-    Template.building.helpers
+    Template.building_view.helpers
         building: ->
             Docs.findOne
                 model:'building'
@@ -37,7 +50,7 @@ if Meteor.isClient
             t.$(e.currentTarget).closest('.home_segment').removeClass('raised')
 
 
-    Template.building.events
+    Template.building_view.events
         'keyup .unit_number': (e,t)->
             if e.which is 13
                 unit_number = parseInt $('.unit_number').val().trim()

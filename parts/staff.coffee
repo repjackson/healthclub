@@ -33,7 +33,7 @@ if Meteor.isClient
     Template.session_card.onCreated ->
         # @autorun => Meteor.subscribe 'user_by_username', @data.resident_username
         console.log @
-        @autorun => Meteor.subscribe 'doc', Session.get('session_resident_id')
+        @autorun => Meteor.subscribe 'doc_by_id', Session.get('session_resident_id')
         @autorun => Meteor.subscribe 'session_guests', @data
     Template.session_card.helpers
         icon_class: ->
@@ -43,11 +43,13 @@ if Meteor.isClient
                 when 'unit_key_checkout' then 'key'
 
         session_resident: ->
+            console.log @
             # Meteor.users.findOne
             #     username:@resident_username
             Docs.findOne 
                 model:'resident'
-                _id: Session.get('session_resident_id')
+                _id:@resident_id
+                # _id: Session.get('session_resident_id')
 
 
         checkin_guest_docs: () ->

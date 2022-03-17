@@ -1,7 +1,7 @@
 template(name='nav')
     unless is_frontdesk
         //- .ui.borderless.attached.big.inverted.menu.topnav
-        .ui.attached.borderless.menu.topnav
+        .ui.attached.inverted.menu.topnav
             //- a.toggle_sidebar.icon.item.sidebar_on
             //-     i.large.sidebar.icon
             if is_loading
@@ -18,24 +18,28 @@ template(name='nav')
                 //         +i name='apartment'
                 //         .mobile.hidden &nbsp; buildings
                 if is_staff
-                    a.icon.item(href='/staff' class="{{isActivePath '/staff'}}")
+                    a.icon.item.zoomer(href='/staff' class="{{isActivePath '/staff'}}")
                         //- i.shield.large.icon
                         +i name='user-shield'
                         .mobile.hidden &nbsp; staff
-                    a.icon.item(href='/residents' class="{{isActivePath '/residents'}}")
+                    a.icon.item.zoomer(href='/residents' class="{{isActivePath '/residents'}}")
                         //- i.users.large.icon
                         +i name='groups'
                         .mobile.hidden &nbsp; residents
-                a.icon.item(href='/units' class="{{isActivePath '/units'}}")
+                a.icon.item.zoomer(href='/units' class="{{isActivePath '/units'}}")
                     //- i.users.large.icon
                     +i name='bedroom'
                     .mobile.hidden &nbsp; units
-                a.icon.item(href='/checkins' class="{{isActivePath '/checkins'}}")
+                a.icon.item.zoomer(href='/buildings' class="{{isActivePath '/buildings'}}")
+                    //- i.users.large.icon
+                    +i name='apartment'
+                    .mobile.hidden &nbsp; buildings
+                a.icon.item.zoomer(href='/checkins' class="{{isActivePath '/checkins'}}")
                     //- i.users.large.icon
                     +i name='checkmark'
                     .mobile.hidden &nbsp; checkins
                 if is_manager
-                    a.icon.item(href='/manager' class="{{isActivePath '/manager'}}")
+                    a.icon.item.zoomer(href='/manager' class="{{isActivePath '/manager'}}")
                         //- i.shield.large.icon
                         +i name='user-shield'
                         .mobile.hidden &nbsp; manager

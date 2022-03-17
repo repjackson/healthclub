@@ -34,6 +34,8 @@ template(name='resident_card')
             +date_view key='start_date' label='Start Date'
             +date_view key='expiration_date' label='Expiration Date'
             +user_check_steps            
+            +boolean_edit key='currently_checked_in' label='currently checked in' direct=true
+
 
             
 template(name='resident_edit')         
@@ -52,6 +54,7 @@ template(name='resident_edit')
                     .ui.small.header @#{username}
                 +text_edit key='first_name' label='First Name' direct=true
                 +text_edit key='last_name' label='Last Name' direct=true
+                +boolean_edit key='currently_checked_in' label='currently checked in' direct=true
                 // +text_edit key='address' label='Address' direct=true
                 +number_edit key='unit_number' label='Unit #' direct=true
                 +number_edit key='building_number' label='Building #' direct=true
@@ -71,6 +74,10 @@ template(name='resident_view')
     with current_doc
         .ui.padded.three.column.stackable.grid
             .column
+                a.ui.button(href="/residents")
+                    i.chevron.left.icon
+                    i.large.users.icon
+                    |residents
                 .image
                     //- a(href="/user/#{username}/")
                     //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
@@ -83,7 +90,8 @@ template(name='resident_view')
                 +text_view key='first_name' label='first name' direct=true
                 +text_view key='last_name' label='last name' direct=true
                 +text_view key='address' label='address' direct=true
-                if checked_in
+                // +boolean_edit key='currently_checked_in' label='currently checked in' direct=true
+                if currently_checked_in
                     .ui.big.green.label 
                         |checked in
                 if last_checkout_timestamp
@@ -109,7 +117,9 @@ template(name='resident_view')
                     .ui.big.button.checkout
                         i.red.checkmark.icon
                         |checkout
-                .ui.header health club checkins 
+                .ui.header 
+                    +i name='treadmill'
+                    |health club checkins 
                 .ui.list 
                     each resident_checkins
                         .item 
@@ -118,6 +128,7 @@ template(name='resident_view')
                                 .ui.green.label #{active}
                             if checkout_timestamp
                                 .ui.label checked out {{from_now checkout_timestamp}}
+                            +print_this
 
             
 template(name='users') 
