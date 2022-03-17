@@ -25,14 +25,6 @@ template(name='nav')
                         //- i.users.large.icon
                         +i name='groups'
                         .mobile.hidden &nbsp; residents
-                a.icon.item.zoomer(href='/units' class="{{isActivePath '/units'}}")
-                    //- i.users.large.icon
-                    +i name='room'
-                    .mobile.hidden &nbsp; units
-                a.icon.item.zoomer(href='/buildings' class="{{isActivePath '/buildings'}}")
-                    //- i.users.large.icon
-                    +i name='apartment'
-                    .mobile.hidden &nbsp; buildings
                 a.icon.item.zoomer(href='/checkins' class="{{isActivePath '/checkins'}}")
                     //- i.users.large.icon
                     +i name='checkmark'
@@ -63,6 +55,9 @@ template(name='nav')
                                 else
                                     +i name='user'
                                 | #{currentUser.username}
+                                if currentUser.points
+                                    |&nbsp;
+                                    small #{currentUser.points}p
                     if logging_out
                         .item
                             i.large.loading.circle.notch.icon
@@ -74,7 +69,7 @@ template(name='nav')
                         //- i.sign.in.large.icon
                         +i name='internal'
                         |login
-        .ui.attached.inverted.menu 
+        .ui.attached.inverted.small.menu 
             a.item(href="/products") 
                 +i name='shop'
                 |products
@@ -84,6 +79,20 @@ template(name='nav')
             a.item(href="/services") 
                 +i name='services'
                 |services
+            a.icon.item.zoomer(href='/units' class="{{isActivePath '/units'}}")
+                //- i.users.large.icon
+                +i name='room'
+                .mobile.hidden &nbsp; units
+            a.icon.item.zoomer(href='/groups' class="{{isActivePath '/groups'}}")
+                +i name='campfire'
+                .mobile.hidden &nbsp; groups
+            a.icon.item.zoomer(href='/events' class="{{isActivePath '/events'}}")
+                +i name='calendar'
+                .mobile.hidden &nbsp; events
+            a.icon.item.zoomer(href='/buildings' class="{{isActivePath '/buildings'}}")
+                //- i.users.large.icon
+                +i name='apartment'
+                .mobile.hidden &nbsp; buildings
             a.item(href="/rentals")
                 +i name='clock'
                 |rentals
