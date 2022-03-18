@@ -34,10 +34,10 @@ template(name='profile')
                         //-     i.sent.icon
                         //-     |direct message
                     if is_current_user
-                        a.ui.fluid.large.button.logout
+                        a.ui.big.button.logout
                             i.sign.out.icon
                             |log out
-                        a.ui.fluid.large.button.logout_other_clients(href="#")
+                        a.ui.big.button.logout_other_clients(href="#")
                             |logout other clients
                     if is_admin
                         .ui.segment
@@ -48,6 +48,9 @@ template(name='profile')
                             each roles
                                 .ui.basic.label #{this}
                 .column
+                    .ui.header 
+                        +i name='treadmill'
+                        |healthclub
                     unless current_user.checked_in
                         .ui.button.checkin 
                             |checkin
@@ -67,7 +70,7 @@ template(name='profile')
                         //- if is_staff
                         +number_view key='unit_number' label='Unit #' direct=true
                         +number_view key='building_number' label='Building #' direct=true
-                        +number_view key='healthclub_code' label='Healthclub_code' direct=true
+                        +number_view key='healthclub_code' label='Healthclub Code' direct=true
                         +text_view key='building_code' label='Building Code' direct=true
                         +date_view key='start_date' label='Start Date' direct=true
                         +date_view key='expiration_date' label='Expiration Date' direct=true

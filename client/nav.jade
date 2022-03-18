@@ -46,6 +46,8 @@ template(name='nav')
                 //         .mobile.hidden &nbsp; users
             .right.menu
                 if currentUser
+                    a.icon.item(href="/inbox")
+                        i.bell.icon
                     unless logging_out
                         //- if is_dev
                         unless is_frontdesk

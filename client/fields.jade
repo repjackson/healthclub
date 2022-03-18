@@ -268,23 +268,30 @@ template(name='html_edit')
         .field
             label 
                 if icon
-                    i.icon(name=icon)
-                    //- +i name=icon classes='ui avatar image'
-                    //- i.icon(class=icon)
+                    i.icon(class=icon)
                 if title
                     |#{title}
+                else if label
+                    |#{label}
                 else if key
                     |#{key}
                 else
                     |#{this}
-    .froala-container
-        +froalaReactive getFEContext
-    //- if is_dev
-    //- +call_watson mode='html'
+    .ui.fluid.form
+        .field.testsun
+            textarea#sample.sun-editor-editable
+                |#{field_value}
+    // +call_watson mode='html' key='content'
+    //- div
+    //- //- +tone mode='html'
+    +call_watson mode='html' key=key
     div
     //- +tone mode='html'
-    //- if watson
-    //-     +watson_view
+    // if watson
+    //     .ui.header watson
+    //     +watson_view
+        
+    // +watson_view
         
         
 template(name='html_view')

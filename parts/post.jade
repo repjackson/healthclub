@@ -20,26 +20,12 @@ template(name='post_card')
         .image
             //- a(href="/user/#{username}/")
             //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-            if kiosk_photo
-                img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
-            else if image_id
-                img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+            img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
         .content
-            a(href="/post/#{_id}/")
-                h2.ui.center.aligned.header #{first_name} #{last_name} 
-                .ui.small.header @#{username}
-            +text_view key='first_name' label='First Name'
-            +text_view key='last_name' label='Last Name'
-            +text_view key='address' label='Address'
-            +number_view key='unit_number' label='Unit #'
-            +number_view key='building_number' label='Building #'
-            +text_view key='email' label='Email'
-            +phone_view key='phone' label='Phone'
-            +date_view key='start_date' label='Start Date'
-            +date_view key='expiration_date' label='Expiration Date'
-            +user_check_steps            
-            +boolean_edit key='currently_checked_in' label='currently checked in' direct=true
-
+            a.ui.header(href="/post/#{_id}/") #{title}
+            each tags 
+                .ui.label #{this}
+            |!{content}
 
             
 template(name='post_edit')         
@@ -79,8 +65,8 @@ template(name='post_view')
                 +text_view key='first_name' label='first name' direct=true
                 +text_view key='last_name' label='last name' direct=true
                 +text_view key='address' label='address' direct=true
-                // +boolean_edit key='currently_checked_in' label='currently checked in' direct=true
-                if currently_checked_in
+                // +boolean_edit key='checked_in' label='currently checked in' direct=true
+                if checked_in
                     .ui.big.green.label 
                         |checked in
                 if last_checkout_timestamp

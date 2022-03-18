@@ -326,7 +326,7 @@ if Meteor.isClient
     Template.add_model_button.events
         'click .add': ->
             new_id = Docs.insert model: @model
-            Router.go "/edit/#{new_id}"
+            Router.go "/#{@model}/#{new_id}/edit"
 
     Template.view_user_button.events
         'click .view_user': ->
